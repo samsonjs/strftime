@@ -14,7 +14,7 @@ Usage
 =====
 
     var strftime = require('strftime').strftime
-    console.log(strftime('%D-%M-%Y %H:%M:%S'))
+    console.log(strftime('%d-%m-%y %H:%M:%S')) // => 11-11-2010 13:24:17
 
 For details just see `man 3 strftime` as the format specifiers are identical.
 
