@@ -1,0 +1,22 @@
+{ "name" : "strftime"
+, "description" : "strftime for JavaScript"
+, "version" : "0.1"
+, "homepage" : "http://samhuri.net/node/strftime"
+, "author" : "Sami Samhuri <sami.samhuri@gmail.com>"
+, "repository" :
+  { "type" : "git"
+  , "url" : "http://github.com/samsonjs/strftime.git"
+  }
+, "bugs" :
+  { "mail" : "sami.samhuri+strftime@gmail.com"
+  , "web" : "http://github.com/samsonjs/strftime/issues"
+  }
+, "directories" : { "lib" : "./lib" }
+, "main" : "./lib/index"
+, "engines" : { "node" : ">=0.3.0" }
+, "licenses" :
+  [ { "type" : "MIT"
+    , "url" : "http://github.com/samsonjs/strftime/raw/master/LICENSE"
+    }
+  ]
+}
