@@ -1,6 +1,6 @@
 { "name" : "strftime"
 , "description" : "strftime for JavaScript"
-, "version" : "0.3.0"
+, "version" : "0.4.0"
 , "homepage" : "http://samhuri.net/proj/strftime"
 , "author" : "Sami Samhuri <sami.samhuri@gmail.com>"
 , "repository" :
