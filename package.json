@@ -1,22 +1,30 @@
-{ "name" : "strftime"
-, "description" : "strftime for JavaScript"
-, "version" : "0.4.0"
-, "homepage" : "http://samhuri.net/proj/strftime"
-, "author" : "Sami Samhuri <sami@samhuri.net>"
-, "repository" :
-  { "type" : "git"
-  , "url" : "https://github.com/samsonjs/strftime.git"
-  }
-, "bugs" :
-  { "mail" : "sami@samhuri.net"
-  , "web" : "https://github.com/samsonjs/strftime/issues"
-  }
-, "directories" : { "lib" : "./lib" }
-, "main" : "./lib/index"
-, "engines" : { "node" : ">=0.2.0" }
-, "licenses" :
-  [ { "type" : "MIT"
-    , "url" : "http://github.com/samsonjs/strftime/raw/master/LICENSE"
+{
+  "name": "strftime",
+  "description": "strftime for JavaScript",
+  "version": "0.4.1",
+  "homepage": "http://samhuri.net/proj/strftime",
+  "author": "Sami Samhuri <sami@samhuri.net>",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/samsonjs/strftime.git"
+  },
+  "bugs": {
+    "email": "sami@samhuri.net",
+    "url": "https://github.com/samsonjs/strftime/issues"
+  },
+  "directories": {
+    "lib": "./lib"
+  },
+  "main": "./lib/index",
+  "engines": {
+    "node": ">=0.2.0"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "http://github.com/samsonjs/strftime/raw/master/LICENSE"
     }
-  ]
+  ],
+  "dependencies": {},
+  "devDependencies": {}
 }
