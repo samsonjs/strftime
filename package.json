@@ -2,14 +2,14 @@
 , "description" : "strftime for JavaScript"
 , "version" : "0.4.0"
 , "homepage" : "http://samhuri.net/proj/strftime"
-, "author" : "Sami Samhuri <sami.samhuri@gmail.com>"
+, "author" : "Sami Samhuri <sami@samhuri.net>"
 , "repository" :
   { "type" : "git"
-  , "url" : "http://github.com/samsonjs/strftime.git"
+  , "url" : "https://github.com/samsonjs/strftime.git"
   }
 , "bugs" :
-  { "mail" : "sami.samhuri+strftime@gmail.com"
-  , "web" : "http://github.com/samsonjs/strftime/issues"
+  { "mail" : "sami@samhuri.net"
+  , "web" : "https://github.com/samsonjs/strftime/issues"
   }
 , "directories" : { "lib" : "./lib" }
 , "main" : "./lib/index"
