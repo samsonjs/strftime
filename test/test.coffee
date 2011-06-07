@@ -36,3 +36,4 @@ for [format, expectedNonUTC, expectedUTC] in TESTS
       got = lib[name] format, t
       assert.equal expected, got, "Error for #{name}(#{JSON.stringify(format)}, t): expected #{JSON.stringify(expected)}, got #{JSON.stringify(got)}"
 
+console.log "OK"
