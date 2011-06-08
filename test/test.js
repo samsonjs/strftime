@@ -4,10 +4,10 @@ var assert = require('assert')
   , lib = require('./../lib')
 
     // Tue, 07 Jun 2011 18:51:45 GMT
-  , Time = new Date(1307472705867)
+  , Time = new Date(1307472705067)
 
   , Tests =
-    [ { format: '%L', expected: '867' }
+    [ { format: '%L', expected: '067' }
     , { format: '%Y', expected: '2011' }
     , { format: '%m', expected: '06' }
     , { format: '%b', expected: 'Jun' }
@@ -17,6 +17,7 @@ var assert = require('assert')
     , { format: '%M', expected: '51' }
     , { format: '%S', expected: '45' }
     , { format: '%s', expected: '1307472705' }
+    , { format: '%l', expected: null, expectedUTC: ' 6' }
     ]
 
 Tests.forEach(function(t) {
