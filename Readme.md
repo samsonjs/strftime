@@ -37,10 +37,12 @@ And if you don't want to pass a localization object every time you can get a loc
 
     var strftime = require('strftime')
     var it_IT = { /* same as above */ }
-    var strftime_IT = strftime.getLocalizedStrftime(it_IT)
+    var strftime_IT = strftime.localizedStrftime(it_IT)
     console.log(strftime_IT('%B %d, %y %H:%M:%S')) // aprile 28, 2011 18:21:08
 
 For details just see `man 3 strftime` as the format specifiers are identical.
+
+**NOTE:** `getLocalizedStrftime` is deprecated, use `localizedStrftime` instead. `getLocalizedStrftime` will be removed in 0.5 or 0.6.
 
 License
 =======
