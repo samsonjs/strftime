@@ -54,6 +54,7 @@ assert.format('%M', null, '51')
 assert.format('%m', '06')
 assert.format('%n', '\n')
 assert.format('%p', null, 'PM')
+assert.format('%P', null, 'pm')
 assert.format('%R', null, '18:51')
 assert.format('%r', null, '06:51:45 PM')
 assert.format('%S', '45')
@@ -81,6 +82,8 @@ var it_IT =
 , shortMonths: words('gen feb mar apr mag giu lug ago set ott nov dic')
 , AM: 'it$AM'
 , PM: 'it$PM'
+, am: 'it$am'
+, pm: 'it$pm'
 , formats: {
     D: 'it$%m/%d/%y'
   , F: 'it$%Y-%m-%d'
@@ -111,6 +114,7 @@ assert.format_it('%b', 'giu')
 assert.format_it('%D', 'it$06/07/11')
 assert.format_it('%F', 'it$2011-06-07')
 assert.format_it('%p', null, 'it$PM')
+assert.format_it('%P', null, 'it$pm')
 assert.format_it('%R', null, 'it$18:51')
 assert.format_it('%r', null, 'it$06:51:45 it$PM')
 assert.format_it('%T', null, 'it$18:51:45')
@@ -145,6 +149,7 @@ function testTimezone(regex) {
     assert.format('%l', hours, ' 6')
     assert.format('%M', mins)
     assert.format('%p', 'AM', 'PM')
+    assert.format('%P', 'am', 'pm')
     assert.format('%R', R, '18:51')
     assert.format('%r', R + ':45 AM', '06:51:45 PM')
     assert.format('%T', R + ':45', '18:51:45')
