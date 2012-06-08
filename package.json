@@ -4,6 +4,20 @@
   "version": "0.4.6",
   "homepage": "http://samhuri.net/proj/strftime",
   "author": "Sami Samhuri <sami@samhuri.net>",
+  "contributors": [
+    { "name":  "Sami Samhuri",
+      "email": "sami@samhuri.net",
+      "url":   "http://samhuri.net"
+    },
+    { "name":  "Andrew Schaaf",
+      "email": "andrew@andrewschaaf.com",
+      "url":   "http://andrewschaaf.com/"
+    },
+    { "name":  "Rob Colburn",
+      "email": "rob@robcolburn.com",
+      "url":   "http://robcolburn.com/"
+    }
+  ],
   "repository": {
     "type": "git",
     "url": "git://github.com/samsonjs/strftime.git"
