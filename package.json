@@ -1,22 +1,13 @@
 {
   "name": "strftime",
   "description": "strftime for JavaScript",
-  "version": "0.4.6",
+  "version": "0.4.7",
   "homepage": "http://samhuri.net/proj/strftime",
   "author": "Sami Samhuri <sami@samhuri.net>",
   "contributors": [
-    { "name":  "Sami Samhuri",
-      "email": "sami@samhuri.net",
-      "url":   "http://samhuri.net"
-    },
-    { "name":  "Andrew Schaaf",
-      "email": "andrew@andrewschaaf.com",
-      "url":   "http://andrewschaaf.com/"
-    },
-    { "name":  "Rob Colburn",
-      "email": "rob@robcolburn.com",
-      "url":   "http://robcolburn.com/"
-    }
+    "Sami Samhuri <sami@samhuri.net> (http://samhuri.net)",
+    "Andrew Schaaf <andrew@andrewschaaf.com> (http://andrewschaaf.com/)",
+    "Rob Colburn <rob@robcolburn.com> (http://robcolburn.com/)"
   ],
   "repository": {
     "type": "git",
@@ -45,5 +36,6 @@
     }
   },
   "dependencies": {},
-  "devDependencies": {}
+  "devDependencies": {},
+  "optionalDependencies": {}
 }
