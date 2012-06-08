@@ -13,12 +13,12 @@ npm install strftime
 Usage
 =====
 
-    var strftime = require('strftime').strftime
+    var strftime = require('strftime')
     console.log(strftime('%B %d, %y %H:%M:%S')) // => April 28, 2011 18:21:08
 
 If you want to localize it:
 
-    var strftime = require('strftime').strftime
+    var strftime = require('strftime')
     var it_IT = {
         days: [ 'domenica', 'lunedi', 'martedi', 'mercoledi', 'giovedi', 'venerdi', 'sabato' ],
         shortDays: [ 'dom', 'lun', 'mar', 'mer', 'gio', 'ven', 'sab' ],
