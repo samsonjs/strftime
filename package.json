@@ -25,6 +25,11 @@
       "url": "http://github.com/samsonjs/strftime/raw/master/LICENSE"
     }
   ],
+  "component": {
+    "scripts": {
+      "strftime": "./lib/index.js"
+    }
+  },
   "dependencies": {},
   "devDependencies": {}
 }
