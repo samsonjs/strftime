@@ -51,6 +51,7 @@ Contributors
 * [Sami Samhuri](https://github.com/samsonjs)
 * [Andrew Schaaf](https://github.com/andrewschaaf)
 * [Rob Colburn](https://github.com/robcolburn)
+* [Ryan Stafford](https://github.com/ryanstafford)
 
 
 License
