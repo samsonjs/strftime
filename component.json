@@ -1,6 +1,6 @@
 {
   "name": "strftime",
-  "repo": "samsonjs/strftime"
+  "repo": "samsonjs/strftime",
   "description": "strftime date formatting",
   "keywords": ["strftime", "format", "date", "time"],
   "version": "0.4.8",
