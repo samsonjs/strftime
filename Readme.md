@@ -105,6 +105,6 @@ Contributors
 License
 =======
 
-Copyright 2010 - 2012 Sami Samhuri sami@samhuri.net
+Copyright 2010 - 2013 Sami Samhuri sami@samhuri.net
 
 MIT (see included [LICENSE](/samsonjs/strftime/blob/master/LICENSE))
