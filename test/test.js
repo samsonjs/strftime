@@ -15,12 +15,13 @@ assert.fn = function(value, msg) {
   assert.equal('function', typeof value, msg)
 }
 
-assert.format = function(format, expected, expectedUTC) {
+assert.format = function(format, expected, expectedUTC, time) {
+  time = time || Time
   function _assertFmt(expected, name) {
     name = name || 'strftime'
-    var actual = lib[name](format, Time)
+    var actual = lib[name](format, time)
     assert.equal(expected, actual,
-                 name + '("' + format + '", Time) is ' + JSON.stringify(actual)
+                 name + '("' + format + '", ' + time + ') is ' + JSON.stringify(actual)
                  + ', expected ' + JSON.stringify(expected))
   }
 
@@ -64,8 +65,12 @@ assert.format('%s', '1307472705')
 assert.format('%T', null, '18:51:45')
 assert.format('%t', '\t')
 assert.format('%u', '2')
+assert.format('%U', '23')
+assert.format('%U', '24', null, new Date(+Time + 5 * 86400000))
 assert.format('%v', '7-Jun-2011')
 assert.format('%w', '2')
+assert.format('%W', '23')
+assert.format('%W', '23', null, new Date(+Time + 5 * 86400000))
 assert.format('%Y', '2011')
 assert.format('%y', '11')
 assert.format('%Z', null, 'GMT')
