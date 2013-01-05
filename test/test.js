@@ -8,7 +8,7 @@
 // - look for edge cases
 
 var assert = require('assert')
-  , lib = require('./../lib')
+  , lib = require('../lib')
 
     // Tue, 07 Jun 2011 18:51:45 GMT
   , Time = new Date(1307472705067)
@@ -35,9 +35,11 @@ assert.format = function(format, expected, expectedUTC, time) {
 assert.fn(lib.strftime)
 assert.fn(lib.strftimeUTC)
 assert.fn(lib.localizedStrftime)
+ok('Exports')
 
 /// time zones
 testTimezone('P[DS]T')
+ok('Time zones')
 
 /// check all formats in GMT, most coverage
 assert.format('%A', 'Tuesday')
@@ -51,6 +53,7 @@ assert.format('%d', '07')
 assert.format('%e', '7')
 assert.format('%F', '2011-06-07')
 assert.format('%H', null, '18')
+assert.format('%h', 'Jun')
 assert.format('%I', null, '06')
 assert.format('%j', null, '158')
 assert.format('%k', null, '18')
@@ -59,27 +62,26 @@ assert.format('%l', null, ' 6')
 assert.format('%M', null, '51')
 assert.format('%m', '06')
 assert.format('%n', '\n')
-assert.format('%p', null, 'PM')
 assert.format('%P', null, 'pm')
+assert.format('%p', null, 'PM')
 assert.format('%R', null, '18:51')
 assert.format('%r', null, '06:51:45 PM')
 assert.format('%S', '45')
 assert.format('%s', '1307472705')
 assert.format('%T', null, '18:51:45')
 assert.format('%t', '\t')
-assert.format('%u', '2')
 assert.format('%U', '23')
 assert.format('%U', '24', null, new Date(+Time + 5 * 86400000))
+assert.format('%u', '2')
 assert.format('%v', '7-Jun-2011')
-assert.format('%w', '2')
 assert.format('%W', '23')
 assert.format('%W', '23', null, new Date(+Time + 5 * 86400000))
+assert.format('%w', '2')
 assert.format('%Y', '2011')
 assert.format('%y', '11')
 assert.format('%Z', null, 'GMT')
 assert.format('%z', null, '+0000')
 assert.format('%%', '%') // any other char
-
 ok('GMT')
 
 
@@ -129,8 +131,7 @@ assert.format_it('%R', null, 'it$18:51')
 assert.format_it('%r', null, 'it$06:51:45 it$PM')
 assert.format_it('%T', null, 'it$18:51:45')
 assert.format_it('%v', 'it$7-giu-2011')
-
-ok('Locales')
+ok('Localization')
 
 
 /// helpers
@@ -158,8 +159,8 @@ function testTimezone(regex) {
     assert.format('%k', hours, '18')
     assert.format('%l', hours, ' 6')
     assert.format('%M', mins)
-    assert.format('%p', 'AM', 'PM')
     assert.format('%P', 'am', 'pm')
+    assert.format('%p', 'AM', 'PM')
     assert.format('%R', R, '18:51')
     assert.format('%r', R + ':45 AM', '06:51:45 PM')
     assert.format('%T', R + ':45', '18:51:45')
