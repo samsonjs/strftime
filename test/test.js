@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 // Based on CoffeeScript by andrewschaaf on github
 //
 // TODO:
