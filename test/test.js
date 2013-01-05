@@ -1,5 +1,5 @@
 // Based on CoffeeScript by andrewschaaf on github
-
+//
 // TODO:
 // - past and future dates, especially < 1900 and > 2100
 // - locales
@@ -32,7 +32,7 @@ assert.format = function(format, expected, expectedUTC, time) {
 /// check exports
 assert.fn(lib.strftime)
 assert.fn(lib.strftimeUTC)
-assert.fn(lib.getLocalizedStrftime)
+assert.fn(lib.localizedStrftime)
 
 /// time zones
 testTimezone('P[DS]T')

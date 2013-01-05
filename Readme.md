@@ -42,8 +42,6 @@ And if you don't want to pass a localization object every time you can get a loc
 
 For details just see `man 3 strftime` as the format specifiers are identical.
 
-**NOTE:** `getLocalizedStrftime` is deprecated, use `localizedStrftime` instead. `getLocalizedStrftime` will be removed in 0.5 or 0.6.
-
 
 Contributors
 ============
