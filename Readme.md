@@ -17,6 +17,8 @@ Usage
 
     var strftime = require('strftime')
     console.log(strftime('%B %d, %y %H:%M:%S')) // => April 28, 2011 18:21:08
+    console.log(strftime('%F %T', new Date(1307472705067))) // => 2011-06-07 18:51:45
+
 
 If you want to localize it:
 
@@ -34,6 +36,7 @@ If you want to localize it:
         PM: 'PM'
     }
     console.log(strftime('%B %d, %y %H:%M:%S', it_IT)) // => aprile 28, 2011 18:21:08
+    console.log(strftime('%B %d, %y %H:%M:%S', new Date(1307472705067), it_IT)) // => giugno 7, 2011 18:51:45
 
 And if you don't want to pass a localization object every time you can get a localized `strftime` function like so:
 
