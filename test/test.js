@@ -38,8 +38,19 @@ assert.fn(lib.localizedStrftime)
 ok('Exports')
 
 /// time zones
-testTimezone('P[DS]T')
-ok('Time zones')
+if (!process.env.TZ || process.env.TZ == 'America/Vancouver') {
+  testTimezone('P[DS]T')
+  assert.format('%C', '01', '01', new Date(100, 0, 1))
+  ok('Time zones (' + process.env.TZ + ')')
+}
+else if (process.env.TZ == 'CET') {
+  testTimezone('CES?T')
+  assert.format('%C', '01', '00', new Date(100, 0, 1))
+  ok('Time zones (' + process.env.TZ + ')')
+}
+else {
+  console.log('(Current timezone has no tests: ' + process.env.TZ + ')')
+}
 
 /// check all formats in GMT, most coverage
 assert.format('%A', 'Tuesday')
@@ -47,7 +58,6 @@ assert.format('%a', 'Tue')
 assert.format('%B', 'June')
 assert.format('%b', 'Jun')
 assert.format('%C', '20')
-assert.format('%C', '01', null, new Date(100, 0, 1))
 assert.format('%D', '06/07/11')
 assert.format('%d', '07')
 assert.format('%e', '7')
@@ -147,25 +157,35 @@ function testTimezone(regex) {
   regex = typeof regex === 'string' ? RegExp('\\((' + regex + ')\\)$') : regex
   var match = Time.toString().match(regex)
   if (match) {
-    var hourDiff = Math.floor(Time.getTimezoneOffset() / 60)
-      , hours = String(18 - hourDiff)
+    var off = Time.getTimezoneOffset()
+      , hourOff = off / 60
+      , hourDiff = Math.floor(hourOff)
+      , hours = 18 - hourDiff
+      , padSpace24 = hours < 10 ? ' ' : ''
+      , padZero24 = hours < 10 ? '0' : ''
+      , hour24 = String(hours)
+      , padSpace12 = (hours % 12) < 10 ? ' ' : ''
+      , padZero12 = (hours % 12) < 10 ? '0' : ''
+      , hour12 = String(hours % 12)
       , sign = hourDiff < 0 ? '+' : '-'
       , minDiff = Time.getTimezoneOffset() - (hourDiff * 60)
       , mins = String(51 - minDiff)
-      , R = hours + ':' + mins
       , tz = match[1]
-    assert.format('%H', hours, '18')
-    assert.format('%I', hours, '06')
-    assert.format('%k', hours, '18')
-    assert.format('%l', hours, ' 6')
+      , ampm = hour12 == hour24 ? 'AM' : 'PM'
+      , R = hour24 + ':' + mins
+      , r = padZero12 + hour12 + ':' + mins + ':45 ' + ampm
+      , T = R + ':45'
+    assert.format('%H', padZero24 + hour24, '18')
+    assert.format('%I', padZero12 + hour12, '06')
+    assert.format('%k', padSpace24 + hour24, '18')
+    assert.format('%l', padSpace12 + hour12, ' 6')
     assert.format('%M', mins)
-    assert.format('%P', 'am', 'pm')
-    assert.format('%p', 'AM', 'PM')
+    assert.format('%P', ampm.toLowerCase(), 'pm')
+    assert.format('%p', ampm, 'PM')
     assert.format('%R', R, '18:51')
-    assert.format('%r', R + ':45 AM', '06:51:45 PM')
-    assert.format('%T', R + ':45', '18:51:45')
+    assert.format('%r', r, '06:51:45 PM')
+    assert.format('%T', T, '18:51:45')
     assert.format('%Z', tz, 'GMT')
-    assert.format('%z', sign + '0' + hourDiff + '00', '+0000')
-    ok(tz)
+    assert.format('%z', sign + '0' + Math.abs(hourDiff) + '00', '+0000')
   }
 }
