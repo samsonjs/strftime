@@ -116,4 +116,5 @@ License
 
 Copyright 2010 - 2013 Sami Samhuri sami@samhuri.net
 
-MIT (see included [LICENSE](/samsonjs/strftime/blob/master/LICENSE))
+[MIT license](http://sjs.mit-license.org)
+

@@ -1,9 +1,13 @@
-/// strftime
-/// https://github.com/samsonjs/strftime
-/// @_sjs
-///
-/// Copyright 2010 - 2012 Sami Samhuri <sami.samhuri@gmail.com>
-/// MIT License
+//
+// strftime
+// github.com/samsonjs/strftime
+// @_sjs
+//
+// Copyright 2010 - 2013 Sami Samhuri <sami@samhuri.net>
+//
+// MIT License
+// http://sjs.mit-license.org
+//
 
 ;(function() {
 
