@@ -4,6 +4,6 @@
   "description": "strftime date formatting",
   "keywords": ["strftime", "format", "date", "time"],
   "version": "0.5.1",
-  "main": "lib/index.js",
-  "scripts": ["lib/index.js"]
+  "main": "strftime.js",
+  "scripts": ["strftime.js"]
 }

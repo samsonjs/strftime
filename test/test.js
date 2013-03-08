@@ -8,7 +8,7 @@
 // - look for edge cases
 
 var assert = require('assert')
-  , lib = require('../lib')
+  , lib = require('../strftime')
 
     // Tue, 07 Jun 2011 18:51:45 GMT
   , Time = new Date(1307472705067)

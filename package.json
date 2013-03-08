@@ -18,10 +18,7 @@
     "email": "sami@samhuri.net",
     "url": "https://github.com/samsonjs/strftime/issues"
   },
-  "directories": {
-    "lib": "./lib"
-  },
-  "main": "./lib/index",
+  "main": "./strftime",
   "engines": {
     "node": ">=0.2.0"
   },
@@ -31,11 +28,6 @@
       "url": "http://github.com/samsonjs/strftime/raw/master/LICENSE"
     }
   ],
-  "component": {
-    "scripts": {
-      "strftime": "./lib/index.js"
-    }
-  },
   "dependencies": {},
   "devDependencies": {},
   "optionalDependencies": {}
