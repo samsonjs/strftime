@@ -8,7 +8,8 @@
 // - look for edge cases
 
 var assert = require('assert')
-  , lib = require('../strftime')
+  , libFilename = process.argv[2] || '../strftime.js'
+  , lib = require(libFilename)
 
     // Tue, 07 Jun 2011 18:51:45 GMT
   , Time = new Date(1307472705067)
