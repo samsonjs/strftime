@@ -18,14 +18,14 @@
     "email": "sami@samhuri.net",
     "url": "https://github.com/samsonjs/strftime/issues"
   },
-  "main": "./strftime",
+  "main": "./strftime.js",
   "engines": {
     "node": ">=0.2.0"
   },
   "licenses": [
     {
       "type": "MIT",
-      "url": "http://github.com/samsonjs/strftime/raw/master/LICENSE"
+      "url": "http://sjs.mit-license.org"
     }
   ],
   "dependencies": {},
