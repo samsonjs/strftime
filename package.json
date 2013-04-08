@@ -14,6 +14,11 @@
     "type": "git",
     "url": "git://github.com/samsonjs/strftime.git"
   },
+  "component": {
+    "scripts": {
+      "strftime/index.js": "strftime.js"
+    }
+  },
   "bugs": {
     "email": "sami@samhuri.net",
     "url": "https://github.com/samsonjs/strftime/issues"
