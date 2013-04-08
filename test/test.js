@@ -42,11 +42,13 @@ ok('Exports')
 if (!process.env.TZ || process.env.TZ == 'America/Vancouver') {
   testTimezone('P[DS]T')
   assert.format('%C', '01', '01', new Date(100, 0, 1))
+  assert.format('%j', '097', '098', new Date(1365390736236))
   ok('Time zones (' + process.env.TZ + ')')
 }
 else if (process.env.TZ == 'CET') {
   testTimezone('CES?T')
   assert.format('%C', '01', '00', new Date(100, 0, 1))
+  assert.format('%j', '098', '098', new Date(1365390736236))
   ok('Time zones (' + process.env.TZ + ')')
 }
 else {

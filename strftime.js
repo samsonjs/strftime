@@ -115,7 +115,7 @@
         case 'j':
           var y=new Date(d.getFullYear(), 0, 1);
           var day = Math.ceil((d.getTime() - y.getTime()) / (1000*60*60*24));
-          return day;
+          return pad(day, 3);
         case 'k': return pad(d.getHours(), padding == null ? ' ' : padding);
         case 'L': return pad(Math.floor(d.getTime() % 1000), 3);
         case 'l': return pad(hours12(d), padding == null ? ' ' : padding);
