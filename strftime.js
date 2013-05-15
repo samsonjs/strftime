@@ -122,6 +122,7 @@
         case 'M': return pad(d.getMinutes(), padding);
         case 'm': return pad(d.getMonth() + 1, padding);
         case 'n': return '\n';
+        case 'o': return String(d.getDate()) + ordinal(d.getDate());
         case 'P': return d.getHours() < 12 ? locale.am : locale.pm;
         case 'p': return d.getHours() < 12 ? locale.AM : locale.PM;
         case 'R': return _strftime(locale.formats.R || '%H:%M', d, locale);
@@ -202,6 +203,21 @@
     if (hour == 0) hour = 12;
     else if (hour > 12) hour -= 12;
     return hour;
+  }
+
+  // Get the ordinal suffix for a number: st, nd, rd, or th
+  function ordinal(n) {
+    var i = n % 10
+      , ii = n % 100
+      ;
+    if ((ii >= 11 && ii <= 13) || i === 0 || i >= 4) {
+      return 'th';
+    }
+    switch (i) {
+      case 1: return 'st';
+      case 2: return 'nd';
+      case 3: return 'rd';
+    }
   }
 
   // firstWeekday: 'sunday' or 'monday', default is 'sunday'

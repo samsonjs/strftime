@@ -73,6 +73,7 @@ e.g. `%q` becomes `q`. Use `%%` to get a literal `%` sign.
 - M: the minute, padded to 2 digits (00-59)
 - m: the month, padded to 2 digits (01-12)
 - n: newline character
+- o: day of the month as an ordinal (without padding), e.g. 1st, 2nd, 3rd, 4th, ...
 - P: "am" or "pm" in lowercase [Ruby extension]
 - p: "AM" or "PM"
 - R: equivalent to `%H:%M`
