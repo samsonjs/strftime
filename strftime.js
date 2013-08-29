@@ -26,8 +26,8 @@
   }
 
   namespace.strftime = strftime;
-  namespace.strftimeUTC = strftimeUTC;
-  namespace.localizedStrftime = localizedStrftime;
+  namespace.strftimeUTC = strftime.strftimeUTC = strftimeUTC;
+  namespace.localizedStrftime = strftime.localizedStrftime = localizedStrftime;
 
   ////
 
