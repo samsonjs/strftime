@@ -50,7 +50,7 @@ Time zones can be passed in as an offset from GMT in minutes.
 
     var strftimeTZ = require('strftime').strftimeTZ
     console.log(strftimeTZ('%B %d, %y %H:%M:%S', new Date(1307472705067), -420)) // => June 07, 11 11:51:45
-    console.log(strftimeTZ('%F %T', new Date(1307472705067), 120)) // => 2011-06-07 11:51:45
+    console.log(strftimeTZ('%F %T', new Date(1307472705067), 120)) // => 2011-06-07 20:51:45
 
 
 Supported Specifiers
