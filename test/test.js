@@ -28,7 +28,7 @@ assert.format = function(format, expected, expectedUTC, time) {
                  + ', expected ' + JSON.stringify(expected))
   }
 
-  if (expected) _assertFmt(expected)
+  if (expected) _assertFmt(expected, 'strftime')
   _assertFmt(expectedUTC || expected, 'strftimeUTC')
 }
 
@@ -138,7 +138,7 @@ assert.format_it = function(format, expected, expectedUTC) {
                  + ', expected ' + JSON.stringify(expected))
   }
 
-  if (expected) _assertFmt(expected)
+  if (expected) _assertFmt(expected, 'strftime')
   _assertFmt(expectedUTC || expected, 'strftimeUTC')
 }
 
@@ -155,6 +155,23 @@ assert.format_it('%r', null, 'it$06:51:45 it$PM')
 assert.format_it('%T', null, 'it$18:51:45')
 assert.format_it('%v', 'it$7-giu-2011')
 ok('Localization')
+
+
+/// timezones
+
+assert.formatTZ = function(format, expected, tz, time) {
+  time = time || Time;
+  var actual = lib.strftimeTZ(format, time, tz)
+  assert.equal(
+    expected, actual,
+    ('strftime("' + format + '", ' + time + ') is ' + JSON.stringify(actual) + ', expected ' + JSON.stringify(expected))
+  )
+}
+
+assert.formatTZ('%F %r %z', '2011-06-07 06:51:45 PM +0000', 0)
+assert.formatTZ('%F %r %z', '2011-06-07 08:51:45 PM +0200', 120)
+assert.formatTZ('%F %r %z', '2011-06-07 11:51:45 AM -0700', -420)
+ok('Time zone offset')
 
 
 /// helpers
