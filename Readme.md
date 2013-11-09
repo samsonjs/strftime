@@ -46,6 +46,13 @@ And if you don't want to pass a localization object every time you can get a loc
     console.log(strftime_IT('%B %d, %y %H:%M:%S')) // aprile 28, 2011 18:21:08
 
 
+Time zones can be passed in as an offset from GMT in minutes.
+
+    var strftimeTZ = require('strftime').strftimeTZ
+    console.log(strftimeTZ('%B %d, %y %H:%M:%S', new Date(1307472705067), -420)) // => June 07, 11 11:51:45
+    console.log(strftimeTZ('%F %T', new Date(1307472705067), 120)) // => 2011-06-07 20:51:45
+
+
 Supported Specifiers
 ====================
 

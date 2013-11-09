@@ -11,7 +11,7 @@
 
 ;(function() {
 
-  //// Export the API
+  //// Where to export the API
   var namespace;
 
   // CommonJS / Node module
@@ -24,12 +24,6 @@
     // Get the global object. Works in ES3, ES5, and ES5 strict mode.
     namespace = (function(){ return this || (1,eval)('this') }());
   }
-
-  namespace.strftime = strftime;
-  namespace.strftimeUTC = strftime.strftimeUTC = strftimeUTC;
-  namespace.localizedStrftime = strftime.localizedStrftime = localizedStrftime;
-
-  ////
 
   function words(s) { return (s || '').split(' '); }
 
@@ -44,34 +38,62 @@
   , pm: 'pm'
   };
 
+  namespace.strftime = strftime;
   function strftime(fmt, d, locale) {
-    return _strftime(fmt, d, locale, false);
+    return _strftime(fmt, d, locale);
   }
 
+  // locale is optional
+  namespace.strftimeTZ = strftime.strftimeTZ = strftimeTZ;
+  function strftimeTZ(fmt, d, locale, timezone) {
+    if (typeof locale == 'number' && timezone == null) {
+      timezone = locale;
+      locale = undefined;
+    }
+    return _strftime(fmt, d, locale, { timezone: timezone });
+  }
+
+  namespace.strftimeUTC = strftime.strftimeUTC = strftimeUTC;
   function strftimeUTC(fmt, d, locale) {
-    return _strftime(fmt, d, locale, true);
+    return _strftime(fmt, d, locale, { utc: true });
   }
 
+  namespace.localizedStrftime = strftime.localizedStrftime = localizedStrftime;
   function localizedStrftime(locale) {
-    return function(fmt, d) {
-      return strftime(fmt, d, locale);
+    return function(fmt, d, options) {
+      return strftime(fmt, d, locale, options);
     };
   }
 
-  // locale is an object with the same structure as DefaultLocale
-  function _strftime(fmt, d, locale, _useUTC) {
+  // d, locale, and options are optional, but you can't leave
+  // holes in the argument list. If you pass options you have to pass
+  // in all the preceding args as well.
+  //
+  // options:
+  //   - locale   [object] an object with the same structure as DefaultLocale
+  //   - timezone [number] timezone offset in minutes from GMT
+  function _strftime(fmt, d, locale, options) {
+    options = options || {};
+
     // d and locale are optional so check if d is really the locale
     if (d && !quacksLikeDate(d)) {
       locale = d;
       d = undefined;
     }
     d = d || new Date();
+
     locale = locale || DefaultLocale;
     locale.formats = locale.formats || {};
-    var msDelta = 0;
-    if (_useUTC) {
-      msDelta = (d.getTimezoneOffset() || 0) * 60000;
-      d = new Date(d.getTime() + msDelta);
+
+    // Hang on to this Unix timestamp because we might mess with it directly below.
+    var timestamp = d.getTime();
+
+    if (options.utc || typeof options.timezone == 'number') {
+      d = dateToUTC(d);
+    }
+
+    if (typeof options.timezone == 'number') {
+      d = new Date(d.getTime() + (options.timezone * 60000));
     }
 
     // Most of the specifiers supported by C's strftime, and some from Ruby.
@@ -113,11 +135,11 @@
         case 'h': return locale.shortMonths[d.getMonth()];
         case 'I': return pad(hours12(d), padding);
         case 'j':
-          var y=new Date(d.getFullYear(), 0, 1);
-          var day = Math.ceil((d.getTime() - y.getTime()) / (1000*60*60*24));
+          var y = new Date(d.getFullYear(), 0, 1);
+          var day = Math.ceil((d.getTime() - y.getTime()) / (1000 * 60 * 60 * 24));
           return pad(day, 3);
         case 'k': return pad(d.getHours(), padding == null ? ' ' : padding);
-        case 'L': return pad(Math.floor(d.getTime() % 1000), 3);
+        case 'L': return pad(Math.floor(timestamp % 1000), 3);
         case 'l': return pad(hours12(d), padding == null ? ' ' : padding);
         case 'M': return pad(d.getMinutes(), padding);
         case 'm': return pad(d.getMonth() + 1, padding);
@@ -128,7 +150,7 @@
         case 'R': return _strftime(locale.formats.R || '%H:%M', d, locale);
         case 'r': return _strftime(locale.formats.r || '%I:%M:%S %p', d, locale);
         case 'S': return pad(d.getSeconds(), padding);
-        case 's': return Math.floor((d.getTime() - msDelta) / 1000);
+        case 's': return Math.floor(timestamp / 1000);
         case 'T': return _strftime(locale.formats.T || '%H:%M:%S', d, locale);
         case 't': return '\t';
         case 'U': return pad(weekNumber(d, 'sunday'), padding);
@@ -143,7 +165,7 @@
           var y = String(d.getFullYear());
           return y.slice(y.length - 2);
         case 'Z':
-          if (_useUTC) {
+          if (options.utc) {
             return "GMT";
           }
           else {
@@ -151,16 +173,21 @@
             return tz && tz[1] || '';
           }
         case 'z':
-          if (_useUTC) {
+          if (options.utc) {
             return "+0000";
           }
           else {
-            var off = d.getTimezoneOffset();
-            return (off < 0 ? '+' : '-') + pad(Math.abs(off / 60)) + pad(off % 60);
+            var off = typeof options.timezone == 'number' ? options.timezone : -d.getTimezoneOffset();
+            return (off < 0 ? '-' : '+') + pad(Math.abs(off / 60)) + pad(off % 60);
           }
         default: return c;
       }
     });
+  }
+
+  function dateToUTC(d) {
+    var msDelta = (d.getTimezoneOffset() || 0) * 60000;
+    return new Date(d.getTime() + msDelta);
   }
 
   var RequiredDateMethods = ['getTime', 'getTimezoneOffset', 'getDay', 'getDate', 'getMonth', 'getFullYear', 'getYear', 'getHours', 'getMinutes', 'getSeconds'];
