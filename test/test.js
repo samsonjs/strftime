@@ -39,7 +39,7 @@ assert.fn(lib.localizedStrftime)
 ok('Exports')
 
 /// time zones
-if (!process.env.TZ || process.env.TZ == 'America/Vancouver') {
+if (process.env.TZ == 'America/Vancouver') {
   testTimezone('P[DS]T')
   assert.format('%C', '01', '01', new Date(100, 0, 1))
   assert.format('%j', '097', '098', new Date(1365390736236))
@@ -52,7 +52,7 @@ else if (process.env.TZ == 'CET') {
   ok('Time zones (' + process.env.TZ + ')')
 }
 else {
-  console.log('(Current timezone has no tests: ' + process.env.TZ + ')')
+  console.log('(Current timezone has no tests: ' + (process.env.TZ || 'none') + ')')
 }
 
 /// check all formats in GMT, most coverage
