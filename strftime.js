@@ -101,6 +101,7 @@
     // to pad with nothing, space, or zero (respectively).
     return fmt.replace(/%([-_0]?.)/g, function(_, c) {
       var mod, padding;
+
       if (c.length == 2) {
         mod = c[0];
         // omit padding
@@ -121,49 +122,124 @@
         }
         c = c[1];
       }
+
       switch (c) {
+
+        // Examples for new Date(0) in GMT
+
+        // 'Thursday'
         case 'A': return locale.days[d.getDay()];
+
+        // 'Thu'
         case 'a': return locale.shortDays[d.getDay()];
+
+        // 'January'
         case 'B': return locale.months[d.getMonth()];
+
+        // 'Jan'
         case 'b': return locale.shortMonths[d.getMonth()];
+
+        // '19'
         case 'C': return pad(Math.floor(d.getFullYear() / 100), padding);
+
+        // '01/01/70'
         case 'D': return _strftime(locale.formats.D || '%m/%d/%y', d, locale);
+
+        // '01'
         case 'd': return pad(d.getDate(), padding);
+
+        // '01'
         case 'e': return d.getDate();
+
+        // '1970-01-01'
         case 'F': return _strftime(locale.formats.F || '%Y-%m-%d', d, locale);
+
+        // '00'
         case 'H': return pad(d.getHours(), padding);
+
+        // 'Jan'
         case 'h': return locale.shortMonths[d.getMonth()];
+
+        // '12'
         case 'I': return pad(hours12(d), padding);
+
+        // '000'
         case 'j':
           var y = new Date(d.getFullYear(), 0, 1);
           var day = Math.ceil((d.getTime() - y.getTime()) / (1000 * 60 * 60 * 24));
           return pad(day, 3);
+
+        // ' 0'
         case 'k': return pad(d.getHours(), padding == null ? ' ' : padding);
+
+        // '000'
         case 'L': return pad(Math.floor(timestamp % 1000), 3);
+
+        // '12'
         case 'l': return pad(hours12(d), padding == null ? ' ' : padding);
+
+        // '00'
         case 'M': return pad(d.getMinutes(), padding);
+
+        // '01'
         case 'm': return pad(d.getMonth() + 1, padding);
+
+        // '\n'
         case 'n': return '\n';
+
+        // '1st'
         case 'o': return String(d.getDate()) + ordinal(d.getDate());
+
+        // 'am'
         case 'P': return d.getHours() < 12 ? locale.am : locale.pm;
+
+        // 'AM'
         case 'p': return d.getHours() < 12 ? locale.AM : locale.PM;
+
+        // '00:00'
         case 'R': return _strftime(locale.formats.R || '%H:%M', d, locale);
+
+        // '12:00:00 AM'
         case 'r': return _strftime(locale.formats.r || '%I:%M:%S %p', d, locale);
+
+        // '00'
         case 'S': return pad(d.getSeconds(), padding);
+
+        // '0'
         case 's': return Math.floor(timestamp / 1000);
+
+        // '00:00:00'
         case 'T': return _strftime(locale.formats.T || '%H:%M:%S', d, locale);
+
+        // '\t'
         case 't': return '\t';
+
+        // '00'
         case 'U': return pad(weekNumber(d, 'sunday'), padding);
+
+        // '4'
         case 'u':
           var day = d.getDay();
           return day == 0 ? 7 : day; // 1 - 7, Monday is first day of the week
+
+        // '1-Jan-1970'
         case 'v': return _strftime(locale.formats.v || '%e-%b-%Y', d, locale);
+
+        // '00'
         case 'W': return pad(weekNumber(d, 'monday'), padding);
+
+        // '4'
         case 'w': return d.getDay(); // 0 - 6, Sunday is first day of the week
+
+        // '1970'
         case 'Y': return d.getFullYear();
+
+        // '70'
         case 'y':
           var y = String(d.getFullYear());
           return y.slice(y.length - 2);
+
+        // 'GMT'
         case 'Z':
           if (options.utc) {
             return "GMT";
@@ -172,6 +248,8 @@
             var tz = d.toString().match(/\((\w+)\)/);
             return tz && tz[1] || '';
           }
+
+        // '+0000'
         case 'z':
           if (options.utc) {
             return "+0000";
@@ -180,6 +258,7 @@
             var off = typeof options.timezone == 'number' ? options.timezone : -d.getTimezoneOffset();
             return (off < 0 ? '-' : '+') + pad(Math.abs(off / 60)) + pad(off % 60);
           }
+
         default: return c;
       }
     });
