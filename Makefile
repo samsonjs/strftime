@@ -8,7 +8,7 @@ test:
 	TZ=America/Vancouver node test/test.js
 	TZ=CET node test/test.js
 
-test-minified:
+test-minified: minify
 	TZ=America/Vancouver node test/test.js ../strftime-min.js
 	TZ=CET node test/test.js ../strftime-min.js
 
