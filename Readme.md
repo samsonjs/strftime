@@ -53,6 +53,13 @@ Time zones can be passed in as an offset from GMT in minutes.
     console.log(strftimeTZ('%F %T', new Date(1307472705067), 120)) // => 2011-06-07 20:51:45
 
 
+Alternatively you can use the timezone format used by ISO 8601, `+HHMM` or `-HHMM`.
+
+    var strftimeTZ = require('strftime').strftimeTZ
+    console.log(strftimeTZ('', new Date(1307472705067), '-0700')) // => June 07, 11 11:51:45
+    console.log(strftimeTZ('%F %T', new Date(1307472705067), '+0200')) // => 2011-06-07 20:51:45
+
+
 Supported Specifiers
 ====================
 

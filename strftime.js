@@ -46,11 +46,11 @@
   // locale is optional
   namespace.strftimeTZ = strftime.strftimeTZ = strftimeTZ;
   function strftimeTZ(fmt, d, locale, timezone) {
-    if (typeof locale == 'number' && timezone == null) {
+    if ((typeof locale == 'number' || typeof locale == 'string') && timezone == null) {
       timezone = locale;
       locale = undefined;
     }
-    return _strftime(fmt, d, locale, { timezone: timezone });
+    return _strftime(fmt, d, locale, { timezone: timezone, utc: true });
   }
 
   namespace.strftimeUTC = strftime.strftimeUTC = strftimeUTC;
@@ -88,12 +88,27 @@
     // Hang on to this Unix timestamp because we might mess with it directly below.
     var timestamp = d.getTime();
 
-    if (options.utc || typeof options.timezone == 'number') {
+    var tz = options.timezone;
+    var tzType = typeof tz;
+
+    if (options.utc || tzType == 'number' || tzType == 'string') {
       d = dateToUTC(d);
     }
 
-    if (typeof options.timezone == 'number') {
-      d = new Date(d.getTime() + (options.timezone * 60000));
+    if (tz) {
+      // ISO 8601 format timezone string, [-+]HHMM
+      //
+      // Convert to the number of minutes and it'll be applied to the date below.
+      if (tzType == 'string') {
+        var sign = tz[0] == '-' ? -1 : 1;
+        var hours = parseInt(tz.slice(1, 3), 10);
+        var mins = parseInt(tz.slice(3, 5), 10);
+        tz = sign * (60 * hours) + mins;
+      }
+
+      if (tzType) {
+        d = new Date(d.getTime() + (tz * 60000));
+      }
     }
 
     // Most of the specifiers supported by C's strftime, and some from Ruby.
