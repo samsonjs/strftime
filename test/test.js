@@ -169,8 +169,11 @@ assert.formatTZ = function(format, expected, tz, time) {
 }
 
 assert.formatTZ('%F %r %z', '2011-06-07 06:51:45 PM +0000', 0)
+assert.formatTZ('%F %r %z', '2011-06-07 06:51:45 PM +0000', '+0000')
 assert.formatTZ('%F %r %z', '2011-06-07 08:51:45 PM +0200', 120)
+assert.formatTZ('%F %r %z', '2011-06-07 08:51:45 PM +0200', '+0200')
 assert.formatTZ('%F %r %z', '2011-06-07 11:51:45 AM -0700', -420)
+assert.formatTZ('%F %r %z', '2011-06-07 11:51:45 AM -0700', '-0700')
 ok('Time zone offset')
 
 

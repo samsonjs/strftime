@@ -50,7 +50,7 @@
       timezone = locale;
       locale = undefined;
     }
-    return _strftime(fmt, d, locale, { timezone: timezone, utc: true });
+    return _strftime(fmt, d, locale, { timezone: timezone });
   }
 
   namespace.strftimeUTC = strftime.strftimeUTC = strftimeUTC;
@@ -260,8 +260,8 @@
             return "GMT";
           }
           else {
-            var tz = d.toString().match(/\((\w+)\)/);
-            return tz && tz[1] || '';
+            var tzString = d.toString().match(/\((\w+)\)/);
+            return tzString && tzString[1] || '';
           }
 
         // '+0000'
@@ -270,7 +270,7 @@
             return "+0000";
           }
           else {
-            var off = typeof options.timezone == 'number' ? options.timezone : -d.getTimezoneOffset();
+            var off = typeof tz == 'number' ? tz : -d.getTimezoneOffset();
             return (off < 0 ? '-' : '+') + pad(Math.abs(off / 60)) + pad(off % 60);
           }
 
