@@ -16,7 +16,7 @@ Usage
 =====
 
     var strftime = require('strftime')
-    console.log(strftime('%B %d, %y %H:%M:%S')) // => April 28, 2011 18:21:08
+    console.log(strftime('%B %d, %Y %H:%M:%S')) // => April 28, 2011 18:21:08
     console.log(strftime('%F %T', new Date(1307472705067))) // => 2011-06-07 18:51:45
 
 
@@ -35,15 +35,15 @@ If you want to localize it:
         AM: 'AM',
         PM: 'PM'
     }
-    console.log(strftime('%B %d, %y %H:%M:%S', it_IT)) // => aprile 28, 2011 18:21:08
-    console.log(strftime('%B %d, %y %H:%M:%S', new Date(1307472705067), it_IT)) // => giugno 7, 2011 18:51:45
+    console.log(strftime('%B %d, %Y %H:%M:%S', it_IT)) // => aprile 28, 2011 18:21:08
+    console.log(strftime('%B %d, %Y %H:%M:%S', new Date(1307472705067), it_IT)) // => giugno 7, 2011 18:51:45
 
 And if you don't want to pass a localization object every time you can get a localized `strftime` function like so:
 
     var strftime = require('strftime')
     var it_IT = { /* same as above */ }
     var strftime_IT = strftime.localizedStrftime(it_IT)
-    console.log(strftime_IT('%B %d, %y %H:%M:%S')) // aprile 28, 2011 18:21:08
+    console.log(strftime_IT('%B %d, %Y %H:%M:%S')) // aprile 28, 2011 18:21:08
 
 
 Time zones can be passed in as an offset from GMT in minutes.
