@@ -46,7 +46,7 @@
   // locale is optional
   namespace.strftimeTZ = strftime.strftimeTZ = strftimeTZ;
   function strftimeTZ(fmt, d, locale, timezone) {
-    if ((typeof locale == 'number' || typeof locale == 'string') && timezone == null) {
+    if ((typeof locale === 'number' || typeof locale === 'string') && timezone === null) {
       timezone = locale;
       locale = undefined;
     }
@@ -91,7 +91,7 @@
     var tz = options.timezone;
     var tzType = typeof tz;
 
-    if (options.utc || tzType == 'number' || tzType == 'string') {
+    if (options.utc || tzType === 'number' || tzType === 'string') {
       d = dateToUTC(d);
     }
 
@@ -99,8 +99,8 @@
       // ISO 8601 format timezone string, [-+]HHMM
       //
       // Convert to the number of minutes and it'll be applied to the date below.
-      if (tzType == 'string') {
-        var sign = tz[0] == '-' ? -1 : 1;
+      if (tzType === 'string') {
+        var sign = tz[0] === '-' ? -1 : 1;
         var hours = parseInt(tz.slice(1, 3), 10);
         var mins = parseInt(tz.slice(3, 5), 10);
         tz = sign * (60 * hours) + mins;
@@ -117,18 +117,18 @@
     return fmt.replace(/%([-_0]?.)/g, function(_, c) {
       var mod, padding;
 
-      if (c.length == 2) {
+      if (c.length === 2) {
         mod = c[0];
         // omit padding
-        if (mod == '-') {
+        if (mod === '-') {
           padding = '';
         }
         // pad with space
-        else if (mod == '_') {
+        else if (mod === '_') {
           padding = ' ';
         }
         // pad with zero
-        else if (mod == '0') {
+        else if (mod === '0') {
           padding = '0';
         }
         else {
@@ -185,13 +185,13 @@
           return pad(day, 3);
 
         // ' 0'
-        case 'k': return pad(d.getHours(), padding == null ? ' ' : padding);
+        case 'k': return pad(d.getHours(), padding === null ? ' ' : padding);
 
         // '000'
         case 'L': return pad(Math.floor(timestamp % 1000), 3);
 
         // '12'
-        case 'l': return pad(hours12(d), padding == null ? ' ' : padding);
+        case 'l': return pad(hours12(d), padding === null ? ' ' : padding);
 
         // '00'
         case 'M': return pad(d.getMinutes(), padding);
@@ -235,7 +235,7 @@
         // '4'
         case 'u':
           var day = d.getDay();
-          return day == 0 ? 7 : day; // 1 - 7, Monday is first day of the week
+          return day === 0 ? 7 : day; // 1 - 7, Monday is first day of the week
 
         // '1-Jan-1970'
         case 'v': return _strftime(locale.formats.v || '%e-%b-%Y', d, locale);
@@ -270,7 +270,7 @@
             return "+0000";
           }
           else {
-            var off = typeof tz == 'number' ? tz : -d.getTimezoneOffset();
+            var off = typeof tz === 'number' ? tz : -d.getTimezoneOffset();
             return (off < 0 ? '-' : '+') + pad(Math.abs(off / 60)) + pad(off % 60);
           }
 
@@ -290,7 +290,7 @@
       , n = RequiredDateMethods.length
       ;
     for (i = 0; i < n; ++i) {
-      if (typeof x[RequiredDateMethods[i]] != 'function') {
+      if (typeof x[RequiredDateMethods[i]] !== 'function') {
         return false;
       }
     }
@@ -306,7 +306,7 @@
     }
 
     // Defaults handle pad(n) and pad(n, <padding>)
-    if (padding == null) {
+    if (padding === null) {
       padding = '0';
     }
     length = length || 2;
@@ -321,7 +321,7 @@
 
   function hours12(d) {
     var hour = d.getHours();
-    if (hour == 0) hour = 12;
+    if (hour === 0) hour = 12;
     else if (hour > 12) hour -= 12;
     return hour;
   }
@@ -350,8 +350,8 @@
     // This works by shifting the weekday back by one day if we
     // are treating Monday as the first day of the week.
     var wday = d.getDay();
-    if (firstWeekday == 'monday') {
-      if (wday == 0) // Sunday
+    if (firstWeekday === 'monday') {
+      if (wday === 0) // Sunday
         wday = 6;
       else
         wday--;
