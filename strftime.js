@@ -15,7 +15,7 @@
   var namespace;
 
   // CommonJS / Node module
-  if (typeof module !== 'undefined') {
+  if (typeof module != 'undefined') {
     namespace = module.exports = strftime;
   }
 
@@ -46,7 +46,7 @@
   // locale is optional
   namespace.strftimeTZ = strftime.strftimeTZ = strftimeTZ;
   function strftimeTZ(fmt, d, locale, timezone) {
-    if ((typeof locale === 'number' || typeof locale === 'string') && timezone === null) {
+    if ((typeof locale === 'number' || typeof locale === 'string') && timezone == null) {
       timezone = locale;
       locale = undefined;
     }
@@ -185,13 +185,13 @@
           return pad(day, 3);
 
         // ' 0'
-        case 'k': return pad(d.getHours(), padding === null ? ' ' : padding);
+        case 'k': return pad(d.getHours(), padding == null ? ' ' : padding);
 
         // '000'
         case 'L': return pad(Math.floor(timestamp % 1000), 3);
 
         // '12'
-        case 'l': return pad(hours12(d), padding === null ? ' ' : padding);
+        case 'l': return pad(hours12(d), padding == null ? ' ' : padding);
 
         // '00'
         case 'M': return pad(d.getMinutes(), padding);
@@ -306,7 +306,7 @@
     }
 
     // Defaults handle pad(n) and pad(n, <padding>)
-    if (padding === null) {
+    if (padding == null) {
       padding = '0';
     }
     length = length || 2;
