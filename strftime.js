@@ -210,7 +210,7 @@
                 case 'j':
                     var y = new Date(_d.getFullYear(), 0, 1);
                     var day = Math.ceil((_d.getTime() - y.getTime()) / (1000 * 60 * 60 * 24));
-                    return pad(day, 3);
+                    return pad(day, null, 3);
 
                 // ' 0'
                 case 'k':
@@ -218,7 +218,7 @@
 
                 // '000'
                 case 'L':
-                    return pad(Math.floor(timestamp % 1000), 3);
+                    return pad(Math.floor(timestamp % 1000), null, 3);
 
                 // '12'
                 case 'l':
@@ -344,18 +344,16 @@
     }
 
     // Default padding is '0' and default length is 2, both are optional.
-    function pad(n, padding) {
+    function pad(n, padding, length) {
         var _padding = padding == null ? '0' : padding;
         var _n = String(n);
+        var _length = length || 2;
 
         // padding may be an empty string, don't loop forever if it is
-        switch (_n.length) {
-            case 0:
-                _n = _padding + _padding;
-                break;
-            case 1:
+        if (_padding) {
+            while (_n.length < _length) {
                 _n = _padding + _n;
-                break;
+            }
         }
 
         return _n;
@@ -402,7 +400,7 @@
         var yDay = (d - firstDayOfYear) / 86400000;
 
         if (firstWeekday === 'monday') {
-            if (wDay === 0){
+            if (wDay === 0) {
                 // Sunday
                 wDay = 6;
             } else {
