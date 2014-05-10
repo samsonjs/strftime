@@ -96,10 +96,6 @@
             _date = new Date(_date.getTime() + (_timeZone * 60000));
         }
 
-        // Most of the specifiers supported by C's strftime, and some from Ruby.
-        // Some other syntax extensions from Ruby are supported: %-, %_, and %0
-        // to pad with nothing, space, or zero (respectively).
-
         return format.replace(/%([-_0]?)(.)/g, processing);
     }
 
@@ -233,6 +229,9 @@
     function processing(_, p, c) {
         var _padding;
 
+        // Most of the specifiers supported by C's strftime, and some from Ruby.
+        // Some other syntax extensions from Ruby are supported: %-, %_, and %0
+        // to pad with nothing, space, or zero (respectively).
         if (p) {
             switch (p) {
                 // omit padding
