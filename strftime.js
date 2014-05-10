@@ -82,7 +82,7 @@
             _date = dateToUTC(_date);
         }
 
-        /*if (_timeZone) {
+        if (_timeZone) {
             // ISO 8601 format timezone string, [-+]HHMM
             // Convert to the number of minutes and it'll be applied to the date below.
             if (tzType === 'string') {
@@ -94,7 +94,7 @@
             }
 
             _date = new Date(_date.getTime() + (_timeZone * 60000));
-        }*/
+        }
 
         // Most of the specifiers supported by C's strftime, and some from Ruby.
         // Some other syntax extensions from Ruby are supported: %-, %_, and %0
