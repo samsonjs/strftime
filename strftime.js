@@ -96,7 +96,7 @@
             _date = new Date(_date.getTime() + (_timeZone * 60000));
         }
 
-        return format.replace(/%([-_0]?)(.)/g, processing);
+        return format.replace(/%([-_0]?)([AaBbCDdeFHhIjkLlMmnoPpRrSsTtUuvWwYyZz])/g, processing);
     }
 
     var mask = {
@@ -160,7 +160,8 @@
             return '\n';
         },
         'o': function () {
-            return String(_date.getDate()) + ordinal(_date.getDate());
+            var date = _date.getDate();
+            return String(date) + ordinal(date);
         },
         'P': function () {
             return _date.getHours() < 12 ? _locale.am : _locale.pm;
@@ -255,7 +256,7 @@
             }
         }
 
-        return mask[c] ? mask[c]() : c;
+        return mask[c]();
     }
 
     function quacksLikeDate(x) {
