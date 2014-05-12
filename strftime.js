@@ -51,7 +51,6 @@
     var _locale;
     var _date;
     var _timeZone;
-    var _padding;
 
     // d, locale, and options are optional, but you can't leave
     // holes in the argument list. If you pass options you have to pass
@@ -112,14 +111,14 @@
         'b': function () {
             return _locale.shortMonths[_date.getMonth()];
         },
-        'C': function () {
-            return pad(Math.floor(_date.getFullYear() / 100), _padding);
+        'C': function (padding) {
+            return pad(Math.floor(_date.getFullYear() / 100), padding);
         },
         'D': function () {
             return _strftime(_locale.formats.D || '%m/%d/%y', _date, _locale);
         },
-        'd': function () {
-            return pad(_date.getDate(), _padding);
+        'd': function (padding) {
+            return pad(_date.getDate(), padding);
         },
         'e': function () {
             return _date.getDate();
@@ -127,34 +126,34 @@
         'F': function () {
             return _strftime(_locale.formats.F || '%Y-%m-%d', _date, _locale);
         },
-        'H': function () {
-            return pad(_date.getHours(), _padding);
+        'H': function (padding) {
+            return pad(_date.getHours(), padding);
         },
         'h': function () {
             return _locale.shortMonths[_date.getMonth()];
         },
-        'I': function () {
-            return pad(hours12(_date), _padding);
+        'I': function (padding) {
+            return pad(hours12(_date), padding);
         },
         'j': function () {
             var y = new Date(_date.getFullYear(), 0, 1);
             var day = Math.ceil((_date.getTime() - y.getTime()) / (1000 * 60 * 60 * 24));
             return pad(day, null, 3);
         },
-        'k': function () {
-            return pad(_date.getHours(), _padding == null ? ' ' : _padding);
+        'k': function (padding) {
+            return pad(_date.getHours(), padding == null ? ' ' : padding);
         },
         'L': function () {
             return pad(Math.floor(_date.getTime() % 1000), null, 3);
         },
-        'l': function () {
-            return pad(hours12(_date), _padding == null ? ' ' : _padding);
+        'l': function (padding) {
+            return pad(hours12(_date), padding == null ? ' ' : padding);
         },
-        'M': function () {
-            return pad(_date.getMinutes(), _padding);
+        'M': function (padding) {
+            return pad(_date.getMinutes(), padding);
         },
-        'm': function () {
-            return pad(_date.getMonth() + 1, _padding);
+        'm': function (padding) {
+            return pad(_date.getMonth() + 1, padding);
         },
         'n': function () {
             return '\n';
@@ -175,8 +174,8 @@
         'r': function () {
             return _strftime(_locale.formats.r || '%I:%M:%S %p', _date, _locale);
         },
-        'S': function () {
-            return pad(_date.getSeconds(), _padding);
+        'S': function (padding) {
+            return pad(_date.getSeconds(), padding);
         },
         's': function () {
             return Math.floor(_date.getTime() / 1000);
@@ -187,8 +186,8 @@
         't': function () {
             return '\t';
         },
-        'U': function () {
-            return pad(weekNumber(_date, 'sunday'), _padding);
+        'U': function (padding) {
+            return pad(weekNumber(_date, 'sunday'), padding);
         },
         'u': function () {
             var day = _date.getDay();
@@ -197,8 +196,8 @@
         'v': function () {
             return _strftime(_locale.formats.v || '%e-%b-%Y', _date, _locale);
         },
-        'W': function () {
-            return pad(weekNumber(_date, 'monday'), _padding);
+        'W': function (padding) {
+            return pad(weekNumber(_date, 'monday'), padding);
         },
         'w': function () {
             return _date.getDay();
@@ -228,7 +227,7 @@
     };
 
     function processing(_, p, c) {
-        var _padding;
+        var padding;
 
         // Most of the specifiers supported by C's strftime, and some from Ruby.
         // Some other syntax extensions from Ruby are supported: %-, %_, and %0
@@ -237,17 +236,17 @@
             switch (p) {
                 // omit padding
                 case '-':
-                    _padding = '';
+                    padding = '';
                     break;
 
                 // pad with space
                 case '_':
-                    _padding = ' ';
+                    padding = ' ';
                     break;
 
                 // pad with zero
                 case '0':
-                    _padding = '0';
+                    padding = '0';
                     break;
 
                 // unrecognized, return the format
@@ -256,7 +255,7 @@
             }
         }
 
-        return mask[c]();
+        return mask[c](padding);
     }
 
     function quacksLikeDate(x) {
