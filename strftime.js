@@ -229,14 +229,14 @@
 
     // Default padding is '0' and default length is 2, both are optional.
     function pad(n, padding, length) {
-        var _padding = padding == null ? '0' : padding;
         var _n = String(n);
-        var _length = length || 2;
+        var _p = padding == null ? '0' : padding;
+        var _l = length || 2;
 
         // padding may be an empty string, don't loop forever if it is
-        if (_padding) {
-            while (_n.length < _length) {
-                _n = _padding + _n;
+        if (_p) {
+            while (_n.length < _l) {
+                _n = _p + _n;
             }
         }
 
