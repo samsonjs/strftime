@@ -43,12 +43,10 @@
     //   - locale   [object] an object with the same structure as DefaultLocale
     //   - timezone [number] timezone offset in minutes from GMT
     function _strftime(format, date, locale, options) {
-        var m;
         var o = options || {};
         var l = locale;
         var d = date;
-        var i = 0;
-        var r = '';
+        var m, ts, i = 0, r = '';
         var re = /%([-_0]?)(.)/g;
 
         if (d && !isDate(d)) {
@@ -58,10 +56,12 @@
 
         l = l || DefaultLocale;
         l.formats = l.formats || {};
-        d = fixTimeZone(d || new Date(), o);
+        d = d || new Date();
+        ts = d.getTime();
+        d = fixTZ(d, o);
 
         while (m = re.exec(format)) {
-            r += format.substring(i, m.index) + match(m, d, l, d.getTime(), o);
+            r += format.substring(i, m.index) + match(m, d, l, ts, o);
             i = m.index + m[0].length;
         }
 
@@ -216,6 +216,8 @@
                 default:
                     return match[0];
             }
+        } else {
+            p = null;
         }
 
         return mask[c] ? mask[c](p, date, locale, timestamp, options) : c;
@@ -227,7 +229,7 @@
 
     // Default padding is '0' and default length is 2, both are optional.
     function pad(n, padding, length) {
-        var _padding = padding ? '0' : padding;
+        var _padding = padding == null ? '0' : padding;
         var _n = String(n);
         var _length = length || 2;
 
@@ -303,7 +305,7 @@
 
     // ISO 8601 format timezone string, [-+]HHMM
     // Convert to the number of minutes and it'll be applied to the date below.
-    function fixTimeZone(date, opt) {
+    function fixTZ(date, opt) {
         var d = date;
         var tz = opt.timezone;
         var tzType = typeof tz;
