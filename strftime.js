@@ -43,34 +43,29 @@
     //   - locale   [object] an object with the same structure as DefaultLocale
     //   - timezone [number] timezone offset in minutes from GMT
     function _strftime(format, date, locale, options) {
-        var matches;
-        var _options = options || {};
-        var _locale = locale;
-        var _date = date;
-        var timestamp;
-        var index = 0;
-        var result = '';
-        var regExp = /%([-_0]?)(.)/g;
+        var m;
+        var o = options || {};
+        var l = locale;
+        var d = date;
+        var i = 0;
+        var r = '';
+        var re = /%([-_0]?)(.)/g;
 
-        // date and locale are optional so check if date is really the locale
-        if (_date && !isDate(_date)) {
-            _locale = _date;
-            _date = undefined;
+        if (d && !isDate(d)) {
+            l = d;
+            d = null;
         }
 
-        _date = _date || new Date();
-        timestamp = _date.getTime();
-        _locale = _locale || DefaultLocale;
-        _locale.formats = _locale.formats || {};
+        l = l || DefaultLocale;
+        l.formats = l.formats || {};
+        d = fixTimeZone(d || new Date(), o);
 
-        _date = fixTimeZone(_date, _options);
-
-        while (matches = regExp.exec(format)) {
-            result += format.substring(index, matches.index) + processing(matches, _date, _locale, timestamp, _options);
-            index = matches.index + matches[0].length;
+        while (m = re.exec(format)) {
+            r += format.substring(i, m.index) + match(m, d, l, d.getTime(), o);
+            i = m.index + m[0].length;
         }
 
-        return result;
+        return r;
     }
 
     var mask = {
@@ -201,38 +196,29 @@
         }
     };
 
-    function processing(match, date, locale, timestamp, options) {
-        var padding = match[1];
-        var char = match[2];
+    // Most of the specifiers supported by C's strftime, and some from Ruby.
+    // Some other syntax extensions from Ruby are supported: %-, %_, and %0
+    // to pad with nothing, space, or zero (respectively).
+    function match(match, date, locale, timestamp, options) {
+        var p = match[1];
+        var c = match[2];
 
-        // Most of the specifiers supported by C's strftime, and some from Ruby.
-        // Some other syntax extensions from Ruby are supported: %-, %_, and %0
-        // to pad with nothing, space, or zero (respectively).
-        if (padding) {
-            switch (padding) {
-                // omit padding
+        if (p) {
+            switch (p) {
                 case '-':
-                    padding = '';
+                    p = '';
                     break;
-
-                // pad with space
                 case '_':
-                    padding = ' ';
+                    p = ' ';
                     break;
-
-                // pad with zero
                 case '0':
                     break;
-
-                // unrecognized, return the format
                 default:
                     return match[0];
             }
-        } else {
-            padding = null;
         }
 
-        return mask[char] ? mask[char](padding, date, locale, timestamp, options) : char;
+        return mask[c] ? mask[c](p, date, locale, timestamp, options) : c;
     }
 
     function dateToUTC(d) {
@@ -241,7 +227,7 @@
 
     // Default padding is '0' and default length is 2, both are optional.
     function pad(n, padding, length) {
-        var _padding = padding == null ? '0' : padding;
+        var _padding = padding ? '0' : padding;
         var _n = String(n);
         var _length = length || 2;
 
@@ -317,29 +303,29 @@
 
     // ISO 8601 format timezone string, [-+]HHMM
     // Convert to the number of minutes and it'll be applied to the date below.
-    function fixTimeZone(date, options) {
-        var _date = date;
-        var timeZone = options.timezone;
-        var tzType = typeof timeZone;
+    function fixTimeZone(date, opt) {
+        var d = date;
+        var tz = opt.timezone;
+        var tzType = typeof tz;
 
-        if (options.utc || tzType === 'number' || tzType === 'string') {
-            _date = dateToUTC(_date);
+        if (opt.utc || tzType == 'number' || tzType == 'string') {
+            d = dateToUTC(d);
         }
 
-        if (timeZone) {
-            if (tzType === 'string') {
-                var sign = timeZone[0] === '-' ? -1 : 1;
-                var hours = parseInt(timeZone.slice(1, 3), 10);
-                var mins = parseInt(timeZone.slice(3, 5), 10);
+        if (tz) {
+            if (tzType == 'string') {
+                var s = tz[0] === '-' ? -1 : 1;
+                var h = parseInt(tz.slice(1, 3), 10);
+                var m = parseInt(tz.slice(3, 5), 10);
 
-                timeZone = sign * (60 * hours) + mins;
+                tz = s * (60 * h) + m;
             }
 
-            _date = new Date(_date.getTime() + (timeZone * 60000));
-            options.timezone = timeZone;
+            d = new Date(d.getTime() + (tz * 60000));
+            opt.timezone = tz;
         }
 
-        return _date;
+        return d;
     }
 
     namespace.strftime = strftime;
