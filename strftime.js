@@ -11,8 +11,9 @@
 
 ;
 (function () {
-    //// Where to export the API
+    // Where to export the API
     var namespace;
+    var toString = Object.prototype.toString;
 
     try {
         // CommonJS / Node module
@@ -34,24 +35,6 @@
         pm: 'pm'
     };
 
-    var RequiredDateMethods = [
-        'getTime',
-        'getTimezoneOffset',
-        'getDay',
-        'getDate',
-        'getMonth',
-        'getFullYear',
-        'getYear',
-        'getHours',
-        'getMinutes',
-        'getSeconds'
-    ];
-
-    var _options;
-    var _locale;
-    var _date;
-    var _timeZone;
-
     // d, locale, and options are optional, but you can't leave
     // holes in the argument list. If you pass options you have to pass
     // in all the preceding args as well.
@@ -59,181 +42,174 @@
     // options:
     //   - locale   [object] an object with the same structure as DefaultLocale
     //   - timezone [number] timezone offset in minutes from GMT
-    function _strftime(format, d, locale, options) {
-        _options = options || {};
-        _locale = locale;
-        _date = d;
-        _timeZone = _options.timezone;
+    function _strftime(format, date, locale, options) {
+        var matches;
+        var _options = options || {};
+        var _locale = locale;
+        var _date = date;
+        var timestamp;
+        var index = 0;
+        var result = '';
+        var regExp = /%([-_0]?)(.)/g;
 
-        // d and locale are optional so check if d is really the locale
-        if (_date && !quacksLikeDate(_date)) {
+        // date and locale are optional so check if date is really the locale
+        if (_date && !isDate(_date)) {
             _locale = _date;
             _date = undefined;
         }
 
         _date = _date || new Date();
+        timestamp = _date.getTime();
         _locale = _locale || DefaultLocale;
         _locale.formats = _locale.formats || {};
 
-        var tzType = typeof _timeZone;
+        _date = fixTimeZone(_date, _options);
 
-        if (_options.utc || tzType === 'number' || tzType === 'string') {
-            _date = dateToUTC(_date);
+        while (matches = regExp.exec(format)) {
+            result += format.substring(index, matches.index) + processing(matches, _date, _locale, timestamp, _options);
+            index = matches.index + matches[0].length;
         }
 
-        if (_timeZone) {
-            // ISO 8601 format timezone string, [-+]HHMM
-            // Convert to the number of minutes and it'll be applied to the date below.
-            if (tzType === 'string') {
-                var sign = _timeZone[0] === '-' ? -1 : 1;
-                var hours = parseInt(_timeZone.slice(1, 3), 10);
-                var mins = parseInt(_timeZone.slice(3, 5), 10);
-
-                _timeZone = sign * (60 * hours) + mins;
-            }
-
-            _date = new Date(_date.getTime() + (_timeZone * 60000));
-        }
-
-        return format.replace(/%([-_0]?)([AaBbCDdeFHhIjkLlMmnoPpRrSsTtUuvWwYyZz])/g, processing);
+        return result;
     }
 
     var mask = {
-        'A': function () {
-            return _locale.days[_date.getDay()];
+        'A': function (padding, date, locale) {
+            return locale.days[date.getDay()];
         },
-        'a': function () {
-            return _locale.shortDays[_date.getDay()];
+        'a': function (padding, date, locale) {
+            return locale.shortDays[date.getDay()];
         },
-        'B': function () {
-            return _locale.months[_date.getMonth()];
+        'B': function (padding, date, locale) {
+            return locale.months[date.getMonth()];
         },
-        'b': function () {
-            return _locale.shortMonths[_date.getMonth()];
+        'b': function (padding, date, locale) {
+            return locale.shortMonths[date.getMonth()];
         },
-        'C': function (padding) {
-            return pad(Math.floor(_date.getFullYear() / 100), padding);
+        'C': function (padding, date) {
+            return pad(Math.floor(date.getFullYear() / 100), padding);
         },
-        'D': function () {
-            return _strftime(_locale.formats.D || '%m/%d/%y', _date, _locale);
+        'D': function (padding, date, locale) {
+            return _strftime(locale.formats.D || '%m/%d/%y', date, locale);
         },
-        'd': function (padding) {
-            return pad(_date.getDate(), padding);
+        'd': function (padding, date) {
+            return pad(date.getDate(), padding);
         },
-        'e': function () {
-            return _date.getDate();
+        'e': function (padding, date) {
+            return date.getDate();
         },
-        'F': function () {
-            return _strftime(_locale.formats.F || '%Y-%m-%d', _date, _locale);
+        'F': function (padding, date, locale) {
+            return _strftime(locale.formats.F || '%Y-%m-%d', date, locale);
         },
-        'H': function (padding) {
-            return pad(_date.getHours(), padding);
+        'H': function (padding, date) {
+            return pad(date.getHours(), padding);
         },
-        'h': function () {
-            return _locale.shortMonths[_date.getMonth()];
+        'h': function (padding, date, locale) {
+            return locale.shortMonths[date.getMonth()];
         },
-        'I': function (padding) {
-            return pad(hours12(_date), padding);
+        'I': function (padding, date) {
+            return pad(hours12(date), padding);
         },
-        'j': function () {
-            var y = new Date(_date.getFullYear(), 0, 1);
-            var day = Math.ceil((_date.getTime() - y.getTime()) / (1000 * 60 * 60 * 24));
+        'j': function (padding, date) {
+            var y = new Date(date.getFullYear(), 0, 1);
+            var day = Math.ceil((date.getTime() - y.getTime()) / (1000 * 60 * 60 * 24));
             return pad(day, null, 3);
         },
-        'k': function (padding) {
-            return pad(_date.getHours(), padding == null ? ' ' : padding);
+        'k': function (padding, date) {
+            return pad(date.getHours(), padding == null ? ' ' : padding);
         },
-        'L': function () {
-            return pad(Math.floor(_date.getTime() % 1000), null, 3);
+        'L': function (padding, date, locale, timestamp) {
+            return pad(Math.floor(timestamp % 1000), null, 3);
         },
-        'l': function (padding) {
-            return pad(hours12(_date), padding == null ? ' ' : padding);
+        'l': function (padding, date) {
+            return pad(hours12(date), padding == null ? ' ' : padding);
         },
-        'M': function (padding) {
-            return pad(_date.getMinutes(), padding);
+        'M': function (padding, date) {
+            return pad(date.getMinutes(), padding);
         },
-        'm': function (padding) {
-            return pad(_date.getMonth() + 1, padding);
+        'm': function (padding, date) {
+            return pad(date.getMonth() + 1, padding);
         },
         'n': function () {
             return '\n';
         },
-        'o': function () {
-            var date = _date.getDate();
-            return String(date) + ordinal(date);
+        'o': function (padding, date) {
+            var _date = date.getDate();
+            return String(_date) + ordinal(_date);
         },
-        'P': function () {
-            return _date.getHours() < 12 ? _locale.am : _locale.pm;
+        'P': function (padding, date, locale) {
+            return date.getHours() < 12 ? locale.am : locale.pm;
         },
-        'p': function () {
-            return _date.getHours() < 12 ? _locale.AM : _locale.PM;
+        'p': function (padding, date, locale) {
+            return date.getHours() < 12 ? locale.AM : locale.PM;
         },
-        'R': function () {
-            return _strftime(_locale.formats.R || '%H:%M', _date, _locale);
+        'R': function (padding, date, locale) {
+            return _strftime(locale.formats.R || '%H:%M', date, locale);
         },
-        'r': function () {
-            return _strftime(_locale.formats.r || '%I:%M:%S %p', _date, _locale);
+        'r': function (padding, date, locale) {
+            return _strftime(locale.formats.r || '%I:%M:%S %p', date, locale);
         },
-        'S': function (padding) {
-            return pad(_date.getSeconds(), padding);
+        'S': function (padding, date) {
+            return pad(date.getSeconds(), padding);
         },
-        's': function () {
-            return Math.floor(_date.getTime() / 1000);
+        's': function (padding, date, locale, timestamp) {
+            return Math.floor(timestamp / 1000);
         },
-        'T': function () {
-            return _strftime(_locale.formats.T || '%H:%M:%S', _date, _locale);
+        'T': function (padding, date, locale) {
+            return _strftime(locale.formats.T || '%H:%M:%S', date, locale);
         },
         't': function () {
             return '\t';
         },
-        'U': function (padding) {
-            return pad(weekNumber(_date, 'sunday'), padding);
+        'U': function (padding, date) {
+            return pad(weekNumber(date, 'sunday'), padding);
         },
-        'u': function () {
-            var day = _date.getDay();
+        'u': function (padding, date) {
+            var day = date.getDay();
             return day === 0 ? 7 : day;
         },
-        'v': function () {
-            return _strftime(_locale.formats.v || '%e-%b-%Y', _date, _locale);
+        'v': function (padding, date, locale) {
+            return _strftime(locale.formats.v || '%e-%b-%Y', date, locale);
         },
-        'W': function (padding) {
-            return pad(weekNumber(_date, 'monday'), padding);
+        'W': function (padding, date) {
+            return pad(weekNumber(date, 'monday'), padding);
         },
-        'w': function () {
-            return _date.getDay();
+        'w': function (padding, date) {
+            return date.getDay();
         },
-        'Y': function () {
-            return _date.getFullYear();
+        'Y': function (padding, date) {
+            return date.getFullYear();
         },
-        'y': function () {
-            return String(_date.getFullYear()).slice(-2);
+        'y': function (padding, date) {
+            return String(date.getFullYear()).slice(-2);
         },
-        'Z': function () {
-            if (_options.utc) {
+        'Z': function (padding, date, locale, timestamp, options) {
+            if (options.utc) {
                 return 'GMT';
             } else {
-                var tzString = _date.toString().match(/\((\w+)\)/);
+                var tzString = date.toString().match(/\((\w+)\)/);
                 return tzString && tzString[1] || '';
             }
         },
-        'z': function () {
-            if (_options.utc) {
+        'z': function (padding, date, locale, timestamp, options) {
+            if (options.utc) {
                 return '+0000';
             } else {
-                var off = typeof _timeZone === 'number' ? _timeZone : -_date.getTimezoneOffset();
+                var off = typeof options.timezone === 'number' ? options.timezone : -date.getTimezoneOffset();
                 return (off < 0 ? '-' : '+') + pad(Math.abs(off / 60)) + pad(off % 60);
             }
         }
     };
 
-    function processing(_, p, c) {
-        var padding;
+    function processing(match, date, locale, timestamp, options) {
+        var padding = match[1];
+        var char = match[2];
 
         // Most of the specifiers supported by C's strftime, and some from Ruby.
         // Some other syntax extensions from Ruby are supported: %-, %_, and %0
         // to pad with nothing, space, or zero (respectively).
-        if (p) {
-            switch (p) {
+        if (padding) {
+            switch (padding) {
                 // omit padding
                 case '-':
                     padding = '';
@@ -246,28 +222,17 @@
 
                 // pad with zero
                 case '0':
-                    padding = '0';
                     break;
 
                 // unrecognized, return the format
                 default:
-                    return _;
+                    return match[0];
             }
+        } else {
+            padding = null;
         }
 
-        return mask[c](padding);
-    }
-
-    function quacksLikeDate(x) {
-        var index = RequiredDateMethods.length;
-
-        while (index--) {
-            if (typeof x[RequiredDateMethods[index]] !== 'function') {
-                return false;
-            }
-        }
-
-        return true;
+        return mask[char] ? mask[char](padding, date, locale, timestamp, options) : char;
     }
 
     function dateToUTC(d) {
@@ -346,19 +311,50 @@
         return _strftime(fmt, d, locale);
     }
 
+    function isDate(date) {
+        return toString.call(date) === '[object Date]';
+    }
+
+    // ISO 8601 format timezone string, [-+]HHMM
+    // Convert to the number of minutes and it'll be applied to the date below.
+    function fixTimeZone(date, options) {
+        var _date = date;
+        var timeZone = options.timezone;
+        var tzType = typeof timeZone;
+
+        if (options.utc || tzType === 'number' || tzType === 'string') {
+            _date = dateToUTC(_date);
+        }
+
+        if (timeZone) {
+            if (tzType === 'string') {
+                var sign = timeZone[0] === '-' ? -1 : 1;
+                var hours = parseInt(timeZone.slice(1, 3), 10);
+                var mins = parseInt(timeZone.slice(3, 5), 10);
+
+                timeZone = sign * (60 * hours) + mins;
+            }
+
+            _date = new Date(_date.getTime() + (timeZone * 60000));
+            options.timezone = timeZone;
+        }
+
+        return _date;
+    }
+
     namespace.strftime = strftime;
 
-    namespace.strftimeTZ = strftime.strftimeTZ = function strfTimeTZ(fmt, d, locale, timezone) {
+    namespace.strftimeTZ = strftime.strftimeTZ = function strfTimeTZ(fmt, d, locale, timeZone) {
         var _locale = locale;
-        var _timezone = timezone;
+        var _timeZone = timeZone;
 
-        if ((typeof locale === 'number' || typeof locale === 'string') && timezone == null) {
-            _timezone = locale;
+        if ((typeof locale === 'number' || typeof locale === 'string') && timeZone == null) {
+            _timeZone = locale;
             _locale = undefined;
         }
 
         return _strftime(fmt, d, _locale, {
-            timezone: _timezone
+            timezone: _timeZone
         });
     };
 
