@@ -24,7 +24,7 @@ try {
     namespace = new Function('return this')();
 }
 
-var DefaultLocale = {
+var defaultLocale = {
     days: 'Sunday Monday Tuesday Wednesday Thursday Friday Saturday'.split(' '),
     shortDays: 'Sun Mon Tue Wed Thu Fri Sat'.split(' '),
     months: 'January February March April May June July August September October November December'.split(' '),
@@ -35,37 +35,40 @@ var DefaultLocale = {
     pm: 'pm'
 };
 
+var defaultFormats = {
+    D: '%m/%d/%y',
+    F: '%Y-%m-%d',
+    R: '%H:%M',
+    r: '%I:%M:%S %p',
+    T: '%H:%M:%S',
+    v: '%e-%b-%Y'
+};
+
 // d, locale, and options are optional, but you can't leave
 // holes in the argument list. If you pass options you have to pass
 // in all the preceding args as well.
 //
 // options:
-//   - locale   [object] an object with the same structure as DefaultLocale
+//   - locale   [object] an object with the same structure as defaultLocale
 //   - timezone [number] timezone offset in minutes from GMT
-function _strftime(format, date, locale, options) {
+function _strftime(f, date, locale, options) {
     var o = options || {};
     var l = locale;
     var d = date;
-    var m, ts, i = 0, r = '';
-    var re = /%([-_0]?)(.)/g;
+    var ts;
 
-    if (d && !isDate(d)) {
+    if (d && toString.call(d) !== '[object Date]') {
         l = d;
         d = null;
     }
 
-    l = l || DefaultLocale;
+    l = l || defaultLocale;
     l.formats = l.formats || {};
     d = d || new Date();
     ts = d.getTime();
     d = fixTZ(d, o);
 
-    while (m = re.exec(format)) {
-        r += format.substring(i, m.index) + match(m, d, l, ts, o);
-        i = m.index + m[0].length;
-    }
-
-    return r + format.substring(i);
+    return match(f, d, l, ts, o);
 }
 
 var mask = {
@@ -199,28 +202,34 @@ var mask = {
 // Most of the specifiers supported by C's strftime, and some from Ruby.
 // Some other syntax extensions from Ruby are supported: %-, %_, and %0
 // to pad with nothing, space, or zero (respectively).
-function match(match, date, locale, timestamp, options) {
-    var p = match[1];
-    var c = match[2];
+function match(f, d, l, ts, o) {
+    var m, i = 0, r = '', c;
+    var re = /%([-_0]?)(.)/g;
 
+    while (m = re.exec(f)) {
+        c = m[2];
+        r += f.substring(i, m.index) + (mask[c] ? mask[c](fixPadding(m[1], m[0]), d, l, ts, o) : c);
+        i = re.lastIndex;
+    }
+
+    return r + f.substring(i);
+}
+
+function fixPadding(p, c) {
     if (p) {
         switch (p) {
             case '-':
-                p = '';
-                break;
+                return '';
             case '_':
-                p = ' ';
-                break;
+                return ' ';
             case '0':
-                break;
+                return p;
             default:
-                return match[0];
+                return c;
         }
     } else {
-        p = null;
+        return null;
     }
-
-    return mask[c] ? mask[c](p, date, locale, timestamp, options) : c;
 }
 
 function dateToUTC(d) {
@@ -297,10 +306,6 @@ function weekNumber(d, firstWeekday) {
 
 function strftime(fmt, d, locale) {
     return _strftime(fmt, d, locale);
-}
-
-function isDate(date) {
-    return toString.call(date) === '[object Date]';
 }
 
 // ISO 8601 format timezone string, [-+]HHMM
