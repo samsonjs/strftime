@@ -260,7 +260,7 @@
             return "GMT";
           }
           else {
-            var tzString = d.toString().match(/\((\w+)\)/);
+            var tzString = d.toString().match(/\(([\w\s]+)\)/);
             return tzString && tzString[1] || '';
           }
 
