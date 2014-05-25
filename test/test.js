@@ -4,7 +4,6 @@
 //
 // TODO:
 // - past and future dates, especially < 1900 and > 2100
-// - locales
 // - look for edge cases
 
 var assert = require('assert')
@@ -12,14 +11,14 @@ var assert = require('assert')
   , lib = require(libFilename)
 
     // Tue, 07 Jun 2011 18:51:45 GMT
-  , Time = new Date(1307472705067)
+  , TestTime = new Date(1307472705067)
 
 assert.fn = function(value, msg) {
   assert.equal('function', typeof value, msg)
 }
 
 assert.format = function(format, expected, expectedUTC, time) {
-  time = time || Time
+  time = time || TestTime
   function _assertFmt(expected, name) {
     name = name || 'strftime'
     var actual = lib[name](format, time)
@@ -94,11 +93,11 @@ assert.format('%s', '1307472705')
 assert.format('%T', null, '18:51:45')
 assert.format('%t', '\t')
 assert.format('%U', '23')
-assert.format('%U', '24', null, new Date(+Time + 5 * 86400000))
+assert.format('%U', '24', null, new Date(+TestTime + 5 * 86400000))
 assert.format('%u', '2')
 assert.format('%v', '7-Jun-2011')
 assert.format('%W', '23')
-assert.format('%W', '23', null, new Date(+Time + 5 * 86400000))
+assert.format('%W', '23', null, new Date(+TestTime + 5 * 86400000))
 assert.format('%w', '2')
 assert.format('%Y', '2011')
 assert.format('%y', '11')
@@ -132,7 +131,7 @@ var it_IT =
 assert.format_it = function(format, expected, expectedUTC) {
   function _assertFmt(expected, name) {
     name = name || 'strftime'
-    var actual = lib[name](format, Time, it_IT)
+    var actual = lib[name](format, TestTime, it_IT)
     assert.equal(expected, actual,
                  name + '("' + format + '", Time) is ' + JSON.stringify(actual)
                  + ', expected ' + JSON.stringify(expected))
@@ -160,7 +159,7 @@ ok('Localization')
 /// timezones
 
 assert.formatTZ = function(format, expected, tz, time) {
-  time = time || Time;
+  time = time || TestTime;
   var actual = lib.strftimeTZ(format, time, tz)
   assert.equal(
     expected, actual,
@@ -188,9 +187,9 @@ function ok(s) { console.log('[ \033[32mOK\033[0m ] ' + s) }
 // Be careful if you pass a regex, it has to quack like the default one.
 function testTimezone(regex) {
   regex = typeof regex === 'string' ? RegExp('\\((' + regex + ')\\)$') : regex
-  var match = Time.toString().match(regex)
+  var match = TestTime.toString().match(regex)
   if (match) {
-    var off = Time.getTimezoneOffset()
+    var off = TestTime.getTimezoneOffset()
       , hourOff = off / 60
       , hourDiff = Math.floor(hourOff)
       , hours = 18 - hourDiff
@@ -201,7 +200,7 @@ function testTimezone(regex) {
       , padZero12 = (hours % 12) < 10 ? '0' : ''
       , hour12 = String(hours % 12)
       , sign = hourDiff < 0 ? '+' : '-'
-      , minDiff = Time.getTimezoneOffset() - (hourDiff * 60)
+      , minDiff = TestTime.getTimezoneOffset() - (hourDiff * 60)
       , mins = String(51 - minDiff)
       , tz = match[1]
       , ampm = hour12 == hour24 ? 'AM' : 'PM'
