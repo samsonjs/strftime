@@ -103,7 +103,7 @@
         var sign = tz[0] == '-' ? -1 : 1;
         var hours = parseInt(tz.slice(1, 3), 10);
         var mins = parseInt(tz.slice(3, 5), 10);
-        tz = sign * (60 * hours) + mins;
+        tz = sign * ((60 * hours) + mins);
       }
 
       if (tzType) {
@@ -271,7 +271,7 @@
           }
           else {
             var off = typeof tz == 'number' ? tz : -d.getTimezoneOffset();
-            return (off < 0 ? '-' : '+') + pad(Math.abs(off / 60)) + pad(off % 60);
+            return (off < 0 ? '-' : '+') + pad(Math.floor(Math.abs(off) / 60)) + pad(Math.abs(off) % 60);
           }
 
         default: return c;

@@ -173,6 +173,7 @@ assert.formatTZ('%F %r %z', '2011-06-07 08:51:45 PM +0200', 120)
 assert.formatTZ('%F %r %z', '2011-06-07 08:51:45 PM +0200', '+0200')
 assert.formatTZ('%F %r %z', '2011-06-07 11:51:45 AM -0700', -420)
 assert.formatTZ('%F %r %z', '2011-06-07 11:51:45 AM -0700', '-0700')
+assert.formatTZ('%F %r %z', '2011-06-07 11:21:45 AM -0730', '-0730')
 ok('Time zone offset')
 
 
