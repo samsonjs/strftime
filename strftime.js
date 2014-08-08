@@ -164,7 +164,7 @@
         case 'd': return pad(d.getDate(), padding);
 
         // '01'
-        case 'e': return d.getDate();
+        case 'e': return pad(d.getDate(), padding == null ? ' ' : padding);
 
         // '1970-01-01'
         case 'F': return _strftime(locale.formats.F || '%Y-%m-%d', d, locale);
@@ -237,7 +237,7 @@
           var day = d.getDay();
           return day == 0 ? 7 : day; // 1 - 7, Monday is first day of the week
 
-        // '1-Jan-1970'
+        // ' 1-Jan-1970'
         case 'v': return _strftime(locale.formats.v || '%e-%b-%Y', d, locale);
 
         // '00'
