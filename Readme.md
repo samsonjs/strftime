@@ -9,7 +9,15 @@ from Ruby.
 Installation
 ============
 
-npm install strftime
+    npm install strftime
+
+
+The New API in 0.9
+==================
+
+The current version, 0.9, deprecates the older API that exported several functions: `strftimeTZ`, `strftimeUTC`, and `localizedStrftime`. In addition to this the exported function referenced itself as `require('strftime').strftime` for consistency with the other functions. *These functions are deprecated in 0.9 and will be removed in 1.0.*
+
+Now you only need the single object exported and you can create a specialized version of it using the functions `utc()`, `localize(locale)`, and `timezone(offset)`. You can no longer pass in a timezone or locale on each call to `strftime` which is a regression. If you need this let me know and we will add it back into the API.
 
 
 Usage
@@ -24,40 +32,44 @@ If you want to localize it:
 
     var strftime = require('strftime')
     var it_IT = {
-        days: [ 'domenica', 'lunedi', 'martedi', 'mercoledi', 'giovedi', 'venerdi', 'sabato' ],
-        shortDays: [ 'dom', 'lun', 'mar', 'mer', 'gio', 'ven', 'sab' ],
-
-        months: [ 'gennaio', 'febbraio', 'marzo', 'aprile', 'maggio', 'giugno', 'luglio',
-                  'agosto', 'settembre', 'ottobre', 'novembre', 'dicembre' ],
-
-        shortMonths: [ 'gen', 'feb', 'mar', 'apr', 'mag', 'giu', 'lug', 'ago',
-                       'set', 'ott', 'nov', 'dic' ],
+        days: ['domenica', 'lunedi', 'martedi', 'mercoledi', 'giovedi', 'venerdi', 'sabato'],
+        shortDays: ['dom', 'lun', 'mar', 'mer', 'gio', 'ven', 'sab'],
+        months: ['gennaio', 'febbraio', 'marzo', 'aprile', 'maggio', 'giugno', 'luglio', 'agosto', 'settembre', 'ottobre', 'novembre', 'dicembre'],
+        shortMonths: ['gen', 'feb', 'mar', 'apr', 'mag', 'giu', 'lug', 'ago', 'set', 'ott', 'nov', 'dic'],
         AM: 'AM',
-        PM: 'PM'
+        PM: 'PM',
+        am: 'am',
+        pm: 'pm',
+        formats: {
+            D: '%m/%d/%y',
+            F: '%Y-%m-%d',
+            R: '%H:%M',
+            r: '%I:%M:%S %p',
+            T: '%H:%M:%S',
+            v: '%e-%b-%Y'
+        }
     }
-    console.log(strftime('%B %d, %Y %H:%M:%S', it_IT)) // => aprile 28, 2011 18:21:08
-    console.log(strftime('%B %d, %Y %H:%M:%S', new Date(1307472705067), it_IT)) // => giugno 7, 2011 18:51:45
-
-And if you don't want to pass a localization object every time you can get a localized `strftime` function like so:
-
-    var strftime = require('strftime')
-    var it_IT = { /* same as above */ }
-    var strftime_IT = strftime.localizedStrftime(it_IT)
-    console.log(strftime_IT('%B %d, %Y %H:%M:%S')) // aprile 28, 2011 18:21:08
+    var strftimeIT = strftime.localize(it_IT)
+    console.log(strftimeIT('%B %d, %Y %H:%M:%S')) // => aprile 28, 2011 18:21:08
+    console.log(strftimeIT('%B %d, %Y %H:%M:%S', new Date(1307472705067))) // => giugno 7, 2011 18:51:45
 
 
 Time zones can be passed in as an offset from GMT in minutes.
 
-    var strftimeTZ = require('strftime').strftimeTZ
-    console.log(strftimeTZ('%B %d, %y %H:%M:%S', new Date(1307472705067), -420)) // => June 07, 11 11:51:45
-    console.log(strftimeTZ('%F %T', new Date(1307472705067), 120)) // => 2011-06-07 20:51:45
+    var strftime = require('strftime')
+    var strftimePDT = strftime.timezone(-420)
+    var strftimeCEST = strftime.timezone(120)
+    console.log(strftimePDT('%B %d, %y %H:%M:%S', new Date(1307472705067))) // => June 07, 11 11:51:45
+    console.log(strftimeCEST('%F %T', new Date(1307472705067))) // => 2011-06-07 20:51:45
 
 
 Alternatively you can use the timezone format used by ISO 8601, `+HHMM` or `-HHMM`.
 
-    var strftimeTZ = require('strftime').strftimeTZ
-    console.log(strftimeTZ('', new Date(1307472705067), '-0700')) // => June 07, 11 11:51:45
-    console.log(strftimeTZ('%F %T', new Date(1307472705067), '+0200')) // => 2011-06-07 20:51:45
+    var strftime = require('strftime')
+    var strftimePDT = strftime.timezone('-0700')
+    var strftimeCEST = strftime.timezone('+0200')
+    console.log(strftimePDT('', new Date(1307472705067))) // => June 07, 11 11:51:45
+    console.log(strftimeCEST('%F %T', new Date(1307472705067))) // => 2011-06-07 20:51:45
 
 
 Supported Specifiers
@@ -120,16 +132,17 @@ solves some awkwardness with formats like `%l`.
 Contributors
 ============
 
+* [Rob Colburn](https://github.com/robcolburn)
+* [Alexandr Nikitin](https://github.com/alexandrnikitin)
 * [Sami Samhuri](https://github.com/samsonjs)
 * [Andrew Schaaf](https://github.com/andrewschaaf)
-* [Rob Colburn](https://github.com/robcolburn)
 * [Ryan Stafford](https://github.com/ryanstafford)
 
 
 License
 =======
 
-Copyright 2010 - 2013 Sami Samhuri sami@samhuri.net
+Copyright 2010 - 2015 Sami Samhuri sami@samhuri.net
 
 [MIT license](http://sjs.mit-license.org)
 
