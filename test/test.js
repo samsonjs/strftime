@@ -18,9 +18,7 @@ assert.fn = function(value, msg) {
 
 function assertFormat(time, format, expected, name, strftime) {
     var actual = strftime(format, time);
-    assert.equal(expected, actual,
-        name + '("' + format + '", ' + time + ') is ' + JSON.stringify(actual)
-        + ', expected ' + JSON.stringify(expected));
+    assert.equal(expected, actual, name + '("' + format + '", ' + time + ') is ' + JSON.stringify(actual) + ', expected ' + JSON.stringify(expected));
 }
 
 assert.format = function(format, expected, expectedUTC, time) {
@@ -114,7 +112,7 @@ assert.format('%Y', '2011');
 assert.format('%y', '11');
 assert.format('%Z', null, 'GMT');
 assert.format('%z', null, '+0000');
-assert.format('%%', '%') // any other char;
+assert.format('%%', '%'); // any other char
 ok('GMT');
 
 
@@ -145,8 +143,8 @@ var it_IT = {
 var strftimeIT = strftime.localize(it_IT),
     strftimeITUTC = strftimeIT.utc();
 assert.format_it = function(format, expected, expectedUTC) {
-    if (expected) { assertFormat(Time, format, expected, 'strftime.localize(it_IT)', strftimeIT) }
-    assertFormat(Time, format, expectedUTC || expected, 'strftime.localize(it_IT).utc()', strftimeITUTC)
+    if (expected) { assertFormat(Time, format, expected, 'strftime.localize(it_IT)', strftimeIT); }
+    assertFormat(Time, format, expectedUTC || expected, 'strftime.localize(it_IT).utc()', strftimeITUTC);
 };
 
 assert.format_it('%A', 'martedi');

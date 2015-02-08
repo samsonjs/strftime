@@ -3,7 +3,7 @@
 // github.com/samsonjs/strftime
 // @_sjs
 //
-// Copyright 2010 - 2013 Sami Samhuri <sami@samhuri.net>
+// Copyright 2010 - 2015 Sami Samhuri <sami@samhuri.net>
 //
 // MIT License
 // http://sjs.mit-license.org
@@ -45,7 +45,7 @@
     // Browsers and other environments
     else {
         // Get the global object. Works in ES3, ES5, and ES5 strict mode.
-        namespace = (function(){ return this || (1,eval)('this') }());
+        namespace = (function(){ return this || (1,eval)('this'); }());
     }
 
     // Deprecated API, to be removed in v1.0
@@ -71,18 +71,18 @@
         }
         var strftime = (locale ? defaultStrftime.localize(locale) : defaultStrftime).timezone(timezone);
         return strftime(fmt, d);
-    }
+    };
 
     namespace.strftimeUTC = function(fmt, d, locale) {
         deprecationWarning("strftimeUTC", "require('strftime').utc()(format, date)` or `require('strftime').localize(locale).utc()(format, date)");
         var strftime = (locale ? defaultStrftime.localize(locale) : defaultStrftime).utc();
         return strftime(fmt, d);
-    }
+    };
 
     namespace.localizedStrftime = function(locale) {
         deprecationWarning("localizedStrftime", "require('strftime').localize(locale)");
         return defaultStrftime.localize(locale);
-    }
+    };
     // End of deprecated API
 
     function Strftime(locale, customTimezoneOffset, useUtcTimezone) {
