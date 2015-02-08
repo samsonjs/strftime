@@ -87,35 +87,36 @@
             _customTimezoneOffset = customTimezoneOffset || 0,
             _useUtcBasedDate = useUtcTimezone || false,
 
-        // we store unix timestamp value here to not create new Date() each iteration (each millisecond)
-        // Date.now() is 2 times faster than new Date()
-        // while millisecond precise is enough here
-        // this could be very helpful when strftime triggered a lot of times one by one
+            // we store unix timestamp value here to not create new Date() each iteration (each millisecond)
+            // Date.now() is 2 times faster than new Date()
+            // while millisecond precise is enough here
+            // this could be very helpful when strftime triggered a lot of times one by one
             _cachedDateTimestamp = 0,
             _cachedDate;
 
         function _strftime(format, date) {
             var timestamp;
 
-            if(!date) {
+            if (!date) {
                 var currentTimestamp = Date.now();
-                if(currentTimestamp > _cachedDateTimestamp) {
+                if (currentTimestamp > _cachedDateTimestamp) {
                     _cachedDateTimestamp = currentTimestamp;
                     _cachedDate = new Date(_cachedDateTimestamp);
 
                     timestamp = _cachedDateTimestamp;
 
-                    if(_useUtcBasedDate) {
+                    if (_useUtcBasedDate) {
                         // how to avoid duplication of date instantiation for utc here?
                         // we tied to getTimezoneOffset of the current date
                         _cachedDate = new Date(_cachedDateTimestamp + getTimestampToUtcOffsetFor(_cachedDate) + _customTimezoneOffset);
                     }
                 }
                 date = _cachedDate;
-            } else {
+            }
+            else {
                 timestamp = date.getTime();
 
-                if(_useUtcBasedDate) {
+                if (_useUtcBasedDate) {
                     date = new Date(date.getTime() + getTimestampToUtcOffsetFor(date) + _customTimezoneOffset);
                 }
             }
@@ -133,7 +134,7 @@
 
                 var currentCharCode = format.charCodeAt(i);
 
-                if(isInScope === true) {
+                if (isInScope === true) {
                     // '-'
                     if (currentCharCode === 45) {
                         padding = '';
@@ -442,7 +443,8 @@
 
                     customTimezoneOffset = sign * ((60 * hours) + minutes) * 60 * 1000;
                     // in minutes: 420
-                } else if (timezoneType === 'number'){
+                }
+                else if (timezoneType === 'number') {
                     customTimezoneOffset = timezone * 60 * 1000;
                 }
             }
