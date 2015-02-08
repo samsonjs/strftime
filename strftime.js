@@ -27,8 +27,11 @@
                 F: '%Y-%m-%d',
                 R: '%H:%M',
                 T: '%H:%M:%S',
+                X: '%T',
+                c: '%a %b %d %X %Y',
                 r: '%I:%M:%S %p',
-                v: '%e-%b-%Y'
+                v: '%e-%b-%Y',
+                x: '%D'
             }
         },
         
@@ -245,6 +248,12 @@
                             resultString += padTill2(weekNumber(date, 'monday'), padding);
                             break;
 
+                        // '16:00:00'
+                        // case 'X':
+                        case 88:
+                            resultString += _processFormat(locale.formats.X, date, locale, timestamp);
+                            break;
+
                         // '1970'
                         // case 'Y':
                         case 89:
@@ -274,6 +283,12 @@
                         // case 'b':
                         case 98:
                             resultString += locale.shortMonths[date.getMonth()];
+                            break;
+
+                        // ''
+                        // case 'c':
+                        case 99:
+                            resultString += _processFormat(locale.formats.c, date, locale, timestamp);
                             break;
 
                         // '01'
@@ -374,6 +389,12 @@
                         case 119:
                             resultString += date.getDay();
                             break; // 0 - 6, Sunday is first day of the week
+
+                        // '12/31/69'
+                        // case 'x':
+                        case 120:
+                            resultString += _processFormat(locale.formats.x, date, locale, timestamp);
+                            break;
 
                         // '70'
                         // case 'y':

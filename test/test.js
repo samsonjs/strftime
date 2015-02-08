@@ -46,13 +46,19 @@ ok('Exports');
 if (process.env.TZ == 'America/Vancouver') {
     testTimezone('P[DS]T');
     assert.format('%C', '01', '01', new Date(100, 0, 1));
+    assert.format('%X', '11:51:45', '18:51:45');
+    assert.format('%c', 'Tue Jun 07 11:51:45 2011', 'Tue Jun 07 18:51:45 2011');
     assert.format('%j', '097', '098', new Date(1365390736236));
+    assert.format('%x', '06/07/11');
     ok('Time zones (' + process.env.TZ + ')');
 }
 else if (process.env.TZ == 'CET') {
     testTimezone('CES?T');
     assert.format('%C', '01', '00', new Date(100, 0, 1));
+    assert.format('%X', '20:51:45', '18:51:45');
+    assert.format('%c', 'Tue Jun 07 20:51:45 2011', 'Tue Jun 07 18:51:45 2011');
     assert.format('%j', '098', '098', new Date(1365390736236));
+    assert.format('%x', '06/07/11');
     ok('Time zones (' + process.env.TZ + ')');
 }
 else {
@@ -127,9 +133,12 @@ var it_IT = {
             D: 'it$%m/%d/%y',
             F: 'it$%Y-%m-%d',
             R: 'it$%H:%M',
-            r: 'it$%I:%M:%S %p',
             T: 'it$%H:%M:%S',
-            v: 'it$%e-%b-%Y'
+            X: '%T',
+            c: '%a %b %d %X %Y',
+            r: 'it$%I:%M:%S %p',
+            v: 'it$%e-%b-%Y',
+            x: '%D'
         }
     };
 
@@ -144,6 +153,7 @@ assert.format_it('%A', 'martedi');
 assert.format_it('%a', 'mar');
 assert.format_it('%B', 'giugno');
 assert.format_it('%b', 'giu');
+assert.format_it('%c', null, 'mar giu 07 it$18:51:45 2011');
 assert.format_it('%D', 'it$06/07/11');
 assert.format_it('%F', 'it$2011-06-07');
 assert.format_it('%p', null, 'it$PM');
@@ -152,6 +162,8 @@ assert.format_it('%R', null, 'it$18:51');
 assert.format_it('%r', null, 'it$06:51:45 it$PM');
 assert.format_it('%T', null, 'it$18:51:45');
 assert.format_it('%v', 'it$7-giu-2011');
+assert.format_it('%x', null, 'it$06/07/11');
+assert.format_it('%X', null, 'it$18:51:45');
 ok('Localization');
 
 
