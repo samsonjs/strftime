@@ -5,7 +5,7 @@
   "ignore": [
     "Readme.md",
     "Makefile",
-    "test/*",
+    "test",
     "*.json"
   ],
   "dependencies": {},
