@@ -279,10 +279,16 @@
     });
   }
 
-  function dateToUTC(d) {
-    var msDelta = (d.getTimezoneOffset() || 0) * 60000;
-    return new Date(d.getTime() + msDelta);
-  }
+    function dateToUTC(d) {
+      return new Date(
+        d.getUTCFullYear(),
+        d.getUTCMonth(),
+        d.getUTCDate(),
+        d.getUTCHours(),
+        d.getUTCMinutes(),
+        d.getUTCSeconds(),
+        d.getUTCMilliseconds());
+    }
 
   var RequiredDateMethods = ['getTime', 'getTimezoneOffset', 'getDay', 'getDate', 'getMonth', 'getFullYear', 'getYear', 'getHours', 'getMinutes', 'getSeconds'];
   function quacksLikeDate(x) {
