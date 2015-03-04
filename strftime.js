@@ -279,10 +279,24 @@
     });
   }
 
-  function dateToUTC(d) {
-    var msDelta = (d.getTimezoneOffset() || 0) * 60000;
-    return new Date(d.getTime() + msDelta);
-  }
+    function dateToUTC(d) {
+      var year = d.getUTCFullYear();
+      var date = new Date(
+        year,
+        d.getUTCMonth(),
+        d.getUTCDate(),
+        d.getUTCHours(),
+        d.getUTCMinutes(),
+        d.getUTCSeconds(),
+        d.getUTCMilliseconds()
+      );
+      // In old dates, years is incorrectly interpreted as a 2-digit year with base 1900.
+      // Correct this by setting the year explicitly after the fuzzy creation process.
+      if (date.getFullYear() != year) {
+        date.setFullYear(year);
+      }
+      return date;
+    }
 
   var RequiredDateMethods = ['getTime', 'getTimezoneOffset', 'getDay', 'getDate', 'getMonth', 'getFullYear', 'getYear', 'getHours', 'getMinutes', 'getSeconds'];
   function quacksLikeDate(x) {

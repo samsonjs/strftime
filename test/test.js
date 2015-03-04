@@ -104,6 +104,7 @@ assert.format('%y', '11')
 assert.format('%Z', null, 'GMT')
 assert.format('%z', null, '+0000')
 assert.format('%%', '%') // any other char
+assert.format('%F %T', null, '1970-01-01 00:00:00', new Date(0))
 ok('GMT')
 
 
