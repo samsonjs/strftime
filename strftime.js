@@ -114,8 +114,8 @@
     // Most of the specifiers supported by C's strftime, and some from Ruby.
     // Some other syntax extensions from Ruby are supported: %-, %_, and %0
     // to pad with nothing, space, or zero (respectively).
-    return fmt.replace(/%([-_0]?.)/g, function(_, c) {
-      var mod, padding;
+    return fmt.replace(/%([-_0:]?.)/g, function(_, c) {
+      var mod, padding, ext;
 
       if (c.length == 2) {
         mod = c[0];
@@ -130,6 +130,9 @@
         // pad with zero
         else if (mod == '0') {
           padding = '0';
+        }
+        else if (mod == ":") {
+          ext = true;
         }
         else {
           // unrecognized, return the format
@@ -267,11 +270,12 @@
         // '+0000'
         case 'z':
           if (options.utc) {
-            return "+0000";
+            return ext ? "+00:00" : "+0000";
           }
           else {
             var off = typeof tz == 'number' ? tz : -d.getTimezoneOffset();
-            return (off < 0 ? '-' : '+') + pad(Math.floor(Math.abs(off) / 60)) + pad(Math.abs(off) % 60);
+            var sep = ext ? ":" : ""; // separator for extended offset
+            return (off < 0 ? '-' : '+') + pad(Math.floor(Math.abs(off) / 60)) + sep + pad(Math.abs(off) % 60);
           }
 
         default: return c;
