@@ -131,7 +131,8 @@
             var resultString = '',
                 padding = null,
                 isInScope = false,
-                length = format.length;
+                length = format.length,
+                extendedTZ = false;
 
             for (var i = 0; i < length; i++) {
 
@@ -152,6 +153,11 @@
                     else if (currentCharCode === 48) {
                         padding = '0';
                         continue;
+                    }
+                    // ':'
+                    else if (currentCharCode === 58) {
+                      extendedTZ = true;
+                      continue;
                     }
 
                     switch (currentCharCode) {
@@ -297,10 +303,10 @@
                             resultString += padTill2(date.getDate(), padding);
                             break;
 
-                        // '01'
+                        // ' 1'
                         // case 'e':
                         case 101:
-                            resultString += date.getDate();
+                            resultString += padTill2(date.getDate(), padding == null ? ' ' : padding);
                             break;
 
                         // 'Jan'
@@ -378,7 +384,7 @@
                             resultString += day === 0 ? 7 : day;
                             break; // 1 - 7, Monday is first day of the week
 
-                        // '1-Jan-1970'
+                        // ' 1-Jan-1970'
                         // case 'v':
                         case 118:
                             resultString += _processFormat(locale.formats.v, date, locale, timestamp);
@@ -406,17 +412,21 @@
                         // case 'z':
                         case 122:
                             if (_useUtcBasedDate && _customTimezoneOffset === 0) {
-                                resultString += "+0000";
+                                resultString += extendedTZ ? "+00:00" : "+0000";
                             }
                             else {
                                 var off;
-                                if(_customTimezoneOffset !== 0) {
+                                if (_customTimezoneOffset !== 0) {
                                     off = _customTimezoneOffset / (60 * 1000);
                                 }
                                 else {
                                     off = -date.getTimezoneOffset();
                                 }
-                                resultString += (off < 0 ? '-' : '+') + padTill2(Math.floor(Math.abs(off / 60))) + padTill2(Math.abs(off % 60));
+                                var sign = off < 0 ? '-' : '+';
+                                var sep = extendedTZ ? ':' : '';
+                                var hours = Math.floor(Math.abs(off / 60));
+                                var mins = Math.abs(off % 60);
+                                resultString += sign + padTill2(hours) + sep + padTill2(mins);
                             }
                             break;
 

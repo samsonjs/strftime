@@ -1,11 +1,11 @@
 {
   "name": "strftime",
-  "version": "0.8.2",
+  "version": "0.8.3",
   "main": "strftime.js",
   "ignore": [
     "Readme.md",
     "Makefile",
-    "test/*",
+    "test",
     "*.json"
   ],
   "dependencies": {},

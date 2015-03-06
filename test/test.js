@@ -74,7 +74,7 @@ assert.format('%d', '07');
 assert.format('%-d', '7');
 assert.format('%_d', ' 7');
 assert.format('%0d', '07');
-assert.format('%e', '7');
+assert.format('%e', ' 7');
 assert.format('%F', '2011-06-07');
 assert.format('%H', null, '18');
 assert.format('%h', 'Jun');
@@ -104,7 +104,7 @@ assert.format('%t', '\t');
 assert.format('%U', '23');
 assert.format('%U', '24', null, new Date(+Time + 5 * 86400000));
 assert.format('%u', '2');
-assert.format('%v', '7-Jun-2011');
+assert.format('%v', ' 7-Jun-2011');
 assert.format('%W', '23');
 assert.format('%W', '23', null, new Date(+Time + 5 * 86400000));
 assert.format('%w', '2');
@@ -112,7 +112,9 @@ assert.format('%Y', '2011');
 assert.format('%y', '11');
 assert.format('%Z', null, 'GMT');
 assert.format('%z', null, '+0000');
+assert.format('%:z', null, '+00:00');
 assert.format('%%', '%'); // any other char
+assert.format('%F %T', null, '1970-01-01 00:00:00', new Date(0));
 ok('GMT');
 
 
@@ -159,7 +161,7 @@ assert.format_it('%P', null, 'it$pm');
 assert.format_it('%R', null, 'it$18:51');
 assert.format_it('%r', null, 'it$06:51:45 it$PM');
 assert.format_it('%T', null, 'it$18:51:45');
-assert.format_it('%v', 'it$7-giu-2011');
+assert.format_it('%v', 'it$ 7-giu-2011');
 assert.format_it('%x', null, 'it$06/07/11');
 assert.format_it('%X', null, 'it$18:51:45');
 ok('Localization');
@@ -178,6 +180,7 @@ assert.formatTZ('%F %r %z', '2011-06-07 08:51:45 PM +0200', '+0200');
 assert.formatTZ('%F %r %z', '2011-06-07 11:51:45 AM -0700', -420);
 assert.formatTZ('%F %r %z', '2011-06-07 11:51:45 AM -0700', '-0700');
 assert.formatTZ('%F %r %z', '2011-06-07 11:21:45 AM -0730', '-0730');
+assert.formatTZ('%F %r %:z', '2011-06-07 11:21:45 AM -07:30', '-0730');
 ok('Time zone offset');
 
 
@@ -224,5 +227,6 @@ function testTimezone(regex) {
         assert.format('%T', T, '18:51:45');
         assert.format('%Z', tz, 'GMT');
         assert.format('%z', sign + '0' + Math.abs(hourDiff) + '00', '+0000');
+        assert.format('%:z', sign + '0' + Math.abs(hourDiff) + ':00', '+00:00');
     }
 }
