@@ -1,14 +1,15 @@
 {
   "name": "strftime",
   "description": "strftime for JavaScript",
-  "version": "0.8.4",
+  "version": "0.9.0",
   "homepage": "http://samhuri.net/proj/strftime",
   "author": "Sami Samhuri <sami@samhuri.net>",
   "contributors": [
     "Sami Samhuri <sami@samhuri.net> (http://samhuri.net)",
     "Andrew Schaaf <andrew@andrewschaaf.com> (http://andrewschaaf.com/)",
     "Rob Colburn <rob@robcolburn.com> (http://robcolburn.com/)",
-    "Ryan Stafford (http://droffats.net/)"
+    "Ryan Stafford (http://droffats.net/)",
+    "Alexandr Nikitin <nikitin.alexandr.a@gmail.com>"
   ],
   "repository": {
     "type": "git",

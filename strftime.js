@@ -3,7 +3,7 @@
 // github.com/samsonjs/strftime
 // @_sjs
 //
-// Copyright 2010 - 2013 Sami Samhuri <sami@samhuri.net>
+// Copyright 2010 - 2015 Sami Samhuri <sami@samhuri.net>
 //
 // MIT License
 // http://sjs.mit-license.org
@@ -11,374 +11,554 @@
 
 ;(function() {
 
-  //// Where to export the API
-  var namespace;
+    //// Where to export the API
+    var namespace,
+        DefaultLocale = {
+            days: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+            shortDays: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+            months: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+            shortMonths: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+            AM: 'AM',
+            PM: 'PM',
+            am: 'am',
+            pm: 'pm',
+            formats: {
+                D: '%m/%d/%y',
+                F: '%Y-%m-%d',
+                R: '%H:%M',
+                T: '%H:%M:%S',
+                X: '%T',
+                c: '%a %b %d %X %Y',
+                r: '%I:%M:%S %p',
+                v: '%e-%b-%Y',
+                x: '%D'
+            }
+        },
+        
+        defaultStrftime = new Strftime(DefaultLocale, 0, false);
 
-  // CommonJS / Node module
-  if (typeof module !== 'undefined') {
-    namespace = module.exports = strftime;
-  }
-
-  // Browsers and other environments
-  else {
-    // Get the global object. Works in ES3, ES5, and ES5 strict mode.
-    namespace = (function(){ return this || (1,eval)('this') }());
-  }
-
-  function words(s) { return (s || '').split(' '); }
-
-  var DefaultLocale =
-  { days: words('Sunday Monday Tuesday Wednesday Thursday Friday Saturday')
-  , shortDays: words('Sun Mon Tue Wed Thu Fri Sat')
-  , months: words('January February March April May June July August September October November December')
-  , shortMonths: words('Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec')
-  , AM: 'AM'
-  , PM: 'PM'
-  , am: 'am'
-  , pm: 'pm'
-  };
-
-  namespace.strftime = strftime;
-  function strftime(fmt, d, locale) {
-    return _strftime(fmt, d, locale);
-  }
-
-  // locale is optional
-  namespace.strftimeTZ = strftime.strftimeTZ = strftimeTZ;
-  function strftimeTZ(fmt, d, locale, timezone) {
-    if ((typeof locale == 'number' || typeof locale == 'string') && timezone == null) {
-      timezone = locale;
-      locale = undefined;
+    // CommonJS / Node module
+    if (typeof module !== 'undefined') {
+        namespace = module.exports = defaultStrftime;
     }
-    return _strftime(fmt, d, locale, { timezone: timezone });
-  }
 
-  namespace.strftimeUTC = strftime.strftimeUTC = strftimeUTC;
-  function strftimeUTC(fmt, d, locale) {
-    return _strftime(fmt, d, locale, { utc: true });
-  }
+    // Browsers and other environments
+    else {
+        // Get the global object. Works in ES3, ES5, and ES5 strict mode.
+        namespace = (function(){ return this || (1,eval)('this'); }());
+    }
 
-  namespace.localizedStrftime = strftime.localizedStrftime = localizedStrftime;
-  function localizedStrftime(locale) {
-    return function(fmt, d, options) {
-      return strftime(fmt, d, locale, options);
+    // Deprecated API, to be removed in v1.0
+    var _deprecationWarnings = {};
+    function deprecationWarning(name, instead) {
+        if (!_deprecationWarnings[name]) {
+            console.warn("[WARNING] `require('strftime')." + name + "` is deprecated and will be removed in version 1.0. Instead, use `" + instead + "`.");
+            _deprecationWarnings[name] = true;
+        }
+    }
+
+    namespace.strftime = function(fmt, d, locale) {
+        deprecationWarning("strftime", "require('strftime')(format, date)` or `require('strftime').localize(locale)(format, date)");
+        var strftime = locale ? defaultStrftime.localize(locale) : defaultStrftime;
+        return strftime(fmt, d);
     };
-  }
-
-  // d, locale, and options are optional, but you can't leave
-  // holes in the argument list. If you pass options you have to pass
-  // in all the preceding args as well.
-  //
-  // options:
-  //   - locale   [object] an object with the same structure as DefaultLocale
-  //   - timezone [number] timezone offset in minutes from GMT
-  function _strftime(fmt, d, locale, options) {
-    options = options || {};
-
-    // d and locale are optional so check if d is really the locale
-    if (d && !quacksLikeDate(d)) {
-      locale = d;
-      d = undefined;
-    }
-    d = d || new Date();
-
-    locale = locale || DefaultLocale;
-    locale.formats = locale.formats || {};
-
-    // Hang on to this Unix timestamp because we might mess with it directly below.
-    var timestamp = d.getTime();
-
-    var tz = options.timezone;
-    var tzType = typeof tz;
-
-    if (options.utc || tzType == 'number' || tzType == 'string') {
-      d = dateToUTC(d);
-    }
-
-    if (tz) {
-      // ISO 8601 format timezone string, [-+]HHMM
-      //
-      // Convert to the number of minutes and it'll be applied to the date below.
-      if (tzType == 'string') {
-        var sign = tz[0] == '-' ? -1 : 1;
-        var hours = parseInt(tz.slice(1, 3), 10);
-        var mins = parseInt(tz.slice(3, 5), 10);
-        tz = sign * ((60 * hours) + mins);
-      }
-
-      if (tzType) {
-        d = new Date(d.getTime() + (tz * 60000));
-      }
-    }
-
-    // Most of the specifiers supported by C's strftime, and some from Ruby.
-    // Some other syntax extensions from Ruby are supported: %-, %_, and %0
-    // to pad with nothing, space, or zero (respectively).
-    return fmt.replace(/%([-_0:]?.)/g, function(_, c) {
-      var mod, padding, ext;
-
-      if (c.length == 2) {
-        mod = c[0];
-        // omit padding
-        if (mod == '-') {
-          padding = '';
+    
+    namespace.strftimeTZ = function(fmt, d, locale, timezone) {
+        deprecationWarning("strftimeTZ", "require('strftime').timezone(tz)(format, date)` or `require('strftime').timezone(tz).localize(locale)(format, date)");
+        if ((typeof locale == 'number' || typeof locale == 'string') && timezone == null) {
+            timezone = locale;
+            locale = undefined;
         }
-        // pad with space
-        else if (mod == '_') {
-          padding = ' ';
+        var strftime = (locale ? defaultStrftime.localize(locale) : defaultStrftime).timezone(timezone);
+        return strftime(fmt, d);
+    };
+
+    namespace.strftimeUTC = function(fmt, d, locale) {
+        deprecationWarning("strftimeUTC", "require('strftime').utc()(format, date)` or `require('strftime').localize(locale).utc()(format, date)");
+        var strftime = (locale ? defaultStrftime.localize(locale) : defaultStrftime).utc();
+        return strftime(fmt, d);
+    };
+
+    namespace.localizedStrftime = function(locale) {
+        deprecationWarning("localizedStrftime", "require('strftime').localize(locale)");
+        return defaultStrftime.localize(locale);
+    };
+    // End of deprecated API
+
+    function Strftime(locale, customTimezoneOffset, useUtcTimezone) {
+        var _locale = locale || DefaultLocale,
+            _customTimezoneOffset = customTimezoneOffset || 0,
+            _useUtcBasedDate = useUtcTimezone || false,
+
+            // we store unix timestamp value here to not create new Date() each iteration (each millisecond)
+            // Date.now() is 2 times faster than new Date()
+            // while millisecond precise is enough here
+            // this could be very helpful when strftime triggered a lot of times one by one
+            _cachedDateTimestamp = 0,
+            _cachedDate;
+
+        function _strftime(format, date) {
+            var timestamp;
+
+            if (!date) {
+                var currentTimestamp = Date.now();
+                if (currentTimestamp > _cachedDateTimestamp) {
+                    _cachedDateTimestamp = currentTimestamp;
+                    _cachedDate = new Date(_cachedDateTimestamp);
+
+                    timestamp = _cachedDateTimestamp;
+
+                    if (_useUtcBasedDate) {
+                        // how to avoid duplication of date instantiation for utc here?
+                        // we tied to getTimezoneOffset of the current date
+                        _cachedDate = new Date(_cachedDateTimestamp + getTimestampToUtcOffsetFor(_cachedDate) + _customTimezoneOffset);
+                    }
+                }
+                date = _cachedDate;
+            }
+            else {
+                timestamp = date.getTime();
+
+                if (_useUtcBasedDate) {
+                    date = new Date(date.getTime() + getTimestampToUtcOffsetFor(date) + _customTimezoneOffset);
+                }
+            }
+
+            return _processFormat(format, date, _locale, timestamp);
         }
-        // pad with zero
-        else if (mod == '0') {
-          padding = '0';
+
+        function _processFormat(format, date, locale, timestamp) {
+            var resultString = '',
+                padding = null,
+                isInScope = false,
+                length = format.length,
+                extendedTZ = false;
+
+            for (var i = 0; i < length; i++) {
+
+                var currentCharCode = format.charCodeAt(i);
+
+                if (isInScope === true) {
+                    // '-'
+                    if (currentCharCode === 45) {
+                        padding = '';
+                        continue;
+                    }
+                    // '_'
+                    else if (currentCharCode === 95) {
+                        padding = ' ';
+                        continue;
+                    }
+                    // '0'
+                    else if (currentCharCode === 48) {
+                        padding = '0';
+                        continue;
+                    }
+                    // ':'
+                    else if (currentCharCode === 58) {
+                      extendedTZ = true;
+                      continue;
+                    }
+
+                    switch (currentCharCode) {
+
+                        // Examples for new Date(0) in GMT
+
+                        // 'Thursday'
+                        // case 'A':
+                        case 65:
+                            resultString += locale.days[date.getDay()];
+                            break;
+
+                        // 'January'
+                        // case 'B':
+                        case 66:
+                            resultString += locale.months[date.getMonth()];
+                            break;
+
+                        // '19'
+                        // case 'C':
+                        case 67:
+                            resultString += padTill2(Math.floor(date.getFullYear() / 100), padding);
+                            break;
+
+                        // '01/01/70'
+                        // case 'D':
+                        case 68:
+                            resultString += _processFormat(locale.formats.D, date, locale, timestamp);
+                            break;
+
+                        // '1970-01-01'
+                        // case 'F':
+                        case 70:
+                            resultString += _processFormat(locale.formats.F, date, locale, timestamp);
+                            break;
+
+                        // '00'
+                        // case 'H':
+                        case 72:
+                            resultString += padTill2(date.getHours(), padding);
+                            break;
+
+                        // '12'
+                        // case 'I':
+                        case 73:
+                            resultString += padTill2(hours12(date.getHours()), padding);
+                            break;
+
+                        // '000'
+                        // case 'L':
+                        case 76:
+                            resultString += padTill3(Math.floor(timestamp % 1000));
+                            break;
+
+                        // '00'
+                        // case 'M':
+                        case 77:
+                            resultString += padTill2(date.getMinutes(), padding);
+                            break;
+
+                        // 'am'
+                        // case 'P':
+                        case 80:
+                            resultString += date.getHours() < 12 ? locale.am : locale.pm;
+                            break;
+
+                        // '00:00'
+                        // case 'R':
+                        case 82:
+                            resultString += _processFormat(locale.formats.R, date, locale, timestamp);
+                            break;
+
+                        // '00'
+                        // case 'S':
+                        case 83:
+                            resultString += padTill2(date.getSeconds(), padding);
+                            break;
+
+                        // '00:00:00'
+                        // case 'T':
+                        case 84:
+                            resultString += _processFormat(locale.formats.T, date, locale, timestamp);
+                            break;
+
+                        // '00'
+                        // case 'U':
+                        case 85:
+                            resultString += padTill2(weekNumber(date, 'sunday'), padding);
+                            break;
+
+                        // '00'
+                        // case 'W':
+                        case 87:
+                            resultString += padTill2(weekNumber(date, 'monday'), padding);
+                            break;
+
+                        // '16:00:00'
+                        // case 'X':
+                        case 88:
+                            resultString += _processFormat(locale.formats.X, date, locale, timestamp);
+                            break;
+
+                        // '1970'
+                        // case 'Y':
+                        case 89:
+                            resultString += date.getFullYear();
+                            break;
+
+                        // 'GMT'
+                        // case 'Z':
+                        case 90:
+                            if (_useUtcBasedDate && _customTimezoneOffset === 0) {
+                                resultString += "GMT";
+                            }
+                            else {
+                                // fixme optimize
+                                var tzString = date.toString().match(/\((\w+)\)/);
+                                resultString += tzString && tzString[1] || '';
+                            }
+                            break;
+
+                        // 'Thu'
+                        // case 'a':
+                        case 97:
+                            resultString += locale.shortDays[date.getDay()];
+                            break;
+
+                        // 'Jan'
+                        // case 'b':
+                        case 98:
+                            resultString += locale.shortMonths[date.getMonth()];
+                            break;
+
+                        // ''
+                        // case 'c':
+                        case 99:
+                            resultString += _processFormat(locale.formats.c, date, locale, timestamp);
+                            break;
+
+                        // '01'
+                        // case 'd':
+                        case 100:
+                            resultString += padTill2(date.getDate(), padding);
+                            break;
+
+                        // ' 1'
+                        // case 'e':
+                        case 101:
+                            resultString += padTill2(date.getDate(), padding == null ? ' ' : padding);
+                            break;
+
+                        // 'Jan'
+                        // case 'h':
+                        case 104:
+                            resultString += locale.shortMonths[date.getMonth()];
+                            break;
+
+                        // '000'
+                        // case 'j':
+                        case 106:
+                            var y = new Date(date.getFullYear(), 0, 1);
+                            var day = Math.ceil((date.getTime() - y.getTime()) / (1000 * 60 * 60 * 24));
+                            resultString += padTill3(day);
+                            break;
+
+                        // ' 0'
+                        // case 'k':
+                        case 107:
+                            resultString += padTill2(date.getHours(), padding == null ? ' ' : padding);
+                            break;
+
+                        // '12'
+                        // case 'l':
+                        case 108:
+                            resultString += padTill2(hours12(date.getHours()), padding == null ? ' ' : padding);
+                            break;
+
+                        // '01'
+                        // case 'm':
+                        case 109:
+                            resultString += padTill2(date.getMonth() + 1, padding);
+                            break;
+
+                        // '\n'
+                        // case 'n':
+                        case 110:
+                            resultString += '\n';
+                            break;
+
+                        // '1st'
+                        // case 'o':
+                        case 111:
+                            resultString += String(date.getDate()) + ordinal(date.getDate());
+                            break;
+
+                        // 'AM'
+                        // case 'p':
+                        case 112:
+                            resultString += date.getHours() < 12 ? locale.AM : locale.PM;
+                            break;
+
+                        // '12:00:00 AM'
+                        // case 'r':
+                        case 114:
+                            resultString += _processFormat(locale.formats.r, date, locale, timestamp);
+                            break;
+
+                        // '0'
+                        // case 's':
+                        case 115:
+                            resultString += Math.floor(timestamp / 1000);
+                            break;
+
+                        // '\t'
+                        // case 't':
+                        case 116:
+                            resultString += '\t';
+                            break;
+
+                        // '4'
+                        // case 'u':
+                        case 117:
+                            var day = date.getDay();
+                            resultString += day === 0 ? 7 : day;
+                            break; // 1 - 7, Monday is first day of the week
+
+                        // ' 1-Jan-1970'
+                        // case 'v':
+                        case 118:
+                            resultString += _processFormat(locale.formats.v, date, locale, timestamp);
+                            break;
+
+                        // '4'
+                        // case 'w':
+                        case 119:
+                            resultString += date.getDay();
+                            break; // 0 - 6, Sunday is first day of the week
+
+                        // '12/31/69'
+                        // case 'x':
+                        case 120:
+                            resultString += _processFormat(locale.formats.x, date, locale, timestamp);
+                            break;
+
+                        // '70'
+                        // case 'y':
+                        case 121:
+                            resultString += ('' + date.getFullYear()).slice(2);
+                            break;
+
+                        // '+0000'
+                        // case 'z':
+                        case 122:
+                            if (_useUtcBasedDate && _customTimezoneOffset === 0) {
+                                resultString += extendedTZ ? "+00:00" : "+0000";
+                            }
+                            else {
+                                var off;
+                                if (_customTimezoneOffset !== 0) {
+                                    off = _customTimezoneOffset / (60 * 1000);
+                                }
+                                else {
+                                    off = -date.getTimezoneOffset();
+                                }
+                                var sign = off < 0 ? '-' : '+';
+                                var sep = extendedTZ ? ':' : '';
+                                var hours = Math.floor(Math.abs(off / 60));
+                                var mins = Math.abs(off % 60);
+                                resultString += sign + padTill2(hours) + sep + padTill2(mins);
+                            }
+                            break;
+
+                        default:
+                            resultString += format[i];
+                            break;
+                    }
+
+                    padding = null;
+                    isInScope = false;
+                    continue;
+                }
+
+                // '%'
+                if (currentCharCode === 37) {
+                    isInScope = true;
+                    continue;
+                }
+
+                resultString += format[i];
+            }
+
+            return resultString;
         }
-        else if (mod == ":") {
-          ext = true;
+
+        var strftime = _strftime;
+
+        strftime.localize = function(locale) {
+            return new Strftime(locale || _locale, _customTimezoneOffset, _useUtcBasedDate);
+        };
+
+        strftime.timezone = function(timezone) {
+            var customTimezoneOffset = _customTimezoneOffset;
+            var useUtcBasedDate = _useUtcBasedDate;
+
+            var timezoneType = typeof timezone;
+            if (timezoneType === 'number' || timezoneType === 'string') {
+                useUtcBasedDate = true;
+
+                // ISO 8601 format timezone string, [-+]HHMM
+                if (timezoneType === 'string') {
+                    var sign = timezone[0] === '-' ? -1 : 1,
+                        hours = parseInt(timezone.slice(1, 3), 10),
+                        minutes = parseInt(timezone.slice(3, 5), 10);
+
+                    customTimezoneOffset = sign * ((60 * hours) + minutes) * 60 * 1000;
+                    // in minutes: 420
+                }
+                else if (timezoneType === 'number') {
+                    customTimezoneOffset = timezone * 60 * 1000;
+                }
+            }
+
+            return new Strftime(_locale, customTimezoneOffset, useUtcBasedDate);
+        };
+
+        strftime.utc = function() {
+            return new Strftime(_locale, _customTimezoneOffset, true);
+        };
+
+        return strftime;
+    }
+
+    function padTill2(numberToPad, paddingChar) {
+        if (paddingChar === '' || numberToPad > 9) {
+            return numberToPad;
         }
-        else {
-          // unrecognized, return the format
-          return _;
+        if (paddingChar == null) {
+            paddingChar = '0';
         }
-        c = c[1];
-      }
-
-      switch (c) {
-
-        // Examples for new Date(0) in GMT
-
-        // 'Thursday'
-        case 'A': return locale.days[d.getDay()];
-
-        // 'Thu'
-        case 'a': return locale.shortDays[d.getDay()];
-
-        // 'January'
-        case 'B': return locale.months[d.getMonth()];
-
-        // 'Jan'
-        case 'b': return locale.shortMonths[d.getMonth()];
-
-        // '19'
-        case 'C': return pad(Math.floor(d.getFullYear() / 100), padding);
-
-        // '01/01/70'
-        case 'D': return _strftime(locale.formats.D || '%m/%d/%y', d, locale);
-
-        // '01'
-        case 'd': return pad(d.getDate(), padding);
-
-        // '01'
-        case 'e': return pad(d.getDate(), padding == null ? ' ' : padding);
-
-        // '1970-01-01'
-        case 'F': return _strftime(locale.formats.F || '%Y-%m-%d', d, locale);
-
-        // '00'
-        case 'H': return pad(d.getHours(), padding);
-
-        // 'Jan'
-        case 'h': return locale.shortMonths[d.getMonth()];
-
-        // '12'
-        case 'I': return pad(hours12(d), padding);
-
-        // '000'
-        case 'j':
-          var y = new Date(d.getFullYear(), 0, 1);
-          var day = Math.ceil((d.getTime() - y.getTime()) / (1000 * 60 * 60 * 24));
-          return pad(day, 3);
-
-        // ' 0'
-        case 'k': return pad(d.getHours(), padding == null ? ' ' : padding);
-
-        // '000'
-        case 'L': return pad(Math.floor(timestamp % 1000), 3);
-
-        // '12'
-        case 'l': return pad(hours12(d), padding == null ? ' ' : padding);
-
-        // '00'
-        case 'M': return pad(d.getMinutes(), padding);
-
-        // '01'
-        case 'm': return pad(d.getMonth() + 1, padding);
-
-        // '\n'
-        case 'n': return '\n';
-
-        // '1st'
-        case 'o': return String(d.getDate()) + ordinal(d.getDate());
-
-        // 'am'
-        case 'P': return d.getHours() < 12 ? locale.am : locale.pm;
-
-        // 'AM'
-        case 'p': return d.getHours() < 12 ? locale.AM : locale.PM;
-
-        // '00:00'
-        case 'R': return _strftime(locale.formats.R || '%H:%M', d, locale);
-
-        // '12:00:00 AM'
-        case 'r': return _strftime(locale.formats.r || '%I:%M:%S %p', d, locale);
-
-        // '00'
-        case 'S': return pad(d.getSeconds(), padding);
-
-        // '0'
-        case 's': return Math.floor(timestamp / 1000);
-
-        // '00:00:00'
-        case 'T': return _strftime(locale.formats.T || '%H:%M:%S', d, locale);
-
-        // '\t'
-        case 't': return '\t';
-
-        // '00'
-        case 'U': return pad(weekNumber(d, 'sunday'), padding);
-
-        // '4'
-        case 'u':
-          var day = d.getDay();
-          return day == 0 ? 7 : day; // 1 - 7, Monday is first day of the week
-
-        // ' 1-Jan-1970'
-        case 'v': return _strftime(locale.formats.v || '%e-%b-%Y', d, locale);
-
-        // '00'
-        case 'W': return pad(weekNumber(d, 'monday'), padding);
-
-        // '4'
-        case 'w': return d.getDay(); // 0 - 6, Sunday is first day of the week
-
-        // '1970'
-        case 'Y': return d.getFullYear();
-
-        // '70'
-        case 'y':
-          var y = String(d.getFullYear());
-          return y.slice(y.length - 2);
-
-        // 'GMT'
-        case 'Z':
-          if (options.utc) {
-            return "GMT";
-          }
-          else {
-            var tzString = d.toString().match(/\(([\w\s]+)\)/);
-            return tzString && tzString[1] || '';
-          }
-
-        // '+0000'
-        case 'z':
-          if (options.utc) {
-            return ext ? "+00:00" : "+0000";
-          }
-          else {
-            var off = typeof tz == 'number' ? tz : -d.getTimezoneOffset();
-            var sep = ext ? ":" : ""; // separator for extended offset
-            return (off < 0 ? '-' : '+') + pad(Math.floor(Math.abs(off) / 60)) + sep + pad(Math.abs(off) % 60);
-          }
-
-        default: return c;
-      }
-    });
-  }
-
-    function dateToUTC(d) {
-      var year = d.getUTCFullYear();
-      var date = new Date(
-        year,
-        d.getUTCMonth(),
-        d.getUTCDate(),
-        d.getUTCHours(),
-        d.getUTCMinutes(),
-        d.getUTCSeconds(),
-        d.getUTCMilliseconds()
-      );
-      // In old dates, years is incorrectly interpreted as a 2-digit year with base 1900.
-      // Correct this by setting the year explicitly after the fuzzy creation process.
-      if (date.getFullYear() != year) {
-        date.setFullYear(year);
-      }
-      return date;
+        return paddingChar + numberToPad;
     }
 
-  var RequiredDateMethods = ['getTime', 'getTimezoneOffset', 'getDay', 'getDate', 'getMonth', 'getFullYear', 'getYear', 'getHours', 'getMinutes', 'getSeconds'];
-  function quacksLikeDate(x) {
-    var i = 0
-      , n = RequiredDateMethods.length
-      ;
-    for (i = 0; i < n; ++i) {
-      if (typeof x[RequiredDateMethods[i]] != 'function') {
-        return false;
-      }
-    }
-    return true;
-  }
-
-  // Default padding is '0' and default length is 2, both are optional.
-  function pad(n, padding, length) {
-    // pad(n, <length>)
-    if (typeof padding === 'number') {
-      length = padding;
-      padding = '0';
+    function padTill3(numberToPad) {
+        if (numberToPad > 99) {
+            return numberToPad;
+        }
+        if (numberToPad > 9) {
+            return '0' + numberToPad;
+        }
+        return '00' + numberToPad;
     }
 
-    // Defaults handle pad(n) and pad(n, <padding>)
-    if (padding == null) {
-      padding = '0';
+    function hours12(hour) {
+        if (hour === 0) {
+            return 12;
+        }
+        else if (hour > 12) {
+            return hour - 12;
+        }
+        return hour;
     }
-    length = length || 2;
 
-    var s = String(n);
-    // padding may be an empty string, don't loop forever if it is
-    if (padding) {
-      while (s.length < length) s = padding + s;
+    // firstWeekday: 'sunday' or 'monday', default is 'sunday'
+    //
+    // Pilfered & ported from Ruby's strftime implementation.
+    function weekNumber(date, firstWeekday) {
+        firstWeekday = firstWeekday || 'sunday';
+
+        // This works by shifting the weekday back by one day if we
+        // are treating Monday as the first day of the week.
+        var weekday = date.getDay();
+        if (firstWeekday === 'monday') {
+            if (weekday === 0) // Sunday
+                weekday = 6;
+            else
+                weekday--;
+        }
+        var firstDayOfYear = new Date(date.getFullYear(), 0, 1),
+            yday = (date - firstDayOfYear) / 86400000,
+            weekNum = (yday + 7 - weekday) / 7;
+
+        return Math.floor(weekNum);
     }
-    return s;
-  }
 
-  function hours12(d) {
-    var hour = d.getHours();
-    if (hour == 0) hour = 12;
-    else if (hour > 12) hour -= 12;
-    return hour;
-  }
+    // Get the ordinal suffix for a number: st, nd, rd, or th
+    function ordinal(number) {
+        var i = number % 10;
+        var ii = number % 100;
 
-  // Get the ordinal suffix for a number: st, nd, rd, or th
-  function ordinal(n) {
-    var i = n % 10
-      , ii = n % 100
-      ;
-    if ((ii >= 11 && ii <= 13) || i === 0 || i >= 4) {
-      return 'th';
+        if ((ii >= 11 && ii <= 13) || i === 0 || i >= 4) {
+            return 'th';
+        }
+        switch (i) {
+            case 1: return 'st';
+            case 2: return 'nd';
+            case 3: return 'rd';
+        }
     }
-    switch (i) {
-      case 1: return 'st';
-      case 2: return 'nd';
-      case 3: return 'rd';
-    }
-  }
 
-  // firstWeekday: 'sunday' or 'monday', default is 'sunday'
-  //
-  // Pilfered & ported from Ruby's strftime implementation.
-  function weekNumber(d, firstWeekday) {
-    firstWeekday = firstWeekday || 'sunday';
-
-    // This works by shifting the weekday back by one day if we
-    // are treating Monday as the first day of the week.
-    var wday = d.getDay();
-    if (firstWeekday == 'monday') {
-      if (wday == 0) // Sunday
-        wday = 6;
-      else
-        wday--;
+    function getTimestampToUtcOffsetFor(date) {
+        return (date.getTimezoneOffset() || 0) * 60000;
     }
-    var firstDayOfYear = new Date(d.getFullYear(), 0, 1)
-      , yday = (d - firstDayOfYear) / 86400000
-      , weekNum = (yday + 7 - wday) / 7
-      ;
-    return Math.floor(weekNum);
-  }
 
 }());
