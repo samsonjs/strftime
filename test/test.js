@@ -103,6 +103,7 @@ assert.format('%Y', '2011')
 assert.format('%y', '11')
 assert.format('%Z', null, 'GMT')
 assert.format('%z', null, '+0000')
+assert.format('%:z', null, '+00:00')
 assert.format('%%', '%') // any other char
 assert.format('%F %T', null, '1970-01-01 00:00:00', new Date(0))
 ok('GMT')
@@ -175,6 +176,7 @@ assert.formatTZ('%F %r %z', '2011-06-07 08:51:45 PM +0200', '+0200')
 assert.formatTZ('%F %r %z', '2011-06-07 11:51:45 AM -0700', -420)
 assert.formatTZ('%F %r %z', '2011-06-07 11:51:45 AM -0700', '-0700')
 assert.formatTZ('%F %r %z', '2011-06-07 11:21:45 AM -0730', '-0730')
+assert.formatTZ('%F %r %:z', '2011-06-07 11:21:45 AM -07:30', '-0730')
 ok('Time zone offset')
 
 
@@ -221,5 +223,6 @@ function testTimezone(regex) {
     assert.format('%T', T, '18:51:45')
     assert.format('%Z', tz, 'GMT')
     assert.format('%z', sign + '0' + Math.abs(hourDiff) + '00', '+0000')
+    assert.format('%:z', sign + '0' + Math.abs(hourDiff) + ':00', '+00:00')
   }
 }
