@@ -11,9 +11,7 @@
 
 ;(function() {
 
-    //// Where to export the API
-    var namespace,
-        DefaultLocale = {
+    var DefaultLocale = {
             days: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
             shortDays: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
             months: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
@@ -34,53 +32,96 @@
                 x: '%D'
             }
         },
-        
-        defaultStrftime = new Strftime(DefaultLocale, 0, false);
+        defaultStrftime = new Strftime(DefaultLocale, 0, false),
+        isCommonJS = typeof module !== 'undefined',
+        namespace;
 
     // CommonJS / Node module
-    if (typeof module !== 'undefined') {
-        namespace = module.exports = defaultStrftime;
+    if (isCommonJS) {
+        namespace = module.exports = adaptedStrftime;
+        namespace.strftime = deprecatedStrftime;
     }
-
     // Browsers and other environments
     else {
         // Get the global object. Works in ES3, ES5, and ES5 strict mode.
         namespace = (function() { return this || (1,eval)('this'); }());
+        namespace.strftime = adaptedStrftime;
     }
 
     // Deprecated API, to be removed in v1.0
+    var _require = isCommonJS ? "require('strftime')" : "strftime";
     var _deprecationWarnings = {};
     function deprecationWarning(name, instead) {
         if (!_deprecationWarnings[name]) {
-            console.warn("[WARNING] `require('strftime')." + name + "` is deprecated and will be removed in version 1.0. Instead, use `" + instead + "`.");
+            if (typeof console !== 'undefined' && typeof console.warn == 'function') {
+                console.warn("[WARNING] " + name + " is deprecated and will be removed in version 1.0. Instead, use `" + instead + "`.");
+            }
             _deprecationWarnings[name] = true;
         }
     }
 
-    namespace.strftime = function(fmt, d, locale) {
-        deprecationWarning("strftime", "require('strftime')(format, date)` or `require('strftime').localize(locale)(format, date)");
+    namespace.strftimeTZ = deprecatedStrftimeTZ;
+    namespace.strftimeUTC = deprecatedStrftimeUTC;
+    namespace.localizedStrftime = deprecatedStrftimeLocalized;
+
+    // Adapt the old API while preserving the new API.
+    function adaptForwards(fn) {
+        fn.localize = defaultStrftime.localize.bind(defaultStrftime);
+        fn.timezone = defaultStrftime.timezone.bind(defaultStrftime);
+        fn.utc = defaultStrftime.utc.bind(defaultStrftime);
+    }
+
+    adaptForwards(adaptedStrftime);
+    function adaptedStrftime(fmt, d, locale) {
+        if (locale) {
+            deprecationWarning("`" + _require + "(format, date, locale)`", _require + ".localize(locale)(format, [date])");
+        }
         var strftime = locale ? defaultStrftime.localize(locale) : defaultStrftime;
         return strftime(fmt, d);
-    };
-    
-    namespace.strftimeTZ = function(fmt, d, locale, timezone) {
-        deprecationWarning("strftimeTZ", "require('strftime').timezone(tz)(format, date)` or `require('strftime').timezone(tz).localize(locale)(format, date)");
+    }
+
+    adaptForwards(deprecatedStrftime);
+    function deprecatedStrftime(fmt, d, locale) {
+        if (locale) {
+            deprecationWarning("`" + _require + ".strftime(format, date, locale)`", _require + ".localize(locale)(format, [date])");
+        }
+        else {
+            deprecationWarning("`" + _require + ".strftime(format, [date])`", _require + "(format, [date])");
+        }
+        var strftime = locale ? defaultStrftime.localize(locale) : defaultStrftime;
+        return strftime(fmt, d);
+    }
+
+    function deprecatedStrftimeTZ(fmt, d, locale, timezone) {
         if ((typeof locale == 'number' || typeof locale == 'string') && timezone == null) {
             timezone = locale;
             locale = undefined;
         }
-        var strftime = (locale ? defaultStrftime.localize(locale) : defaultStrftime).timezone(timezone);
+
+        if (locale) {
+            deprecationWarning("`" + _require + ".strftimeTZ(format, date, locale, tz)`", _require + ".timezone(tz).localize(locale)(format, [date])");
+        }
+        else {
+            deprecationWarning("`" + _require + ".strftimeTZ(format, date, tz)`", _require + ".timezone(tz)(format, [date])");
+        }
+
+        var strftime = (locale ? defaultStrftime.timezone(timezone).localize(locale) : defaultStrftime).timezone(timezone);
         return strftime(fmt, d);
     };
 
-    namespace.strftimeUTC = function(fmt, d, locale) {
-        deprecationWarning("strftimeUTC", "require('strftime').utc()(format, date)` or `require('strftime').localize(locale).utc()(format, date)");
-        var strftime = (locale ? defaultStrftime.localize(locale) : defaultStrftime).utc();
+    function deprecatedStrftimeUTC(fmt, d, locale) {
+        if (locale) {
+            deprecationWarning("`" + _require + ".strftimeUTC(format, date, locale)`", _require + ".localize(locale).utc()(format, [date])");
+        }
+        else {
+            deprecationWarning("`" + _require + ".strftimeUTC(format, [date])`", _require + ".utc()(format, [date])");
+        }
+        var strftime = (locale ? defaultStrftime.utc().localize(locale) : defaultStrftime).utc();
         return strftime(fmt, d);
     };
 
-    namespace.localizedStrftime = function(locale) {
-        deprecationWarning("localizedStrftime", "require('strftime').localize(locale)");
+    function deprecatedStrftimeLocalized(locale) {
+        deprecationWarning("`" + _require + ".localizedStrftime(locale)`", _require + ".localize(locale)");
         return defaultStrftime.localize(locale);
     };
     // End of deprecated API
