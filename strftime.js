@@ -45,7 +45,7 @@
     // Browsers and other environments
     else {
         // Get the global object. Works in ES3, ES5, and ES5 strict mode.
-        namespace = (function(){ return this || (1,eval)('this'); }());
+        namespace = (function() { return this || (1,eval)('this'); }());
     }
 
     // Deprecated API, to be removed in v1.0
