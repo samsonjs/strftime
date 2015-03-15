@@ -135,15 +135,9 @@ e.g. `%q` becomes `q`. Use `%%` to get a literal `%` sign.
      of UTC and a minus sign for those west of UTC, hours and minutes follow each
      padded to 2 digits and with no delimiter between them
 
-For more detail see `man 3 strftime` as the format specifiers should behave
-identically. If behaviour differs please [file a bug](https://github.com/samsonjs/strftime/issues/new).
+For more detail see `man 3 strftime` as the format specifiers should behave identically. If behaviour differs please [file a bug](https://github.com/samsonjs/strftime/issues/new).
 
-Any specifier can be modified with `-`, `_`, `0`, or `:` as well, as in Ruby.
-Using `%-` will omit any leading zeroes or spaces, `%_` will force spaces
-for padding instead of the default, and `%0` will force zeroes for padding.
-There's some redundancy here as `%-d` and `%e` have the same result, but it
-solves some awkwardness with formats like `%l`. Using `%:` for time zone offset,
-as in `%:z` will insert a colon as a delimiter.
+Any specifier can be modified with `-`, `_`, `0`, or `:` as well, as in Ruby. Using `%-` will omit any leading zeroes or spaces, `%_` will force spaces for padding instead of the default, and `%0` will force zeroes for padding. There's some redundancy here as `%-d` and `%e` have the same result, but it solves some awkwardness with formats like `%l`. Using `%:` for time zone offset, as in `%:z` will insert a colon as a delimiter.
 
 Contributors
 ============

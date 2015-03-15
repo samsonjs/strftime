@@ -79,7 +79,7 @@
             d = undefined;
         }
         if (locale) {
-            deprecationWarning("`" + _require + "(format, [date], [locale])`", _require + ".localize(locale)(format, [date])");
+            deprecationWarning("`" + _require + "(format, [date], [locale])`", "var s = " + _require + ".localize(locale); s(format, [date])");
         }
         var strftime = locale ? defaultStrftime.localize(locale) : defaultStrftime;
         return strftime(fmt, d);
@@ -88,7 +88,7 @@
     adaptForwards(deprecatedStrftime);
     function deprecatedStrftime(fmt, d, locale) {
         if (locale) {
-            deprecationWarning("`" + _require + ".strftime(format, [date], [locale])`", _require + ".localize(locale)(format, [date])");
+            deprecationWarning("`" + _require + ".strftime(format, [date], [locale])`", "var s = " + _require + ".localize(locale); s(format, [date])");
         }
         else {
             deprecationWarning("`" + _require + ".strftime(format, [date])`", _require + "(format, [date])");
@@ -105,10 +105,10 @@
         }
 
         if (locale) {
-            deprecationWarning("`" + _require + ".strftimeTZ(format, date, locale, tz)`", _require + ".timezone(tz).localize(locale)(format, [date])");
+            deprecationWarning("`" + _require + ".strftimeTZ(format, date, locale, tz)`", "var s = " + _require + ".localize(locale).timezone(tz); s(format, [date])` or `var s = " + _require + ".localize(locale); s.timezone(tz)(format, [date])");
         }
         else {
-            deprecationWarning("`" + _require + ".strftimeTZ(format, date, tz)`", _require + ".timezone(tz)(format, [date])");
+            deprecationWarning("`" + _require + ".strftimeTZ(format, date, tz)`", "var s = " + _require + ".timezone(tz); s(format, [date])` or `" + _require + ".timezone(tz)(format, [date])");
         }
 
         var strftime = (locale ? defaultStrftime.localize(locale) : defaultStrftime).timezone(timezone);
@@ -118,10 +118,10 @@
     var utcStrftime = defaultStrftime.utc();
     function deprecatedStrftimeUTC(fmt, d, locale) {
         if (locale) {
-            deprecationWarning("`" + _require + ".strftimeUTC(format, date, locale)`", _require + ".localize(locale).utc()(format, [date])");
+            deprecationWarning("`" + _require + ".strftimeUTC(format, date, locale)`", "var s = " + _require + ".localize(locale).utc(); s(format, [date])");
         }
         else {
-            deprecationWarning("`" + _require + ".strftimeUTC(format, [date])`", _require + ".utc()(format, [date])");
+            deprecationWarning("`" + _require + ".strftimeUTC(format, [date])`", "var s = " + _require + ".utc(); s(format, [date])");
         }
         var strftime = locale ? utcStrftime.localize(locale) : utcStrftime;
         return strftime(fmt, d);
