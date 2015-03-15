@@ -85,6 +85,13 @@
     };
     // End of deprecated API
 
+    // Polyfill Date.now for old browsers.
+    if (typeof Date.now !== 'function') {
+        Date.now = function() {
+          return +new Date();
+        };
+    }
+
     function Strftime(locale, customTimezoneOffset, useUtcTimezone) {
         var _locale = locale || DefaultLocale,
             _customTimezoneOffset = customTimezoneOffset || 0,
