@@ -1,16 +1,25 @@
 strftime
 ========
 
-strftime for JavaScript, works in Node.js and browsers, supports localization.
-Most standard specifiers from C are supported as well as some other extensions
-from Ruby.
+strftime for JavaScript. Works in (at least) node.js and browsers. Supports localization and timezones. Most standard specifiers from C are supported as well as some other extensions from Ruby.
 
 
 Installation
 ============
 
+[node](https://nodejs.org):
+
     npm install strftime
 
+[bower](http://bower.io):
+
+    bower install strftime
+
+[component](https://github.com/componentjs/component):
+
+    component install samsonjs/strftime
+
+Or you can copy [strftime.js](https://github.com/samsonjs/strftime/blob/master/strftime.js) wherever you want to use it, whether that's with a &lt;script&gt; tag or `require` or anything else.
 
 The New API in 0.9
 ==================
