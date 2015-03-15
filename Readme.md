@@ -15,7 +15,7 @@ Installation
 The New API in 0.9
 ==================
 
-The current version, 0.9, deprecates the older API that exported several functions: `strftimeTZ`, `strftimeUTC`, and `localizedStrftime`. In addition to this the exported function referenced itself as `require('strftime').strftime` for consistency with the other functions. *These functions are deprecated in 0.9 and will be removed in 1.0.*
+The current version, 0.9, deprecates the older API that exported several functions: `strftimeTZ`, `strftimeUTC`, and `localizedStrftime`. In addition to this the exported function referenced itself as `require('strftime').strftime` or `window.strftime.strftime` for consistency with the other functions. *These functions are deprecated in 0.9 and will be removed in 1.0.*
 
 Now you only need the single object exported and you can create a specialized version of it using the functions `utc()`, `localize(locale)`, and `timezone(offset)`. You can no longer pass in a timezone or locale on each call to `strftime` which is a regression. If you need this let me know and we will add it back into the API.
 
@@ -23,14 +23,14 @@ Now you only need the single object exported and you can create a specialized ve
 Usage
 =====
 
-    var strftime = require('strftime')
+    var strftime = require('strftime') // not required in browsers
     console.log(strftime('%B %d, %Y %H:%M:%S')) // => April 28, 2011 18:21:08
     console.log(strftime('%F %T', new Date(1307472705067))) // => 2011-06-07 18:51:45
 
 
 If you want to localize it:
 
-    var strftime = require('strftime')
+    var strftime = require('strftime') // not required in browsers
     var it_IT = {
         days: ['domenica', 'lunedi', 'martedi', 'mercoledi', 'giovedi', 'venerdi', 'sabato'],
         shortDays: ['dom', 'lun', 'mar', 'mer', 'gio', 'ven', 'sab'],
@@ -59,7 +59,7 @@ If you want to localize it:
 
 Time zones can be passed in as an offset from GMT in minutes.
 
-    var strftime = require('strftime')
+    var strftime = require('strftime') // not required in browsers
     var strftimePDT = strftime.timezone(-420)
     var strftimeCEST = strftime.timezone(120)
     console.log(strftimePDT('%B %d, %y %H:%M:%S', new Date(1307472705067))) // => June 07, 11 11:51:45
@@ -68,7 +68,7 @@ Time zones can be passed in as an offset from GMT in minutes.
 
 Alternatively you can use the timezone format used by ISO 8601, `+HHMM` or `-HHMM`.
 
-    var strftime = require('strftime')
+    var strftime = require('strftime') // not required in browsers
     var strftimePDT = strftime.timezone('-0700')
     var strftimeCEST = strftime.timezone('+0200')
     console.log(strftimePDT('', new Date(1307472705067))) // => June 07, 11 11:51:45
