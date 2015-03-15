@@ -73,8 +73,13 @@
 
     adaptForwards(adaptedStrftime);
     function adaptedStrftime(fmt, d, locale) {
+        // d and locale are optional, check if this is (format, locale)
+        if (d && d.days) {
+            locale = d;
+            d = undefined;
+        }
         if (locale) {
-            deprecationWarning("`" + _require + "(format, date, locale)`", _require + ".localize(locale)(format, [date])");
+            deprecationWarning("`" + _require + "(format, [date], [locale])`", _require + ".localize(locale)(format, [date])");
         }
         var strftime = locale ? defaultStrftime.localize(locale) : defaultStrftime;
         return strftime(fmt, d);
@@ -83,7 +88,7 @@
     adaptForwards(deprecatedStrftime);
     function deprecatedStrftime(fmt, d, locale) {
         if (locale) {
-            deprecationWarning("`" + _require + ".strftime(format, date, locale)`", _require + ".localize(locale)(format, [date])");
+            deprecationWarning("`" + _require + ".strftime(format, [date], [locale])`", _require + ".localize(locale)(format, [date])");
         }
         else {
             deprecationWarning("`" + _require + ".strftime(format, [date])`", _require + "(format, [date])");
@@ -93,6 +98,7 @@
     }
 
     function deprecatedStrftimeTZ(fmt, d, locale, timezone) {
+        // locale is optional, check if this is (format, date, timezone)
         if ((typeof locale == 'number' || typeof locale == 'string') && timezone == null) {
             timezone = locale;
             locale = undefined;
@@ -105,10 +111,11 @@
             deprecationWarning("`" + _require + ".strftimeTZ(format, date, tz)`", _require + ".timezone(tz)(format, [date])");
         }
 
-        var strftime = (locale ? defaultStrftime.timezone(timezone).localize(locale) : defaultStrftime).timezone(timezone);
+        var strftime = (locale ? defaultStrftime.localize(locale) : defaultStrftime).timezone(timezone);
         return strftime(fmt, d);
     };
 
+    var utcStrftime = defaultStrftime.utc();
     function deprecatedStrftimeUTC(fmt, d, locale) {
         if (locale) {
             deprecationWarning("`" + _require + ".strftimeUTC(format, date, locale)`", _require + ".localize(locale).utc()(format, [date])");
@@ -116,7 +123,7 @@
         else {
             deprecationWarning("`" + _require + ".strftimeUTC(format, [date])`", _require + ".utc()(format, [date])");
         }
-        var strftime = (locale ? defaultStrftime.utc().localize(locale) : defaultStrftime).utc();
+        var strftime = locale ? utcStrftime.localize(locale) : utcStrftime;
         return strftime(fmt, d);
     };
 
