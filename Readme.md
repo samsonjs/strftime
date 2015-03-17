@@ -28,6 +28,7 @@ The current version, 0.9, deprecates the older API that exported several functio
 
 Now you only need the single object exported and you can create a specialized version of it using the functions `utc()`, `localize(locale)`, and `timezone(offset)`. You can no longer pass in a timezone or locale on each call to `strftime` which is a regression. If you need this let me know and we will add it back into the API.
 
+[More details are available in the changelog](https://github.com/samsonjs/strftime/blob/master/Changelog.md).
 
 Usage
 =====
