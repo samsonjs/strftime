@@ -211,6 +211,11 @@
                     }
                     // ':'
                     else if (currentCharCode === 58) {
+                      if (extendedTZ) {
+                        if (typeof console !== 'undefined' && typeof console.warn == 'function') {
+                          console.warn("[WARNING] detected use of unsupported %:: or %::: modifiers to strftime");
+                        }
+                      }
                       extendedTZ = true;
                       continue;
                     }
