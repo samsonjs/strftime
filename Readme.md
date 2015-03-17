@@ -144,10 +144,15 @@ Contributors
 
 * [Rob Colburn](https://github.com/robcolburn)
 * [Cory Heslip](https://github.com/cheslip)
+* [TJ Holowaychuk](https://github.com/tj)
+* [Forbes Lindesay](https://github.com/ForbesLindesay)
 * [Alexandr Nikitin](https://github.com/alexandrnikitin)
+* [Ryan Regalado](https://github.com/d48)
 * [Sami Samhuri](https://github.com/samsonjs)
 * [Andrew Schaaf](https://github.com/andrewschaaf)
 * [Ryan Stafford](https://github.com/ryanstafford)
+* [w0den](https://github.com/w0den)
+* [John Zwinck](https://github.com/jzwinck)
 
 
 License
