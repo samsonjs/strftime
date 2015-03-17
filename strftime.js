@@ -329,7 +329,7 @@
                             }
                             else {
                                 // fixme optimize
-                                var tzString = date.toString().match(/\((\w+)\)/);
+                                var tzString = date.toString().match(/\(([\w\s]+)\)/);
                                 resultString += tzString && tzString[1] || '';
                             }
                             break;
