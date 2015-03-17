@@ -14,6 +14,7 @@ The headline feature is a huge performance boost resulting from [this contest](h
 
 Along with this the API has been unified and cleaned up. `strftimeTZ`, `strftimeUTC`, and `localizedStrftime` have all been deprecated in favour of the following functions: `timezone(tz)`, `utc()`, and `localize(locale)`. You use them like so:
 
+```JavaScript
     var strftime = require('strftime'); // not required in web browsers
     
     var strftimeIT = strftime.localize(anItalianLocale);
@@ -25,6 +26,7 @@ Along with this the API has been unified and cleaned up. `strftimeTZ`, `strftime
     
     // And chain them all at once
     var strftimeIT_PST = strftime.localize(anItalianLocale).timezone('-0800');
+```
 
 The previous API is deprecated and will be removed for v1.0. The good news is that the previous API is supported by adapting the new API, so you get most of the performance benefits before you even update your code to use the new API.
 

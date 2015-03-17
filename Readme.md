@@ -33,13 +33,16 @@ Now you only need the single object exported and you can create a specialized ve
 Usage
 =====
 
+```JavaScript
     var strftime = require('strftime') // not required in browsers
     console.log(strftime('%B %d, %Y %H:%M:%S')) // => April 28, 2011 18:21:08
     console.log(strftime('%F %T', new Date(1307472705067))) // => 2011-06-07 18:51:45
+```
 
 
 If you want to localize it:
 
+```JavaScript
     var strftime = require('strftime') // not required in browsers
     var it_IT = {
         days: ['domenica', 'lunedi', 'martedi', 'mercoledi', 'giovedi', 'venerdi', 'sabato'],
@@ -65,25 +68,27 @@ If you want to localize it:
     var strftimeIT = strftime.localize(it_IT)
     console.log(strftimeIT('%B %d, %Y %H:%M:%S')) // => aprile 28, 2011 18:21:08
     console.log(strftimeIT('%B %d, %Y %H:%M:%S', new Date(1307472705067))) // => giugno 7, 2011 18:51:45
-
+```
 
 Time zones can be passed in as an offset from GMT in minutes.
 
+```JavaScript
     var strftime = require('strftime') // not required in browsers
     var strftimePDT = strftime.timezone(-420)
     var strftimeCEST = strftime.timezone(120)
     console.log(strftimePDT('%B %d, %y %H:%M:%S', new Date(1307472705067))) // => June 07, 11 11:51:45
     console.log(strftimeCEST('%F %T', new Date(1307472705067))) // => 2011-06-07 20:51:45
-
+```
 
 Alternatively you can use the timezone format used by ISO 8601, `+HHMM` or `-HHMM`.
 
+```JavaScript
     var strftime = require('strftime') // not required in browsers
     var strftimePDT = strftime.timezone('-0700')
     var strftimeCEST = strftime.timezone('+0200')
     console.log(strftimePDT('', new Date(1307472705067))) // => June 07, 11 11:51:45
     console.log(strftimeCEST('%F %T', new Date(1307472705067))) // => 2011-06-07 20:51:45
-
+```
 
 Supported Specifiers
 ====================
