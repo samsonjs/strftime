@@ -113,7 +113,7 @@
 
         var strftime = (locale ? defaultStrftime.localize(locale) : defaultStrftime).timezone(timezone);
         return strftime(fmt, d);
-    };
+    }
 
     var utcStrftime = defaultStrftime.utc();
     function deprecatedStrftimeUTC(fmt, d, locale) {
@@ -125,12 +125,12 @@
         }
         var strftime = locale ? utcStrftime.localize(locale) : utcStrftime;
         return strftime(fmt, d);
-    };
+    }
 
     function deprecatedStrftimeLocalized(locale) {
         deprecationWarning("`" + _require + ".localizedStrftime(locale)`", _require + ".localize(locale)");
         return defaultStrftime.localize(locale);
-    };
+    }
     // End of deprecated API
 
     // Polyfill Date.now for old browsers.
