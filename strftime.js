@@ -595,10 +595,8 @@
             else
                 weekday--;
         }
-
-        var firstDayOfYearUtc = Date.UTC(date.getFullYear(), 0, 1),
-            dateUtc = Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()),
-            yday = Math.floor((dateUtc - firstDayOfYearUtc) / 86400000),
+        var firstDayOfYear = new Date(date.getFullYear(), 0, 1),
+            yday = (date - firstDayOfYear) / 86400000,
             weekNum = (yday + 7 - weekday) / 7;
 
         return Math.floor(weekNum);
