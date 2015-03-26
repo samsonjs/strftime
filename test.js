@@ -115,6 +115,9 @@ assert.format('%z', null, '+0000');
 assert.format('%:z', null, '+00:00');
 assert.format('%%', '%'); // any other char
 assert.format('%F %T', null, '1970-01-01 00:00:00', new Date(0));
+assert.format('%U', '13', "12", (new Date('03-26-2017 00:00:00')));
+assert.format('%U', '13', null, (new Date('03-27-2017 00:00:00')));
+assert.format('%U', '14', "13", (new Date('04-02-2017 00:00:00')));
 ok('GMT');
 
 
