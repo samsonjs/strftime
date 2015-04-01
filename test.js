@@ -48,6 +48,10 @@ if (process.env.TZ == 'America/Vancouver') {
     assert.format('%c', 'Tue Jun 07 11:51:45 2011', 'Tue Jun 07 18:51:45 2011');
     assert.format('%j', '097', '098', new Date(1365390736236));
     assert.format('%x', '06/07/11');
+    assert.format('%U', '12', null, new Date('2017-03-25 00:00:00 +0000'));
+    assert.format('%U', '12', '13', new Date('2017-03-26 00:00:00 +0000'));
+    assert.format('%U', '13', null, new Date('2017-03-27 00:00:00 +0000'));
+    assert.format('%U', '13', '14', new Date('2017-04-02 00:00:00 +0000'));
     ok('Time zones (' + process.env.TZ + ')');
 }
 else if (process.env.TZ == 'CET') {
@@ -57,6 +61,10 @@ else if (process.env.TZ == 'CET') {
     assert.format('%c', 'Tue Jun 07 20:51:45 2011', 'Tue Jun 07 18:51:45 2011');
     assert.format('%j', '098', '098', new Date(1365390736236));
     assert.format('%x', '06/07/11');
+    assert.format('%U', '12', null, new Date('2017-03-25 00:00:00 +0000'));
+    assert.format('%U', '13', null, new Date('2017-03-26 00:00:00 +0000'));
+    assert.format('%U', '13', null, new Date('2017-03-27 00:00:00 +0000'));
+    assert.format('%U', '14', null, new Date('2017-04-02 00:00:00 +0000'));
     ok('Time zones (' + process.env.TZ + ')');
 }
 else {
@@ -115,9 +123,10 @@ assert.format('%z', null, '+0000');
 assert.format('%:z', null, '+00:00');
 assert.format('%%', '%'); // any other char
 assert.format('%F %T', null, '1970-01-01 00:00:00', new Date(0));
-assert.format('%U', '13', "12", (new Date('03-26-2017 00:00:00')));
-assert.format('%U', '13', null, (new Date('03-27-2017 00:00:00')));
-assert.format('%U', '14', "13", (new Date('04-02-2017 00:00:00')));
+assert.format('%U', null, '12', new Date('2017-03-25 00:00:00 +0000'));
+assert.format('%U', null, '13', new Date('2017-03-26 00:00:00 +0000'));
+assert.format('%U', null, '13', new Date('2017-03-27 00:00:00 +0000'));
+assert.format('%U', null, '14', new Date('2017-04-02 00:00:00 +0000'));
 ok('GMT');
 
 
