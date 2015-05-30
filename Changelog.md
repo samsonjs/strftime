@@ -1,3 +1,18 @@
+v0.9.2 on 2015-05-29
+--------------------
+
+- fix a caching bug, which was a regression in 0.9.0 ([issue #63](https://github.com/samsonjs/strftime/issues/63))
+
+- update license attribute in package.json as required by npm
+  Thanks to [Peter deHaan](https://github.com/pdehaan)
+
+- construct GMT times used in tests in a more robust way
+
+- fix a bug calculating week numbers ([issue #56](https://github.com/samsonjs/strftime/issues/56))
+  Thanks to [Alexandr Nikitin](https://github.com/alexandrnikitin)
+
+- warn about possible misuse of %:: or %::: modifiers
+
 v0.9.1 on 2015-03-16
 --------------------
 
