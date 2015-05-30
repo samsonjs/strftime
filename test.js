@@ -195,6 +195,25 @@ assert.formatTZ('%F %r %z', '2011-06-07 11:21:45 AM -0730', '-0730');
 assert.formatTZ('%F %r %:z', '2011-06-07 11:21:45 AM -07:30', '-0730');
 ok('Time zone offset');
 
+/// caching
+(function() {
+    // this test fails when the 2 calls cross a millisecond boundary, so try a number of times
+    var CacheAttempts = 10;
+    var MaxFailures = 1;
+    var failures = 0;
+    for (var i = 0; i < CacheAttempts; ++i) {
+        var expectedMillis = strftime('%L');
+        var millis = strftime('%L');
+        if (expectedMillis != millis) {
+            ++failures;
+        }
+    }
+    if (failures > MaxFailures) {
+        assert.fail('timestamp caching appears to be broken (' + failures + ' failed attempts out of ' + CacheAttempts + ')');
+    }
+}());
+ok('Cached timestamps');
+
 
 /// helpers
 

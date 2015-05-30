@@ -169,6 +169,9 @@
                         _cachedDate = new Date(_cachedDateTimestamp + getTimestampToUtcOffsetFor(_cachedDate) + _customTimezoneOffset);
                     }
                 }
+                else {
+                  timestamp = _cachedDateTimestamp;
+                }
                 date = _cachedDate;
             }
             else {
