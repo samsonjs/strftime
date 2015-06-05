@@ -19,6 +19,10 @@ Installation
 
     component install samsonjs/strftime
 
+[meteor](https://atmospherejs.com/)
+
+    meteor add kalarani:strftime
+
 Or you can copy [strftime.js](https://github.com/samsonjs/strftime/blob/master/strftime.js) wherever you want to use it, whether that's with a &lt;script&gt; tag or `require` or anything else.
 
 The New API in 0.9
@@ -34,16 +38,15 @@ Usage
 =====
 
 ```JavaScript
-    var strftime = require('strftime') // not required in browsers
+    var strftime = require('strftime') // not required in browsers and meteor
     console.log(strftime('%B %d, %Y %H:%M:%S')) // => April 28, 2011 18:21:08
     console.log(strftime('%F %T', new Date(1307472705067))) // => 2011-06-07 18:51:45
 ```
 
-
 If you want to localize it:
 
 ```JavaScript
-    var strftime = require('strftime') // not required in browsers
+    var strftime = require('strftime') // not required in browsers and meteor
     var it_IT = {
         days: ['domenica', 'lunedi', 'martedi', 'mercoledi', 'giovedi', 'venerdi', 'sabato'],
         shortDays: ['dom', 'lun', 'mar', 'mer', 'gio', 'ven', 'sab'],
@@ -73,7 +76,7 @@ If you want to localize it:
 Time zones can be passed in as an offset from GMT in minutes.
 
 ```JavaScript
-    var strftime = require('strftime') // not required in browsers
+    var strftime = require('strftime') // not required in browsers and meteor
     var strftimePDT = strftime.timezone(-420)
     var strftimeCEST = strftime.timezone(120)
     console.log(strftimePDT('%B %d, %y %H:%M:%S', new Date(1307472705067))) // => June 07, 11 11:51:45
@@ -83,7 +86,7 @@ Time zones can be passed in as an offset from GMT in minutes.
 Alternatively you can use the timezone format used by ISO 8601, `+HHMM` or `-HHMM`.
 
 ```JavaScript
-    var strftime = require('strftime') // not required in browsers
+    var strftime = require('strftime') // not required in browsers and meteor
     var strftimePDT = strftime.timezone('-0700')
     var strftimeCEST = strftime.timezone('+0200')
     console.log(strftimePDT('', new Date(1307472705067))) // => June 07, 11 11:51:45
