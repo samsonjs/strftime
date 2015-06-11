@@ -86,7 +86,7 @@ Alternatively you can use the timezone format used by ISO 8601, `+HHMM` or `-HHM
     var strftime = require('strftime') // not required in browsers
     var strftimePDT = strftime.timezone('-0700')
     var strftimeCEST = strftime.timezone('+0200')
-    console.log(strftimePDT('', new Date(1307472705067))) // => June 07, 11 11:51:45
+    console.log(strftimePDT('%F %T', new Date(1307472705067))) // => June 07, 11 11:51:45
     console.log(strftimeCEST('%F %T', new Date(1307472705067))) // => 2011-06-07 20:51:45
 ```
 
