@@ -5,11 +5,11 @@ real-minify: strftime.js
 	closure <strftime.js >|strftime-min.js
 
 test:
-	TZ=America/Vancouver node test/test.js
-	TZ=CET node test/test.js
+	TZ=America/Vancouver node test.js
+	TZ=CET node test.js
 
 test-minified: minify
-	TZ=America/Vancouver node test/test.js ../strftime-min.js
-	TZ=CET node test/test.js ../strftime-min.js
+	TZ=America/Vancouver node test.js ./strftime-min.js
+	TZ=CET node test.js ./strftime-min.js
 
 .PHONY: test test-minified

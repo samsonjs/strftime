@@ -1,14 +1,20 @@
 {
   "name": "strftime",
   "description": "strftime for JavaScript",
-  "version": "0.8.2",
+  "version": "0.9.2",
   "homepage": "http://samhuri.net/proj/strftime",
   "author": "Sami Samhuri <sami@samhuri.net>",
   "contributors": [
     "Sami Samhuri <sami@samhuri.net> (http://samhuri.net)",
     "Andrew Schaaf <andrew@andrewschaaf.com> (http://andrewschaaf.com/)",
     "Rob Colburn <rob@robcolburn.com> (http://robcolburn.com/)",
-    "Ryan Stafford (http://droffats.net/)"
+    "Ryan Stafford (http://droffats.net/)",
+    "Alexandr Nikitin <nikitin.alexandr.a@gmail.com>",
+    "TJ Holowaychuk (http://tjholowaychuk.com/)",
+    "John Zwinck (https://github.com/jzwinck)",
+    "Forbes Lindesay (https://github.com/ForbesLindesay)",
+    "Ryan Regalado (https://github.com/d48)",
+    "w0den (https://github.com/w0den)"
   ],
   "repository": {
     "type": "git",
@@ -22,12 +28,7 @@
   "engines": {
     "node": ">=0.2.0"
   },
-  "licenses": [
-    {
-      "type": "MIT",
-      "url": "http://sjs.mit-license.org"
-    }
-  ],
+  "license": "MIT",
   "dependencies": {},
   "devDependencies": {},
   "optionalDependencies": {}

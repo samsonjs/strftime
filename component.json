@@ -3,7 +3,7 @@
   "repo": "samsonjs/strftime",
   "description": "strftime date formatting",
   "keywords": ["strftime", "format", "date", "time"],
-  "version": "0.8.2",
+  "version": "0.9.2",
   "main": "strftime.js",
   "scripts": ["strftime.js"]
 }
