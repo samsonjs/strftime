@@ -494,6 +494,8 @@
                             break;
 
                         default:
+                            if (isInScope)
+                                resultString += '%';
                             resultString += format[i];
                             break;
                     }
