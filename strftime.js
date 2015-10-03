@@ -500,8 +500,9 @@
                             break;
 
                         default:
-                            if (isInScope)
+                            if (isInScope) {
                                 resultString += '%';
+                            }
                             resultString += format[i];
                             break;
                     }
