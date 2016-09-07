@@ -3,6 +3,7 @@ strftime
 
 strftime for JavaScript. Works in (at least) node.js and browsers. Supports localization and timezones. Most standard specifiers from C are supported as well as some other extensions from Ruby.
 
+[![version 0.9.2 on npm](https://img.shields.io/badge/npm-0.9.2-brightgreen.svg?style=flat)](https://www.npmjs.com/package/strftime) [![node version 0.2 and up](https://img.shields.io/badge/node->=0.2-brightgreen.svg?style=flat)](https://nodejs.org) [![MIT License](https://img.shields.io/badge/License-MIT-blue.svg?style=flat)](https://sjs.mit-license.org)
 
 Installation
 ============
