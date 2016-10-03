@@ -176,7 +176,7 @@
           pm: 'pm',
           formats: {
                 c: '%a %d %b %Y %X %Z',
-                D: '%d-$m-%Y',
+                D: '%d-%m-%Y',
                 F: '%Y-%m-%d',
                 R: '%H:%M',
                 r: '%I:%M:%S %p',
