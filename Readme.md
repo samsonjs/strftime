@@ -20,6 +20,10 @@ Installation
 
     component install samsonjs/strftime
 
+[yarn](https://yarnpkg.com):
+
+    yarn add strftime
+
 Or you can copy [strftime.js](https://github.com/samsonjs/strftime/blob/master/strftime.js) wherever you want to use it, whether that's with a &lt;script&gt; tag or `require` or anything else.
 
 The New API in 0.9
