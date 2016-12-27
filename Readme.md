@@ -164,12 +164,16 @@ Contributors
 * [Ryan Stafford](https://github.com/ryanstafford)
 * [w0den](https://github.com/w0den)
 * [John Zwinck](https://github.com/jzwinck)
+* [Peter deHaan](https://github.com/pdehaan)
+* [Kevin Jin](https://github.com/Kevin-Jin)
+* [Stian Grytøyr](https://github.com/stiang)
+* [Ayman Nedjmeddine](https://github.com/IOAyman)
 
 
 License
 =======
 
-Copyright 2010 - 2015 Sami Samhuri sami@samhuri.net
+Copyright 2010 - 2016 Sami Samhuri sami@samhuri.net
 
-[MIT license](http://sjs.mit-license.org)
+[MIT license](https://sjs.mit-license.org)
 
