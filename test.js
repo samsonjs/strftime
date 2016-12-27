@@ -121,7 +121,8 @@ assert.format('%y', '11');
 assert.format('%Z', null, 'GMT');
 assert.format('%z', null, '+0000');
 assert.format('%:z', null, '+00:00');
-assert.format('%%', '%'); // any other char
+assert.format('%%', '%'); // literal percent sign
+assert.format('%g', '%g'); // unrecognized directive
 assert.format('%F %T', null, '1970-01-01 00:00:00', new Date(0));
 assert.format('%U', null, '12', new Date('2017-03-25 00:00:00 +0000'));
 assert.format('%U', null, '13', new Date('2017-03-26 00:00:00 +0000'));

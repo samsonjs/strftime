@@ -232,6 +232,12 @@
 
                         // Examples for new Date(0) in GMT
 
+                        // '%'
+                        // case '%':
+                        case 37:
+                            resultString += '%';
+                            break;
+
                         // 'Thursday'
                         // case 'A':
                         case 65:
@@ -499,6 +505,9 @@
                             break;
 
                         default:
+                            if (isInScope) {
+                                resultString += '%';
+                            }
                             resultString += format[i];
                             break;
                     }
