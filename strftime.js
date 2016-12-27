@@ -74,7 +74,7 @@
     adaptForwards(adaptedStrftime);
     function adaptedStrftime(fmt, d, locale) {
         // d and locale are optional, check if this is (format, locale)
-        if (d && d.days) {
+        if (d && d.days && !d.getTime) {
             locale = d;
             d = undefined;
         }
