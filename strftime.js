@@ -74,6 +74,11 @@
     adaptForwards(adaptedStrftime);
     function adaptedStrftime(fmt, d, locale) {
         // d and locale are optional, check if this is (format, locale)
+        //
+        // `days` is required on all locales, but DateJS modifies `Date` objects and gives them
+        // a `days` property. We check that the second parameter doesn`t have `getTime`, which
+        // should never appear in a locale object, before concluding that `d` is in fact a
+        // locale object and not a date.
         if (d && d.days && !d.getTime) {
             locale = d;
             d = undefined;
