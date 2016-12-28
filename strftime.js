@@ -16,6 +16,7 @@
             shortDays: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
             months: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
             shortMonths: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+            ordinalSuffixes: ['st', 'nd', 'rd', 'th', 'th', 'th', 'th', 'th', 'th', 'th', 'th', 'th', 'th', 'th', 'th', 'th', 'th', 'th', 'th', 'th', 'st', 'nd', 'rd', 'th', 'th', 'th', 'th', 'th', 'th', 'th', 'st'],
             AM: 'AM',
             PM: 'PM',
             am: 'am',
@@ -431,7 +432,10 @@
                         // '1st'
                         // case 'o':
                         case 111:
-                            resultString += String(date.getDate()) + ordinal(date.getDate());
+                            // Try to use an ordinal suffix from the locale, but fall back to using the old
+                            // function for compatibility with old locales that lack them.
+                            var day = date.getDate();
+                            resultString += String(day) + (locale.ordinalSuffixes[day - 1] || ordinal(day));
                             break;
 
                         // 'AM'
