@@ -183,7 +183,14 @@
                 timestamp = date.getTime();
 
                 if (_useUtcBasedDate) {
-                    date = new Date(date.getTime() + getTimestampToUtcOffsetFor(date) + _customTimezoneOffset);
+                    var utcOffset = getTimestampToUtcOffsetFor(date);
+                    date = new Date(timestamp + utcOffset + _customTimezoneOffset);
+                    // If we've crossed a DST boundary with this calculation we need to
+                    // adjust the new date accordingly or it will be off by an hour in UTC.
+                    if (getTimestampToUtcOffsetFor(date) !== utcOffset) {
+                        var newUTCOffset = getTimestampToUtcOffsetFor(date);
+                        date = new Date(timestamp + newUTCOffset + _customTimezoneOffset);
+                    }
                 }
             }
 

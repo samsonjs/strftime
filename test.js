@@ -42,7 +42,7 @@ ok('Exports');
 
 /// time zones
 if (process.env.TZ == 'America/Vancouver') {
-    testTimezone('P[DS]T');
+    testTimezone('America/Vancouver');
     assert.format('%C', '01', '01', new Date(100, 0, 1));
     assert.format('%X', '11:51:45', '18:51:45');
     assert.format('%c', 'Tue Jun 07 11:51:45 2011', 'Tue Jun 07 18:51:45 2011');
@@ -52,10 +52,16 @@ if (process.env.TZ == 'America/Vancouver') {
     assert.format('%U', '12', '13', new Date('2017-03-26 00:00:00 +0000'));
     assert.format('%U', '13', null, new Date('2017-03-27 00:00:00 +0000'));
     assert.format('%U', '13', '14', new Date('2017-04-02 00:00:00 +0000'));
+
+    // Test dates crossing a DST boundary.
+    var dstStart = +new Date('2016-11-06 01:50:00');
+    assert.format('%T', '01:50:00', '08:50:00', new Date(dstStart))
+    assert.format('%T', '01:00:00', '09:00:00', new Date(dstStart + 10 * 60 * 1000))
+
     ok('Time zones (' + process.env.TZ + ')');
 }
-else if (process.env.TZ == 'CET') {
-    testTimezone('CES?T');
+else if (process.env.TZ == 'Europe/Amsterdam') {
+    testTimezone('Europe/Amsterdam');
     assert.format('%C', '01', '00', new Date(100, 0, 1));
     assert.format('%X', '20:51:45', '18:51:45');
     assert.format('%c', 'Tue Jun 07 20:51:45 2011', 'Tue Jun 07 18:51:45 2011');
@@ -65,10 +71,16 @@ else if (process.env.TZ == 'CET') {
     assert.format('%U', '13', null, new Date('2017-03-26 00:00:00 +0000'));
     assert.format('%U', '13', null, new Date('2017-03-27 00:00:00 +0000'));
     assert.format('%U', '14', null, new Date('2017-04-02 00:00:00 +0000'));
+
+    // Test dates crossing a DST boundary.
+    var dstStart = +new Date('2016-10-30 02:50:00');
+    assert.format('%T', '02:50:00', '00:50:00', new Date(dstStart))
+    assert.format('%T', '02:00:00', '01:00:00', new Date(dstStart + 10 * 60 * 1000))
+
     ok('Time zones (' + process.env.TZ + ')');
 }
 else {
-    console.log('(Current timezone has no tests: ' + (process.env.TZ || 'none') + ')');
+    assert(false, '(Current timezone has no tests: ' + (process.env.TZ || 'none') + ')');
 }
 
 /// check all formats in GMT, most coverage

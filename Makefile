@@ -6,10 +6,10 @@ real-minify: strftime.js
 
 test:
 	TZ=America/Vancouver node test.js
-	TZ=CET node test.js
+	TZ=Europe/Amsterdam node test.js
 
 test-minified: minify
 	TZ=America/Vancouver node test.js ./strftime-min.js
-	TZ=CET node test.js ./strftime-min.js
+	TZ=Europe/Amsterdam node test.js ./strftime-min.js
 
 .PHONY: test test-minified
