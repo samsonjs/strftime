@@ -34,6 +34,34 @@
             }
         },
 
+        en_CA: {
+            days: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday' ],
+            shortDays: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+            months: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+            shortMonths: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+            ordinalSuffixes: [
+                'st', 'nd', 'rd', 'th', 'th', 'th', 'th', 'th', 'th', 'th',
+                'th', 'th', 'th', 'th', 'th', 'th', 'th', 'th', 'th', 'th',
+                'st', 'nd', 'rd', 'th', 'th', 'th', 'th', 'th', 'th', 'th',
+                'st'
+            ],
+            AM: 'AM',
+            PM: 'PM',
+            am: 'am',
+            pm: 'pm',
+            formats: {
+                c: '%a %d %b %Y %X %Z',
+                D: '%d/%m/%y',
+                F: '%Y-%m-%d',
+                R: '%H:%M',
+                r: '%I:%M:%S %p',
+                T: '%H:%M:%S',
+                v: '%e-%b-%Y',
+                X: '%r',
+                x: '%D'
+            }
+        },
+
         en_US: {
             days: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday' ],
             shortDays: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
@@ -212,6 +240,30 @@
                 T: '%H:%M:%S',
                 v: '%e-%b-%Y',
                 X: '%T',
+                x: '%D'
+            }
+        },
+
+        // By michaeljayt<michaeljayt@gmail.com>
+        // https://github.com/michaeljayt/strftime/commit/bcb4c12743811d51e568175aa7bff3fd2a77cef3
+        zh_CN: {
+            days: ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'],
+            shortDays: ['日', '一', '二', '三', '四', '五', '六'],
+            months: ['一月份', '二月份', '三月份', '四月份', '五月份', '六月份', '七月份', '八月份', '九月份', '十月份', '十一月份', '十二月份'],
+            shortMonths: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'],
+            AM: '上午',
+            PM: '下午',
+            am: '上午',
+            pm: '下午',
+            formats: {
+                c: '%a %d %b %Y %X %Z',
+                D: '%d/%m/%y',
+                F: '%Y-%m-%d',
+                R: '%H:%M',
+                r: '%I:%M:%S %p',
+                T: '%H:%M:%S',
+                v: '%e-%b-%Y',
+                X: '%r',
                 x: '%D'
             }
         }
