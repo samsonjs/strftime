@@ -161,7 +161,7 @@
             var timestamp;
 
             if (!date) {
-                var currentTimestamp = Date.now();
+                var currentTimestamp = Date.now(), origOff = 0;
                 if (currentTimestamp > _cachedDateTimestamp) {
                     _cachedDateTimestamp = currentTimestamp;
                     _cachedDate = new Date(_cachedDateTimestamp);
@@ -171,11 +171,15 @@
                     if (_useUtcBasedDate) {
                         // how to avoid duplication of date instantiation for utc here?
                         // we tied to getTimezoneOffset of the current date
-                        _cachedDate = new Date(_cachedDateTimestamp + getTimestampToUtcOffsetFor(_cachedDate) + _customTimezoneOffset);
+                        //_cachedDate = new Date(_cachedDateTimestamp + getTimestampToUtcOffsetFor(_cachedDate) + _customTimezoneOffset);
+                    } else {
+                        origOff = _cachedDate.getTimezoneOffset() * -60000;
+                        _cachedDate = new Date(_cachedDateTimestamp - getTimestampToUtcOffsetFor(_cachedDate) - _customTimezoneOffset);
+                        _customTimezoneOffset = origOff;
                     }
                 }
                 else {
-                  timestamp = _cachedDateTimestamp;
+                timestamp = _cachedDateTimestamp;
                 }
                 date = _cachedDate;
             }
@@ -183,7 +187,11 @@
                 timestamp = date.getTime();
 
                 if (_useUtcBasedDate) {
-                    date = new Date(date.getTime() + getTimestampToUtcOffsetFor(date) + _customTimezoneOffset);
+                    //date = new Date(date.getTime() + getTimestampToUtcOffsetFor(date) + _customTimezoneOffset);
+                } else {
+                    origOff = date.getTimezoneOffset() * -60000;
+                    date = new Date(date.getTime() - getTimestampToUtcOffsetFor(date) - _customTimezoneOffset);
+                    _customTimezoneOffset = origOff;
                 }
             }
 
@@ -241,19 +249,19 @@
                         // 'Thursday'
                         // case 'A':
                         case 65:
-                            resultString += locale.days[date.getDay()];
+                            resultString += locale.days[date.getUTCDay()];
                             break;
 
                         // 'January'
                         // case 'B':
                         case 66:
-                            resultString += locale.months[date.getMonth()];
+                            resultString += locale.months[date.getUTCMonth()];
                             break;
 
                         // '19'
                         // case 'C':
                         case 67:
-                            resultString += padTill2(Math.floor(date.getFullYear() / 100), padding);
+                            resultString += padTill2(Math.floor(date.getUTCFullYear() / 100), padding);
                             break;
 
                         // '01/01/70'
@@ -271,13 +279,13 @@
                         // '00'
                         // case 'H':
                         case 72:
-                            resultString += padTill2(date.getHours(), padding);
+                            resultString += padTill2(date.getUTCHours(), padding);
                             break;
 
                         // '12'
                         // case 'I':
                         case 73:
-                            resultString += padTill2(hours12(date.getHours()), padding);
+                            resultString += padTill2(hours12(date.getUTCHours()), padding);
                             break;
 
                         // '000'
@@ -289,13 +297,13 @@
                         // '00'
                         // case 'M':
                         case 77:
-                            resultString += padTill2(date.getMinutes(), padding);
+                            resultString += padTill2(date.getUTCMinutes(), padding);
                             break;
 
                         // 'am'
                         // case 'P':
                         case 80:
-                            resultString += date.getHours() < 12 ? locale.am : locale.pm;
+                            resultString += date.getUTCHours() < 12 ? locale.am : locale.pm;
                             break;
 
                         // '00:00'
@@ -307,7 +315,7 @@
                         // '00'
                         // case 'S':
                         case 83:
-                            resultString += padTill2(date.getSeconds(), padding);
+                            resultString += padTill2(date.getUTCSeconds(), padding);
                             break;
 
                         // '00:00:00'
@@ -337,7 +345,7 @@
                         // '1970'
                         // case 'Y':
                         case 89:
-                            resultString += date.getFullYear();
+                            resultString += date.getUTCFullYear();
                             break;
 
                         // 'GMT'
@@ -356,13 +364,13 @@
                         // 'Thu'
                         // case 'a':
                         case 97:
-                            resultString += locale.shortDays[date.getDay()];
+                            resultString += locale.shortDays[date.getUTCDay()];
                             break;
 
                         // 'Jan'
                         // case 'b':
                         case 98:
-                            resultString += locale.shortMonths[date.getMonth()];
+                            resultString += locale.shortMonths[date.getUTCMonth()];
                             break;
 
                         // ''
@@ -374,25 +382,25 @@
                         // '01'
                         // case 'd':
                         case 100:
-                            resultString += padTill2(date.getDate(), padding);
+                            resultString += padTill2(date.getUTCDate(), padding);
                             break;
 
                         // ' 1'
                         // case 'e':
                         case 101:
-                            resultString += padTill2(date.getDate(), padding == null ? ' ' : padding);
+                            resultString += padTill2(date.getUTCDate(), padding == null ? ' ' : padding);
                             break;
 
                         // 'Jan'
                         // case 'h':
                         case 104:
-                            resultString += locale.shortMonths[date.getMonth()];
+                            resultString += locale.shortMonths[date.getUTCMonth()];
                             break;
 
                         // '000'
                         // case 'j':
                         case 106:
-                            var y = new Date(date.getFullYear(), 0, 1);
+                            var y = new Date(date.getUTCFullYear(), 0, 1);
                             var day = Math.ceil((date.getTime() - y.getTime()) / (1000 * 60 * 60 * 24));
                             resultString += padTill3(day);
                             break;
@@ -400,19 +408,19 @@
                         // ' 0'
                         // case 'k':
                         case 107:
-                            resultString += padTill2(date.getHours(), padding == null ? ' ' : padding);
+                            resultString += padTill2(date.getUTCHours(), padding == null ? ' ' : padding);
                             break;
 
                         // '12'
                         // case 'l':
                         case 108:
-                            resultString += padTill2(hours12(date.getHours()), padding == null ? ' ' : padding);
+                            resultString += padTill2(hours12(date.getUTCHours()), padding == null ? ' ' : padding);
                             break;
 
                         // '01'
                         // case 'm':
                         case 109:
-                            resultString += padTill2(date.getMonth() + 1, padding);
+                            resultString += padTill2(date.getUTCMonth() + 1, padding);
                             break;
 
                         // '\n'
@@ -424,13 +432,13 @@
                         // '1st'
                         // case 'o':
                         case 111:
-                            resultString += String(date.getDate()) + ordinal(date.getDate());
+                            resultString += String(date.getUTCDate()) + ordinal(date.getUTCDate());
                             break;
 
                         // 'AM'
                         // case 'p':
                         case 112:
-                            resultString += date.getHours() < 12 ? locale.AM : locale.PM;
+                            resultString += date.getUTCHours() < 12 ? locale.AM : locale.PM;
                             break;
 
                         // '12:00:00 AM'
@@ -454,7 +462,7 @@
                         // '4'
                         // case 'u':
                         case 117:
-                            var day = date.getDay();
+                            var day = date.getUTCDay();
                             resultString += day === 0 ? 7 : day;
                             break; // 1 - 7, Monday is first day of the week
 
@@ -467,7 +475,7 @@
                         // '4'
                         // case 'w':
                         case 119:
-                            resultString += date.getDay();
+                            resultString += date.getUTCDay();
                             break; // 0 - 6, Sunday is first day of the week
 
                         // '12/31/69'
@@ -479,7 +487,7 @@
                         // '70'
                         // case 'y':
                         case 121:
-                            resultString += ('' + date.getFullYear()).slice(2);
+                            resultString += ('' + date.getUTCFullYear()).slice(2);
                             break;
 
                         // '+0000'
@@ -605,7 +613,7 @@
 
         // This works by shifting the weekday back by one day if we
         // are treating Monday as the first day of the week.
-        var weekday = date.getDay();
+        var weekday = date.getUTCDay();
         if (firstWeekday === 'monday') {
             if (weekday === 0) // Sunday
                 weekday = 6;
@@ -613,8 +621,8 @@
                 weekday--;
         }
 
-        var firstDayOfYearUtc = Date.UTC(date.getFullYear(), 0, 1),
-            dateUtc = Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()),
+        var firstDayOfYearUtc = Date.UTC(date.getUTCFullYear(), 0, 1),
+            dateUtc = Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate()),
             yday = Math.floor((dateUtc - firstDayOfYearUtc) / 86400000),
             weekNum = (yday + 7 - weekday) / 7;
 
