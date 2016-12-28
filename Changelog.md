@@ -1,6 +1,29 @@
 v0.10.0 on 2016-12-28
 ---------------------
 
+- Remove the old API deprecated in v0.9.
+
+- Bundle some locales that you can use with `strftime.localizedByIdentifier('nl_NL')`. Full list available in the [readme](https://github.com/samsonjs/strftime/blob/master/Readme.md).
+  Thanks to [Andrew Pirondini](https://github.com/andrewjpiro) of [iFixit](https://ifixit.com)
+
+- Add instructions to install with Yarn.
+  Thanks to [Ayman Nedjmeddine](https://github.com/IOAyman)
+
+- Unrecognized format specifiers preserve the % sign, e.g. `strftime('%K') => "%K"`.
+  Thanks to [Kevin Jin](https://github.com/Kevin-Jin)
+
+- Make `strftime` work with dates that have been extended by [DateJS](http://www.datejs.com).
+  Thanks to [Stian Grytøyr](https://github.com/stiang)
+
+- Add instructions to install with Yarn.
+  Thanks to [Ayman Nedjmeddine](https://github.com/IOAyman)
+
+- Fix UTC formatting of dates that cross a DST boundary.
+  Thanks to [ray007](https://github.com/ray007)
+
+- Allow localizing ordinals.
+  Thanks to [Simon Liétar](https://github.com/Sim9760)
+
 v0.9.2 on 2015-05-29
 --------------------
 
