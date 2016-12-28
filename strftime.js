@@ -156,7 +156,7 @@
             var timestamp;
 
             if (!date) {
-                var currentTimestamp = Date.now();
+                var currentTimestamp = Date.now(), origOff = 0;
                 if (currentTimestamp > _cachedDateTimestamp) {
                     _cachedDateTimestamp = currentTimestamp;
                     _cachedDate = new Date(_cachedDateTimestamp);
@@ -168,11 +168,13 @@
                         // we tied to getTimezoneOffset of the current date
                         //_cachedDate = new Date(_cachedDateTimestamp + getTimestampToUtcOffsetFor(_cachedDate) + _customTimezoneOffset);
                     } else {
+                        origOff = _cachedDate.getTimezoneOffset() * -60000;
                         _cachedDate = new Date(_cachedDateTimestamp - getTimestampToUtcOffsetFor(_cachedDate) - _customTimezoneOffset);
+                        _customTimezoneOffset = origOff;
                     }
                 }
                 else {
-                  timestamp = _cachedDateTimestamp;
+                timestamp = _cachedDateTimestamp;
                 }
                 date = _cachedDate;
             }
@@ -182,7 +184,9 @@
                 if (_useUtcBasedDate) {
                     //date = new Date(date.getTime() + getTimestampToUtcOffsetFor(date) + _customTimezoneOffset);
                 } else {
+                    origOff = date.getTimezoneOffset() * -60000;
                     date = new Date(date.getTime() - getTimestampToUtcOffsetFor(date) - _customTimezoneOffset);
+                    _customTimezoneOffset = origOff;
                 }
             }
 
