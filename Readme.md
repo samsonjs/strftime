@@ -168,6 +168,9 @@ Contributors
 * [Kevin Jin](https://github.com/Kevin-Jin)
 * [Stian Grytøyr](https://github.com/stiang)
 * [Ayman Nedjmeddine](https://github.com/IOAyman)
+* [Andrew Pirondini](https://github.com/andrewjpiro) of [iFixit](https://github.com/iFixit)
+* [Joost Hietbrink](https://github.com/joost)
+* [Michael J.](https://github.com/michaeljayt)
 
 
 License
