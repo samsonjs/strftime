@@ -26,6 +26,11 @@ Installation
 
 Or you can copy [strftime.js](https://github.com/samsonjs/strftime/blob/master/strftime.js) wherever you want to use it, whether that's with a &lt;script&gt; tag or `require` or anything else.
 
+Changelog
+=========
+
+[View the changelog](https://github.com/samsonjs/strftime/blob/master/Changelog.md).
+
 Usage
 =====
 
