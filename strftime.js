@@ -11,6 +11,233 @@
 
 ;(function() {
 
+    var locales = {
+       de_DE: {
+          days: ['Sonntag', 'Montag', 'Dienstag', 'Mittwoch', 'Donnerstag',
+          'Freitag', 'Samstag'],
+          shortDays: ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa'],
+          months: ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli',
+           'August', 'September', 'Oktober', 'November', 'Dezember'],
+          shortMonths: ['Jan', 'Feb', 'Mär', 'Apr', 'Mai', 'Jun', 'Jul',
+           'Aug', 'Sep', 'Okt', 'Nov', 'Dez'],
+          AM: 'AM',
+          PM: 'PM',
+          am: 'am',
+          pm: 'pm',
+          formats: {
+                c: '%a %d %b %Y %X %Z',
+                D: '%d.%m.%Y',
+                F: '%Y-%m-%d',
+                R: '%H:%M',
+                r: '%I:%M:%S %p',
+                T: '%H:%M:%S',
+                v: '%e-%b-%Y',
+                X: '%T',
+                x: '%D'
+          }
+       },
+
+       en_US: {
+          days: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday',
+           'Friday', 'Saturday' ],
+          shortDays: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+          months: ['January', 'February', 'March', 'April', 'May', 'June',
+           'July', 'August', 'September', 'October', 'November', 'December'],
+           shortMonths: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug',
+            'Sep', 'Oct', 'Nov', 'Dec'],
+          AM: 'AM',
+          PM: 'PM',
+          am: 'am',
+          pm: 'pm',
+          formats: {
+                c: '%a %d %b %Y %X %Z',
+                D: '%m/%d/%y',
+                F: '%Y-%m-%d',
+                R: '%H:%M',
+                r: '%I:%M:%S %p',
+                T: '%H:%M:%S',
+                v: '%e-%b-%Y',
+                X: '%r',
+                x: '%D'
+          }
+       },
+
+       es_MX: {
+          days: ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes',
+           'sábado'],
+          shortDays: ['dom', 'lun', 'mar', 'mié', 'jue', 'vie', 'sáb'],
+          months: ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
+           'julio', 'agosto', 'septiembre', 'octubre', 'noviembre',' diciembre'],
+          shortMonths: ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago',
+           'sep', 'oct', 'nov', 'dic'],
+          AM: 'AM',
+          PM: 'PM',
+          am: 'am',
+          pm: 'pm',
+          formats: {
+                c: '%a %d %b %Y %X %Z',
+                D: '%d/%m/%Y',
+                F: '%Y-%m-%d',
+                R: '%H:%M',
+                r: '%I:%M:%S %p',
+                T: '%H:%M:%S',
+                v: '%e-%b-%Y',
+                X: '%T',
+                x: '%D'
+          }
+       },
+
+       fr_FR: {
+          days: ['dimanche', 'lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi',
+           'samedi'],
+           shortDays: ['dim.', 'lun.', 'mar.', 'mer.', 'jeu.', 'ven.', 'sam.'],
+           months: ['janvier', 'février', 'mars', 'avril', 'mai', 'juin',
+            'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'],
+            shortMonths: ['janv.', 'févr.', 'mars', 'avril', 'mai', 'juin',
+             'juil.', 'août', 'sept.', 'oct.', 'nov.', 'déc.'],
+          AM: 'AM',
+          PM: 'PM',
+          am: 'am',
+          pm: 'pm',
+          formats: {
+                c: '%a %d %b %Y %X %Z',
+                D: '%d/%m/%Y',
+                F: '%Y-%m-%d',
+                R: '%H:%M',
+                r: '%I:%M:%S %p',
+                T: '%H:%M:%S',
+                v: '%e-%b-%Y',
+                X: '%T',
+                x: '%D'
+          }
+       },
+
+       it_IT: {
+          days: ['domenica', 'lunedì', 'martedì', 'mercoledì', 'giovedì',
+           'venerdì', 'sabato'],
+          shortDays: ['dom', 'lun', 'mar', 'mer', 'gio', 'ven', 'sab'],
+          months: ['gennaio', 'febbraio', 'marzo', 'aprile', 'maggio', 'giugno',
+           'luglio', 'agosto', 'settembre', 'ottobre', 'novembre', 'dicembre'],
+          shortMonths: ['pr', 'mag', 'giu', 'lug', 'ago', 'set', 'ott', 'nov',
+           'dic'],
+          AM: 'AM',
+          PM: 'PM',
+          am: 'am',
+          pm: 'pm',
+          formats: {
+                c: '%a %d %b %Y %X %Z',
+                D: '%d/%m/%Y',
+                F: '%Y-%m-%d',
+                R: '%H:%M',
+                r: '%I:%M:%S %p',
+                T: '%H:%M:%S',
+                v: '%e-%b-%Y',
+                X: '%T',
+                x: '%D'
+          }
+       },
+
+       nl_NL: {
+          days: ['zondag', 'maandag', 'dinsdag', 'woensdag', 'donderdag',
+           'vrijdag', 'zaterdag'],
+          shortDays: ['zo', 'ma', 'di', 'wo', 'do', 'vr', 'za'],
+          months: ['januari', 'februari', 'maart', 'april', 'mei', 'juni',
+           'juli', 'augustus', 'september', 'oktober', 'november', 'december'],
+          shortMonths: ['jan', 'feb', 'mrt', 'apr', 'mei', 'jun', 'jul', 'aug',
+           'sep', 'okt', 'nov', 'dec'],
+          AM: 'AM',
+          PM: 'PM',
+          am: 'am',
+          pm: 'pm',
+          formats: {
+                c: '%a %d %b %Y %X %Z',
+                D: '%d-%m-%y',
+                F: '%Y-%m-%d',
+                R: '%H:%M',
+                r: '%I:%M:%S %p',
+                T: '%H:%M:%S',
+                v: '%e-%b-%Y',
+                X: '%T',
+                x: '%D'
+          }
+       },
+
+       pt_BR: {
+          days: ['domingo', 'segunda', 'terça', 'quarta', 'quinta', 'sexta',
+           'sábado'],
+          shortDays: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'],
+          months: ['janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho',
+           'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro'],
+          shortMonths: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago',
+           'Set', 'Out', 'Nov', 'Dez'],
+          AM: 'AM',
+          PM: 'PM',
+          am: 'am',
+          pm: 'pm',
+          formats: {
+                c: '%a %d %b %Y %X %Z',
+                D: '%d-%m-%Y',
+                F: '%Y-%m-%d',
+                R: '%H:%M',
+                r: '%I:%M:%S %p',
+                T: '%H:%M:%S',
+                v: '%e-%b-%Y',
+                X: '%T',
+                x: '%D'
+          }
+       },
+
+       ru_RU: {
+          days: ['Воскресенье', 'Понедельник', 'Вторник', 'Среда', 'Четверг',
+           'Пятница', 'Суббота'],
+          shortDays: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'],
+          months: ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь',
+           'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'],
+          shortMonths: ['янв', 'фев', 'мар', 'апр', 'май', 'июн', 'июл',
+           'авг', 'сен', 'окт', 'ноя', 'дек'],
+          AM: 'AM',
+          PM: 'PM',
+          am: 'am',
+          pm: 'pm',
+          formats: {
+                c: '%a %d %b %Y %X',
+                D: '%d.%m.%y',
+                F: '%Y-%m-%d',
+                R: '%H:%M',
+                r: '%I:%M:%S %p',
+                T: '%H:%M:%S',
+                v: '%e-%b-%Y',
+                X: '%T',
+                x: '%D'
+          }
+       },
+
+       tr_TR: {
+          days: ['Pazar', 'Pazartesi', 'Salı','Çarşamba', 'Perşembe', 'Cuma',
+           'Cumartesi'],
+          shortDays: ['Paz', 'Pzt', 'Sal', 'Çrş', 'Prş', 'Cum', 'Cts'],
+          months: ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran',
+           'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'],
+          shortMonths: ['Oca', 'Şub', 'Mar', 'Nis', 'May', 'Haz', 'Tem',
+           'Ağu', 'Eyl', 'Eki', 'Kas', 'Ara'],
+          AM: 'ÖÖ',
+          PM: 'ÖS',
+          am: 'ÖÖ',
+          pm: 'ÖS',
+          formats: {
+                c: '%a %d %b %Y %X %Z',
+                D: '%d-%m-%Y',
+                F: '%Y-%m-%d',
+                R: '%H:%M',
+                r: '%I:%M:%S %p',
+                T: '%H:%M:%S',
+                v: '%e-%b-%Y',
+                X: '%T',
+                x: '%D'
+          }
+       }
+    };
+
     var DefaultLocale = {
             days: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
             shortDays: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
@@ -68,6 +295,7 @@
     // Adapt the old API while preserving the new API.
     function adaptForwards(fn) {
         fn.localize = defaultStrftime.localize.bind(defaultStrftime);
+        fn.localizeByIdentifier = defaultStrftime.localizeByIdentifier.bind(defaultStrftime);
         fn.timezone = defaultStrftime.timezone.bind(defaultStrftime);
         fn.utc = defaultStrftime.utc.bind(defaultStrftime);
     }
@@ -544,6 +772,10 @@
 
         strftime.localize = function(locale) {
             return new Strftime(locale || _locale, _customTimezoneOffset, _useUtcBasedDate);
+        };
+
+        strftime.localizeByIdentifier = function(localeIdentifier) {
+            return strftime.localize(locales[localeIdentifier]);
         };
 
         strftime.timezone = function(timezone) {
