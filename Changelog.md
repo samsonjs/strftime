@@ -3,7 +3,7 @@ v0.10.0 on 2016-12-28
 
 - Remove the old API deprecated in v0.9.
 
-- Bundle some locales that you can use with `strftime.localizedByIdentifier('nl_NL')`. Full list available in the [readme](https://github.com/samsonjs/strftime/blob/master/Readme.md).
+- Bundle some locales that you can use with `strftime.localizeByIdentifier('nl_NL')`. Full list available in the [readme](https://github.com/samsonjs/strftime/blob/master/Readme.md).
   Thanks to [Andrew Pirondini](https://github.com/andrewjpiro) of [iFixit](https://ifixit.com)
 
 - Add instructions to install with Yarn.
