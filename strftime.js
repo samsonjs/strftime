@@ -621,7 +621,12 @@
                             // Try to use an ordinal suffix from the locale, but fall back to using the old
                             // function for compatibility with old locales that lack them.
                             var day = date.getDate();
-                            resultString += String(day) + (locale.ordinalSuffixes[day - 1] || ordinal(day));
+                            if (locale.ordinalSuffixes) {
+                                resultString += String(day) + (locale.ordinalSuffixes[day - 1] || ordinal(day));
+                            }
+                            else {
+                                resultString += String(day) + ordinal(day);
+                            }
                             break;
 
                         // 'AM'
