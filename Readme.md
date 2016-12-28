@@ -171,24 +171,24 @@ Bundled Locales
 Contributors
 ============
 
-* [Rob Colburn](https://github.com/robcolburn)
-* [Cory Heslip](https://github.com/cheslip)
-* [TJ Holowaychuk](https://github.com/tj)
-* [Forbes Lindesay](https://github.com/ForbesLindesay)
 * [Alexandr Nikitin](https://github.com/alexandrnikitin)
-* [Ryan Regalado](https://github.com/d48)
-* [Sami Samhuri](https://github.com/samsonjs)
-* [Andrew Schaaf](https://github.com/andrewschaaf)
-* [Ryan Stafford](https://github.com/ryanstafford)
-* [w0den](https://github.com/w0den)
-* [John Zwinck](https://github.com/jzwinck)
-* [Peter deHaan](https://github.com/pdehaan)
-* [Kevin Jin](https://github.com/Kevin-Jin)
-* [Stian Grytøyr](https://github.com/stiang)
-* [Ayman Nedjmeddine](https://github.com/IOAyman)
 * [Andrew Pirondini](https://github.com/andrewjpiro) of [iFixit](https://github.com/iFixit)
+* [Andrew Schaaf](https://github.com/andrewschaaf)
+* [Ayman Nedjmeddine](https://github.com/IOAyman)
+* [Cory Heslip](https://github.com/cheslip)
+* [Forbes Lindesay](https://github.com/ForbesLindesay)
+* [John Zwinck](https://github.com/jzwinck)
 * [Joost Hietbrink](https://github.com/joost)
+* [Kevin Jin](https://github.com/Kevin-Jin)
 * [Michael J.](https://github.com/michaeljayt)
+* [Peter deHaan](https://github.com/pdehaan)
+* [Rob Colburn](https://github.com/robcolburn)
+* [Ryan Regalado](https://github.com/d48)
+* [Ryan Stafford](https://github.com/ryanstafford)
+* [Sami Samhuri](https://github.com/samsonjs)
+* [Stian Grytøyr](https://github.com/stiang)
+* [TJ Holowaychuk](https://github.com/tj)
+* [w0den](https://github.com/w0den)
 
 
 License
