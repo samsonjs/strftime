@@ -26,15 +26,6 @@ Installation
 
 Or you can copy [strftime.js](https://github.com/samsonjs/strftime/blob/master/strftime.js) wherever you want to use it, whether that's with a &lt;script&gt; tag or `require` or anything else.
 
-The New API in 0.9
-==================
-
-The current version, 0.9, deprecates the older API that exported several functions: `strftimeTZ`, `strftimeUTC`, and `localizedStrftime`. In addition to this the exported function referenced itself as `require('strftime').strftime` or `window.strftime.strftime` for consistency with the other functions. *These functions are deprecated in 0.9 and will be removed in 1.0.*
-
-Now you only need the single object exported and you can create a specialized version of it using the functions `utc()`, `localize(locale)`, `localizeByIdentifier(identifier)`, and `timezone(offset)`. You can no longer pass in a timezone or locale on each call to `strftime` which is a regression. If you need this let me know and we will add it back into the API.
-
-[More details are available in the changelog](https://github.com/samsonjs/strftime/blob/master/Changelog.md).
-
 Usage
 =====
 

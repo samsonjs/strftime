@@ -276,104 +276,14 @@
 
     // CommonJS / Node module
     if (isCommonJS) {
-        namespace = module.exports = adaptedStrftime;
-        namespace.strftime = deprecatedStrftime;
+        namespace = module.exports = defaultStrftime;
     }
     // Browsers and other environments
     else {
         // Get the global object. Works in ES3, ES5, and ES5 strict mode.
         namespace = (function() { return this || (1,eval)('this'); }());
-        namespace.strftime = adaptedStrftime;
+        namespace.strftime = defaultStrftime;
     }
-
-    // Deprecated API, to be removed in v1.0
-    var _require = isCommonJS ? "require('strftime')" : "strftime";
-    var _deprecationWarnings = {};
-    function deprecationWarning(name, instead) {
-        if (!_deprecationWarnings[name]) {
-            warn("[WARNING] " + name + " is deprecated and will be removed in version 1.0. Instead, use `" + instead + "`.");
-            _deprecationWarnings[name] = true;
-        }
-    }
-
-    namespace.strftimeTZ = deprecatedStrftimeTZ;
-    namespace.strftimeUTC = deprecatedStrftimeUTC;
-    namespace.localizedStrftime = deprecatedStrftimeLocalized;
-
-    // Adapt the old API while preserving the new API.
-    function adaptForwards(fn) {
-        fn.localize = defaultStrftime.localize.bind(defaultStrftime);
-        fn.localizeByIdentifier = defaultStrftime.localizeByIdentifier.bind(defaultStrftime);
-        fn.timezone = defaultStrftime.timezone.bind(defaultStrftime);
-        fn.utc = defaultStrftime.utc.bind(defaultStrftime);
-    }
-
-    adaptForwards(adaptedStrftime);
-    function adaptedStrftime(fmt, d, locale) {
-        // d and locale are optional, check if this is (format, locale)
-        //
-        // `days` is required on all locales, but DateJS modifies `Date` objects and gives them
-        // a `days` property. We check that the second parameter doesn`t have `getTime`, which
-        // should never appear in a locale object, before concluding that `d` is in fact a
-        // locale object and not a date.
-        if (d && d.days && !d.getTime) {
-            locale = d;
-            d = undefined;
-        }
-        if (locale) {
-            deprecationWarning("`" + _require + "(format, [date], [locale])`", "var s = " + _require + ".localize(locale); s(format, [date])");
-        }
-        var strftime = locale ? defaultStrftime.localize(locale) : defaultStrftime;
-        return strftime(fmt, d);
-    }
-
-    adaptForwards(deprecatedStrftime);
-    function deprecatedStrftime(fmt, d, locale) {
-        if (locale) {
-            deprecationWarning("`" + _require + ".strftime(format, [date], [locale])`", "var s = " + _require + ".localize(locale); s(format, [date])");
-        }
-        else {
-            deprecationWarning("`" + _require + ".strftime(format, [date])`", _require + "(format, [date])");
-        }
-        var strftime = locale ? defaultStrftime.localize(locale) : defaultStrftime;
-        return strftime(fmt, d);
-    }
-
-    function deprecatedStrftimeTZ(fmt, d, locale, timezone) {
-        // locale is optional, check if this is (format, date, timezone)
-        if ((typeof locale == 'number' || typeof locale == 'string') && timezone == null) {
-            timezone = locale;
-            locale = undefined;
-        }
-
-        if (locale) {
-            deprecationWarning("`" + _require + ".strftimeTZ(format, date, locale, tz)`", "var s = " + _require + ".localize(locale).timezone(tz); s(format, [date])` or `var s = " + _require + ".localize(locale); s.timezone(tz)(format, [date])");
-        }
-        else {
-            deprecationWarning("`" + _require + ".strftimeTZ(format, date, tz)`", "var s = " + _require + ".timezone(tz); s(format, [date])` or `" + _require + ".timezone(tz)(format, [date])");
-        }
-
-        var strftime = (locale ? defaultStrftime.localize(locale) : defaultStrftime).timezone(timezone);
-        return strftime(fmt, d);
-    }
-
-    var utcStrftime = defaultStrftime.utc();
-    function deprecatedStrftimeUTC(fmt, d, locale) {
-        if (locale) {
-            deprecationWarning("`" + _require + ".strftimeUTC(format, date, locale)`", "var s = " + _require + ".localize(locale).utc(); s(format, [date])");
-        }
-        else {
-            deprecationWarning("`" + _require + ".strftimeUTC(format, [date])`", "var s = " + _require + ".utc(); s(format, [date])");
-        }
-        var strftime = locale ? utcStrftime.localize(locale) : utcStrftime;
-        return strftime(fmt, d);
-    }
-
-    function deprecatedStrftimeLocalized(locale) {
-        deprecationWarning("`" + _require + ".localizedStrftime(locale)`", _require + ".localize(locale)");
-        return defaultStrftime.localize(locale);
-    }
-    // End of deprecated API
 
     // Polyfill Date.now for old browsers.
     if (typeof Date.now !== 'function') {

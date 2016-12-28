@@ -27,13 +27,6 @@ assert.format = function(format, expected, expectedUTC, time) {
     assertFormat(time, format, expectedUTC || expected, 'strftime.utc()', strftimeUTC);
 };
 
-/// check deprecated exports
-assert.fn(strftime.strftime);
-assert.fn(strftime.strftimeTZ);
-assert.fn(strftime.strftimeUTC);
-assert.fn(strftime.localizedStrftime);
-ok('Deprecated exports');
-
 /// check exports
 assert.fn(strftime.localize);
 assert.fn(strftime.timezone);
