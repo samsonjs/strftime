@@ -239,9 +239,7 @@
     var _deprecationWarnings = {};
     function deprecationWarning(name, instead) {
         if (!_deprecationWarnings[name]) {
-            if (typeof console !== 'undefined' && typeof console.warn == 'function') {
-                console.warn("[WARNING] " + name + " is deprecated and will be removed in version 1.0. Instead, use `" + instead + "`.");
-            }
+            warn("[WARNING] " + name + " is deprecated and will be removed in version 1.0. Instead, use `" + instead + "`.");
             _deprecationWarnings[name] = true;
         }
     }
@@ -414,9 +412,7 @@
                     // ':'
                     else if (currentCharCode === 58) {
                       if (extendedTZ) {
-                        if (typeof console !== 'undefined' && typeof console.warn == 'function') {
-                          console.warn("[WARNING] detected use of unsupported %:: or %::: modifiers to strftime");
-                        }
+                          warn("[WARNING] detected use of unsupported %:: or %::: modifiers to strftime");
                       }
                       extendedTZ = true;
                       continue;
@@ -739,6 +735,10 @@
 
         strftime.localizeByIdentifier = function(localeIdentifier) {
             var locale = Locales[localeIdentifier];
+            if (!locale) {
+                warn('[WARNING] No locale found with identifier "' + localeIdentifier + '".');
+                return strftime;
+            }
             return strftime.localize(locale);
         };
 
@@ -845,6 +845,12 @@
 
     function getTimestampToUtcOffsetFor(date) {
         return (date.getTimezoneOffset() || 0) * 60000;
+    }
+
+    function warn(message) {
+        if (typeof console !== 'undefined' && typeof console.warn == 'function') {
+            console.warn(message)
+        }
     }
 
 }());
