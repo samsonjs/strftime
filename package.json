@@ -24,6 +24,7 @@
     "TJ Holowaychuk (https://github.com/tj)",
     "w0den (https://github.com/w0den)"
   ],
+  "keywords": ["strftime", "format", "string", "time", "date"],
   "repository": {
     "type": "git",
     "url": "git://github.com/samsonjs/strftime.git"
