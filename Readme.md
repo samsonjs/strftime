@@ -144,8 +144,8 @@ e.g. `%q` becomes `q`. Use `%%` to get a literal `%` sign.
 - v: equivalent to `%e-%b-%Y` in en_US (based on locale)
 - W: week number of the year, Monday as the first day of the week, padded to 2 digits (00-53)
 - w: the weekday, Sunday as the first day of the week (0-6)
-- X: equivalent to `%D` in en_US (based on locale)
-- x: equivalent to `%T` in en_US (based on locale)
+- X: equivalent to `%T` or `%r` in en_US (based on locale)
+- x: equivalent to `%D` in en_US (based on locale)
 - Y: the year with the century
 - y: the year without the century (00-99)
 - Z: the time zone name, replaced with an empty string if it is not found
