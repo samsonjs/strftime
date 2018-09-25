@@ -277,6 +277,7 @@
     // CommonJS / Node module
     if (isCommonJS) {
         namespace = module.exports = defaultStrftime;
+        module.exports.locales = Locales;
     }
     // Browsers and other environments
     else {
