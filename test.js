@@ -38,7 +38,7 @@ if (process.env.TZ == 'America/Vancouver') {
     testTimezone('America/Vancouver');
     assert.format('%C', '01', '01', new Date(100, 0, 1));
     assert.format('%X', '11:51:45 AM', '06:51:45 PM');
-    assert.format('%c', 'Tue 07 Jun 2011 11:51:45 AM PDT', 'Tue 07 Jun 2011 06:51:45 PM GMT');
+    assert.format('%c', 'Tue 07 Jun 2011 11:51:45 AM Pacific Daylight Time', 'Tue 07 Jun 2011 06:51:45 PM GMT');
     assert.format('%j', '097', '098', new Date(1365390736236));
     assert.format('%x', '06/07/11');
     assert.format('%U', '12', null, new Date('2017-03-25 00:00:00 +0000'));
@@ -57,7 +57,7 @@ else if (process.env.TZ == 'Europe/Amsterdam') {
     testTimezone('Europe/Amsterdam');
     assert.format('%C', '01', '00', new Date(100, 0, 1));
     assert.format('%X', '08:51:45 PM', '06:51:45 PM');
-    assert.format('%c', 'Tue 07 Jun 2011 08:51:45 PM CEST', 'Tue 07 Jun 2011 06:51:45 PM GMT');
+    assert.format('%c', 'Tue 07 Jun 2011 08:51:45 PM Central European Summer Time', 'Tue 07 Jun 2011 06:51:45 PM GMT');
     assert.format('%j', '098', '098', new Date(1365390736236));
     assert.format('%x', '06/07/11');
     assert.format('%U', '12', null, new Date('2017-03-25 00:00:00 +0000'));

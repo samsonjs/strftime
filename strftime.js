@@ -13,6 +13,7 @@
 
     var Locales = {
         de_DE: {
+            identifier: 'de-DE',
             days: ['Sonntag', 'Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag'],
             shortDays: ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa'],
             months: ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'],
@@ -35,6 +36,7 @@
         },
 
         en_CA: {
+            identifier: 'en-CA',
             days: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday' ],
             shortDays: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
             months: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
@@ -63,6 +65,7 @@
         },
 
         en_US: {
+            identifier: 'en-US',
             days: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday' ],
             shortDays: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
             months: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
@@ -91,6 +94,7 @@
         },
 
         es_MX: {
+            identifier: 'es-MX',
             days: ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'],
             shortDays: ['dom', 'lun', 'mar', 'mié', 'jue', 'vie', 'sáb'],
             months: ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre',' diciembre'],
@@ -113,6 +117,7 @@
         },
 
         fr_FR: {
+            identifier: 'fr-FR',
             days: ['dimanche', 'lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi'],
             shortDays: ['dim.', 'lun.', 'mar.', 'mer.', 'jeu.', 'ven.', 'sam.'],
             months: ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'],
@@ -135,6 +140,7 @@
         },
 
         it_IT: {
+            identifier: 'it-IT',
             days: ['domenica', 'lunedì', 'martedì', 'mercoledì', 'giovedì', 'venerdì', 'sabato'],
             shortDays: ['dom', 'lun', 'mar', 'mer', 'gio', 'ven', 'sab'],
             months: ['gennaio', 'febbraio', 'marzo', 'aprile', 'maggio', 'giugno', 'luglio', 'agosto', 'settembre', 'ottobre', 'novembre', 'dicembre'],
@@ -157,6 +163,7 @@
         },
 
         nl_NL: {
+            identifier: 'nl-NL',
             days: ['zondag', 'maandag', 'dinsdag', 'woensdag', 'donderdag', 'vrijdag', 'zaterdag'],
             shortDays: ['zo', 'ma', 'di', 'wo', 'do', 'vr', 'za'],
             months: ['januari', 'februari', 'maart', 'april', 'mei', 'juni', 'juli', 'augustus', 'september', 'oktober', 'november', 'december'],
@@ -179,6 +186,7 @@
         },
 
         pt_BR: {
+            identifier: 'pt-BR',
             days: ['domingo', 'segunda', 'terça', 'quarta', 'quinta', 'sexta', 'sábado'],
             shortDays: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'],
             months: ['janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho', 'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro'],
@@ -201,6 +209,7 @@
         },
 
         ru_RU: {
+            identifier: 'ru-RU',
             days: ['Воскресенье', 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота'],
             shortDays: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'],
             months: ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'],
@@ -223,6 +232,7 @@
         },
 
         tr_TR: {
+            identifier: 'tr-TR',
             days: ['Pazar', 'Pazartesi', 'Salı','Çarşamba', 'Perşembe', 'Cuma', 'Cumartesi'],
             shortDays: ['Paz', 'Pzt', 'Sal', 'Çrş', 'Prş', 'Cum', 'Cts'],
             months: ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'],
@@ -247,6 +257,7 @@
         // By michaeljayt<michaeljayt@gmail.com>
         // https://github.com/michaeljayt/strftime/commit/bcb4c12743811d51e568175aa7bff3fd2a77cef3
         zh_CN: {
+            identifier: 'zh-CN',
             days: ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'],
             shortDays: ['日', '一', '二', '三', '四', '五', '六'],
             months: ['一月份', '二月份', '三月份', '四月份', '五月份', '六月份', '七月份', '八月份', '九月份', '十月份', '十一月份', '十二月份'],
@@ -499,9 +510,8 @@
                                 resultString += "GMT";
                             }
                             else {
-                                // fixme optimize
-                                var tzString = date.toString().match(/\(([\w\s]+)\)/);
-                                resultString += tzString && tzString[1] || '';
+                                var tzName = getTimezoneName(date);
+                                resultString += tzName || '';
                             }
                             break;
 
@@ -807,6 +817,31 @@
 
     function getTimestampToUtcOffsetFor(date) {
         return (date.getTimezoneOffset() || 0) * 60000;
+    }
+
+    // Tries to get a short timezone name using Date.toLocaleString, falling back on the platform default
+    // using Date.toString if necessary.
+    function getTimezoneName(date, localeIdentifier) {
+        return getShortTimezoneName(date, localeIdentifier) || getDefaultTimezoneName(date);
+    }
+
+    // Unfortunately this returns GMT+2 when running with `TZ=Europe/Amsterdam node test.js` so it's not
+    // perfect.
+    function getShortTimezoneName(date, localeIdentifier) {
+        if (localeIdentifier == null) return null;
+
+        var tzString = date
+            .toLocaleString(localeIdentifier, { timeZoneName: 'short' })
+            .match(/\s([\w]+)$/);
+        return tzString && tzString[1];
+    }
+
+    // This varies by platform so it's not an ideal way to get the time zone name. On most platforms it's
+    // a short name but in Node v10+ and Chrome 66+ it's a long name now. Prefer getShortTimezoneName(date)
+    // where possible.
+    function getDefaultTimezoneName(date) {
+        var tzString = date.toString().match(/\(([\w\s]+)\)/);
+        return tzString && tzString[1];
     }
 
     function warn(message) {
