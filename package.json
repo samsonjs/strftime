@@ -1,7 +1,7 @@
 {
   "name": "strftime",
   "description": "strftime for JavaScript",
-  "version": "0.10.0",
+  "version": "0.10.1",
   "homepage": "https://samhuri.net/projects/strftime",
   "author": "Sami Samhuri <sami@samhuri.net>",
   "contributors": [
@@ -10,6 +10,7 @@
     "Andrew Schaaf <andrew@andrewschaaf.com> (https://github.com/andrewschaaf)",
     "Ayman Nedjmeddine (https://github.com/IOAyman)",
     "Cory Heslip (https://github.com/cheslip)",
+    "Douglas de Espindola (https://github.com/douglasep)",
     "Forbes Lindesay (https://github.com/ForbesLindesay)",
     "John Zwinck (https://github.com/jzwinck)",
     "Joost Hietbrink (https://github.com/joost)",

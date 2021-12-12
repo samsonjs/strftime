@@ -1,3 +1,11 @@
+v0.10.1 on 2021-12-12
+---------------------
+
+- Fix it_IT shortMonths locale
+  Thanks to [Douglas de Espindola](https://github.com/douglasep)
+
+- Try to get a short time zone name for %Z, falling back to the long one. This attempts to work around a change to Date.toString in v8 (node v10+, Chrome 66+). Unfortunately sometimes Date.toLocaleString returns a time zone like GMT+2 and we fall back to the long name in that case.
+
 v0.10.0 on 2016-12-28
 ---------------------
 

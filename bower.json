@@ -1,6 +1,6 @@
 {
   "name": "strftime",
-  "version": "0.10.0",
+  "version": "0.10.1",
   "main": "strftime.js",
   "ignore": [
     "Readme.md",
