@@ -13,12 +13,12 @@ var assert = require('assert'),
     Time = new Date(1307472705067); // Tue, 07 Jun 2011 18:51:45 GMT
 
 assert.fn = function(value, msg) {
-    assert.equal('function', typeof value, msg);
+    assert.equal(typeof value, 'function', msg);
 };
 
 function assertFormat(time, format, expected, name, strftime) {
     var actual = strftime(format, time);
-    assert.equal(expected, actual, name + '("' + format + '", ' + time + ') is ' + JSON.stringify(actual) + ', expected ' + JSON.stringify(expected));
+    assert.equal(actual, expected, name + '("' + format + '", ' + time + ') is ' + JSON.stringify(actual) + ', expected ' + JSON.stringify(expected));
 }
 
 assert.format = function(format, expected, expectedUTC, time) {
