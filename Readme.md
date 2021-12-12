@@ -46,6 +46,7 @@ If you want to localize it:
 ```JavaScript
     var strftime = require('strftime') // not required in browsers
     var it_IT = {
+        identifier: 'it-IT',
         days: ['domenica', 'lunedi', 'martedi', 'mercoledi', 'giovedi', 'venerdi', 'sabato'],
         shortDays: ['dom', 'lun', 'mar', 'mer', 'gio', 'ven', 'sab'],
         months: ['gennaio', 'febbraio', 'marzo', 'aprile', 'maggio', 'giugno', 'luglio', 'agosto', 'settembre', 'ottobre', 'novembre', 'dicembre'],
