@@ -195,6 +195,7 @@ Contributors
 * [Stian Grytøyr](https://github.com/stiang)
 * [TJ Holowaychuk](https://github.com/tj)
 * [w0den](https://github.com/w0den)
+* [Yusuke Kawasaki](https://github.com/kawanet)
 
 
 License
