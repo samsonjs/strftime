@@ -3,7 +3,7 @@
 // github.com/samsonjs/strftime
 // @_sjs
 //
-// Copyright 2010 - 2016 Sami Samhuri <sami@samhuri.net>
+// Copyright 2010 - 2021 Sami Samhuri <sami@samhuri.net>
 //
 // MIT License
 // http://sjs.mit-license.org
