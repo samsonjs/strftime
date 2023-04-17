@@ -649,7 +649,7 @@
                         // '70'
                         // case 'y':
                         case 121:
-                            resultString += ('' + date.getFullYear()).slice(2);
+                            resultString += ('' + date.getFullYear()).slice(padding === "" ? 3 : 2);
                             break;
 
                         // '+0000'

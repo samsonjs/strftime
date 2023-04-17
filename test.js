@@ -100,6 +100,7 @@ assert.format('%k', null, '18');
 assert.format('%L', '067');
 assert.format('%l', null, ' 6');
 assert.format('%-l', null, '6');
+assert.format("%-y", "1", null, new Date('2001-02-03T04:05:06'))
 assert.format('%_l', null, ' 6');
 assert.format('%0l', null, '06');
 assert.format('%M', null, '51');
