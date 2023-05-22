@@ -649,7 +649,8 @@
                         // '70'
                         // case 'y':
                         case 121:
-                            resultString += ('' + date.getFullYear()).slice(padding === "" ? 3 : 2);
+                            let year_without_century = ('' + date.getFullYear()).slice(2)
+                            resultString += year_without_century.slice(padding === "" &&  year_without_century.charAt(0) === "0" ? 1 : 0);
                             break;
 
                         // '+0000'
