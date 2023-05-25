@@ -65,14 +65,14 @@ Along with this the API has been unified and cleaned up. `strftimeTZ`, `strftime
 
 ```JavaScript
     var strftime = require('strftime'); // not required in web browsers
-    
+
     var strftimeIT = strftime.localize(anItalianLocale);
     var strftimePST = strftime.timezone('-0800');
     var strftimeUTC = strftime.utc();
-    
+
     // You can combine them
     var strftimeIT_PST = strftimeIT.timezone('-0800');
-    
+
     // And chain them all at once
     var strftimeIT_PST = strftime.localize(anItalianLocale).timezone('-0800');
 ```
@@ -212,7 +212,7 @@ v0.4.5 on 2011-06-08
 
 v0.4.4 on 2011-06-07
 --------------------
-  
+
 - fix `%L` for values < 100
 
 - convert tests from CoffeeScript to JavaScript
@@ -232,7 +232,7 @@ This release was all [Andrew Schaaf](https://github.com/andrewschaaf).
 v0.4.2 on 2011-06-05
 --------------------
 
-- add `strftimeUTC` for ignoring timezones  
+- add `strftimeUTC` for ignoring timezones
   Thanks to [Andrew Schaaf](https://github.com/andrewschaaf)
 
 - support exporting to the top level object in ES5 strict mode

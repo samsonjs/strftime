@@ -205,4 +205,3 @@ License
 Copyright 2010 - 2021 Sami Samhuri sami@samhuri.net
 
 [MIT license](https://sjs.mit-license.org)
-

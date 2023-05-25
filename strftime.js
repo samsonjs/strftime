@@ -9,7 +9,7 @@
 // http://sjs.mit-license.org
 //
 
-;(function() {
+; (function () {
 
     var Locales = {
         de_DE: {
@@ -37,7 +37,7 @@
 
         en_CA: {
             identifier: 'en-CA',
-            days: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday' ],
+            days: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
             shortDays: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
             months: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
             shortMonths: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
@@ -66,7 +66,7 @@
 
         en_US: {
             identifier: 'en-US',
-            days: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday' ],
+            days: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
             shortDays: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
             months: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
             shortMonths: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
@@ -97,7 +97,7 @@
             identifier: 'es-MX',
             days: ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'],
             shortDays: ['dom', 'lun', 'mar', 'mié', 'jue', 'vie', 'sáb'],
-            months: ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre',' diciembre'],
+            months: ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'],
             shortMonths: ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'],
             AM: 'AM',
             PM: 'PM',
@@ -233,7 +233,7 @@
 
         tr_TR: {
             identifier: 'tr-TR',
-            days: ['Pazar', 'Pazartesi', 'Salı','Çarşamba', 'Perşembe', 'Cuma', 'Cumartesi'],
+            days: ['Pazar', 'Pazartesi', 'Salı', 'Çarşamba', 'Perşembe', 'Cuma', 'Cumartesi'],
             shortDays: ['Paz', 'Pzt', 'Sal', 'Çrş', 'Prş', 'Cum', 'Cts'],
             months: ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'],
             shortMonths: ['Oca', 'Şub', 'Mar', 'Nis', 'May', 'Haz', 'Tem', 'Ağu', 'Eyl', 'Eki', 'Kas', 'Ara'],
@@ -292,14 +292,14 @@
     // Browsers and other environments
     else {
         // Get the global object. Works in ES3, ES5, and ES5 strict mode.
-        namespace = (function() { return this || (1,eval)('this'); }());
+        namespace = (function () { return this || (1, eval)('this'); }());
         namespace.strftime = defaultStrftime;
     }
 
     // Polyfill Date.now for old browsers.
     if (typeof Date.now !== 'function') {
-        Date.now = function() {
-          return +new Date();
+        Date.now = function () {
+            return +new Date();
         };
     }
 
@@ -333,7 +333,7 @@
                     }
                 }
                 else {
-                  timestamp = _cachedDateTimestamp;
+                    timestamp = _cachedDateTimestamp;
                 }
                 date = _cachedDate;
             }
@@ -384,11 +384,11 @@
                     }
                     // ':'
                     else if (currentCharCode === 58) {
-                      if (extendedTZ) {
-                          warn("[WARNING] detected use of unsupported %:: or %::: modifiers to strftime");
-                      }
-                      extendedTZ = true;
-                      continue;
+                        if (extendedTZ) {
+                            warn("[WARNING] detected use of unsupported %:: or %::: modifiers to strftime");
+                        }
+                        extendedTZ = true;
+                        continue;
                     }
 
                     switch (currentCharCode) {
@@ -649,8 +649,8 @@
                         // '70'
                         // case 'y':
                         case 121:
-                            let year_without_century = ('' + date.getFullYear()).slice(2)
-                            resultString += year_without_century.slice(padding === "" &&  year_without_century.charAt(0) === "0" ? 1 : 0);
+                            let year = date.getFullYear() % 100;
+                            resultString += padTill2(year, padding);
                             break;
 
                         // '+0000'
@@ -702,11 +702,11 @@
 
         var strftime = _strftime;
 
-        strftime.localize = function(locale) {
+        strftime.localize = function (locale) {
             return new Strftime(locale || _locale, _customTimezoneOffset, _useUtcBasedDate);
         };
 
-        strftime.localizeByIdentifier = function(localeIdentifier) {
+        strftime.localizeByIdentifier = function (localeIdentifier) {
             var locale = Locales[localeIdentifier];
             if (!locale) {
                 warn('[WARNING] No locale found with identifier "' + localeIdentifier + '".');
@@ -715,7 +715,7 @@
             return strftime.localize(locale);
         };
 
-        strftime.timezone = function(timezone) {
+        strftime.timezone = function (timezone) {
             var customTimezoneOffset = _customTimezoneOffset;
             var useUtcBasedDate = _useUtcBasedDate;
 
@@ -740,7 +740,7 @@
             return new Strftime(_locale, customTimezoneOffset, useUtcBasedDate);
         };
 
-        strftime.utc = function() {
+        strftime.utc = function () {
             return new Strftime(_locale, _customTimezoneOffset, true);
         };
 
@@ -749,7 +749,7 @@
 
     function padTill2(numberToPad, paddingChar) {
         if (paddingChar === '' || numberToPad > 9) {
-            return numberToPad;
+            return '' + numberToPad;
         }
         if (paddingChar == null) {
             paddingChar = '0';
