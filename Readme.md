@@ -3,7 +3,7 @@ strftime
 
 strftime for JavaScript. Works in (at least) node.js and browsers. Supports localization and timezones. Most standard specifiers from C are supported as well as some other extensions from Ruby.
 
-[![version 0.10.1 on npm](https://img.shields.io/badge/npm-0.10.1-brightgreen.svg?style=flat)](https://www.npmjs.com/package/strftime) [![node version 0.2 and up](https://img.shields.io/badge/node->=0.2-brightgreen.svg?style=flat)](https://nodejs.org) [![MIT License](https://img.shields.io/badge/License-MIT-blue.svg?style=flat)](https://sjs.mit-license.org)
+[![version 0.10.2 on npm](https://img.shields.io/badge/npm-0.10.2-brightgreen.svg?style=flat)](https://www.npmjs.com/package/strftime) [![node version 0.2 and up](https://img.shields.io/badge/node->=0.2-brightgreen.svg?style=flat)](https://nodejs.org) [![MIT License](https://img.shields.io/badge/License-MIT-blue.svg?style=flat)](https://sjs.mit-license.org)
 
 Installation
 ============
@@ -148,7 +148,7 @@ e.g. `%q` becomes `q`. Use `%%` to get a literal `%` sign.
 - X: equivalent to `%T` or `%r` in en_US (based on locale)
 - x: equivalent to `%D` in en_US (based on locale)
 - Y: the year with the century
-- y: the year without the century (00-99)
+- y: the year without the century, padded to 2 digits (00-99)
 - Z: the time zone name, replaced with an empty string if it is not found
 - z: the time zone offset from UTC, with a leading plus sign for UTC and zones east
      of UTC and a minus sign for those west of UTC, hours and minutes follow each
@@ -197,11 +197,12 @@ Contributors
 * [TJ Holowaychuk](https://github.com/tj)
 * [w0den](https://github.com/w0den)
 * [Yusuke Kawasaki](https://github.com/kawanet)
+* [Aryan Arora](https://github.com/aryan-debug)
 
 
 License
 =======
 
-Copyright 2010 - 2021 Sami Samhuri sami@samhuri.net
+Copyright 2010 - 2023 Sami Samhuri sami@samhuri.net
 
 [MIT license](https://sjs.mit-license.org)

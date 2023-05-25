@@ -1,3 +1,11 @@
+v0.10.2 on 2023-05-24
+
+- Fix test case for %c in current versions of node.js
+
+- Fix %-y so it omits the leading zero
+
+Thanks to [Aryan Arora](https://github.com/aryan-debug) for both fixes!
+
 v0.10.1 on 2021-12-12
 ---------------------
 
