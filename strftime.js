@@ -649,8 +649,7 @@
                         // '70'
                         // case 'y':
                         case 121:
-                            let year = date.getFullYear() % 100;
-                            resultString += padTill2(year, padding);
+                            resultString += padTill2(date.getFullYear() % 100, padding);
                             break;
 
                         // '+0000'
