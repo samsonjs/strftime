@@ -1,7 +1,7 @@
 {
   "name": "strftime",
   "description": "strftime for JavaScript",
-  "version": "0.10.2",
+  "version": "0.10.3",
   "homepage": "https://samhuri.net/projects/strftime",
   "author": "Sami Samhuri <sami@samhuri.net>",
   "contributors": [

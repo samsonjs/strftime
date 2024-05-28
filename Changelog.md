@@ -1,4 +1,10 @@
+v0.10.3 on 2024-05-28
+---------------------
+
+- Stop using `let` to avoid breaking backwards compatibility with ES5. Thanks to [Maximilian Herold](https://github.com/mherold) for the report
+
 v0.10.2 on 2023-05-24
+---------------------
 
 - Fix test case for %c in current versions of node.js
 
