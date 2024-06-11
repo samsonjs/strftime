@@ -1,7 +1,9 @@
 v0.10.3 on 2024-05-28
 ---------------------
 
-- Stop using `let` to avoid breaking backwards compatibility with ES5. Thanks to [Maximilian Herold](https://github.com/mherold) for the report
+- Stop using `let` to avoid breaking backwards compatibility with ES5. Thanks to [Maximilian Herold](https://github.com/mherold) for the report #87
+
+- Drop '份' suffix from Chinese month names. Thanks to @mogando668 for the report #88
 
 v0.10.2 on 2023-05-24
 ---------------------
