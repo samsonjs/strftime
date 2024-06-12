@@ -180,6 +180,7 @@ Contributors
 * [Alexandr Nikitin](https://github.com/alexandrnikitin)
 * [Andrew Pirondini](https://github.com/andrewjpiro) of [iFixit](https://github.com/iFixit)
 * [Andrew Schaaf](https://github.com/andrewschaaf)
+* [Aryan Arora](https://github.com/aryan-debug)
 * [Ayman Nedjmeddine](https://github.com/IOAyman)
 * [Cory Heslip](https://github.com/cheslip)
 * [Douglas de Espindola](https://github.com/douglasep)
@@ -187,7 +188,9 @@ Contributors
 * [John Zwinck](https://github.com/jzwinck)
 * [Joost Hietbrink](https://github.com/joost)
 * [Kevin Jin](https://github.com/Kevin-Jin)
+* [Maximilian Herold](https://github.com/mherold)
 * [Michael J.](https://github.com/michaeljayt)
+* [@mogando668](https://github.com/mogando668)
 * [Peter deHaan](https://github.com/pdehaan)
 * [Rob Colburn](https://github.com/robcolburn)
 * [Ryan Regalado](https://github.com/d48)
@@ -195,14 +198,12 @@ Contributors
 * [Sami Samhuri](https://github.com/samsonjs)
 * [Stian Grytøyr](https://github.com/stiang)
 * [TJ Holowaychuk](https://github.com/tj)
-* [w0den](https://github.com/w0den)
+* [@w0den](https://github.com/w0den)
 * [Yusuke Kawasaki](https://github.com/kawanet)
-* [Aryan Arora](https://github.com/aryan-debug)
-
 
 License
 =======
 
-Copyright 2010 - 2023 Sami Samhuri sami@samhuri.net
+Copyright 2010 - 2024 Sami Samhuri sami@samhuri.net
 
 [MIT license](https://sjs.mit-license.org)
